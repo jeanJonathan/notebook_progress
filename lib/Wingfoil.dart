@@ -41,6 +41,11 @@ class Wingfoil extends StatelessWidget {
               height: double.infinity,
             ),
             Positioned(
+              top: 250,
+              left: 5,
+              child: Icon(Icons.arrow_back_ios, size: 50),
+            ),
+            Positioned(
               top: MediaQuery.of(context).size.height * 0.35,
               left: 16,
               right: 16,
@@ -83,25 +88,13 @@ class Wingfoil extends StatelessWidget {
                       primary: Color(0xFF64C8C8), // Modifier la couleur ici
                     ),
                   ),
-                  SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.arrow_back_ios,
-                        size: 50,
-                        color: Color(0xFF074868),
-                      ),
-                      SizedBox(width: 10),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 50,
-                        color: Color(0xFF074868),
-                      ),
-                    ],
-                  ),
                 ],
               ),
+            ),
+            Positioned(
+              top: 250,
+              right: 5,
+              child: Icon(Icons.arrow_forward_ios, size: 50),
             ),
           ],
         ),
