@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Wingfoil.dart';
 import 'package:notebook_progress/parametre_screen.dart';
@@ -5,6 +6,10 @@ import 'package:notebook_progress/menu_screen.dart';
 
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  //Initialisation de firebase
+  await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
