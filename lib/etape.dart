@@ -14,4 +14,16 @@ class Etape {
     required this.niveauId,
     required this.sportId,
   });
+
+  // Implementation d'une méthode pour convertir l'objet Etape en Map
+  Map<String, dynamic> toMap() {
+    return {
+      'etapeId': etapeId,
+      'name': name,
+      'description': description,
+      'niveauId': niveauId,
+      'sportId': sportId,
+    };
+  }
+
 }
