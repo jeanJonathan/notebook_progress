@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "628781864029",
+    "project_id": "notebookprogress",
+    "storage_bucket": "notebookprogress.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628781864029:android:b7097e74449463b03969b4",
+        "android_client_info": {
+          "package_name": "oceanadventure.surf.notebook_progress"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "628781864029-1777qp3dlbik94lrl9q5odrer9jn0cbd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCv60Y09ByWb0xA1JBYRoHOyv3uEsa4Nbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "628781864029-1777qp3dlbik94lrl9q5odrer9jn0cbd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
