@@ -26,4 +26,15 @@ class Etape {
     };
   }
 
+  // Implementation d'une méthode pour créer un objet Etape à partir d'un document Firestore
+  factory Etape.fromFirestore(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    return Etape(
+      etapeId: doc.id,
+      name: data['name'],
+      description: data['description'],
+      niveauId: data['niveauId'],
+      sportId: data['sportId'],
+    );
+  }
 }
