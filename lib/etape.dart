@@ -24,8 +24,8 @@ class Etape {
       etapeId: doc.id,
       name: data['name'] ?? '',
       description: data['description'] ?? '',
-      niveauRef: data['niveauRef'] ?? '',
-      sportRef: data['sportRef'] ?? '',
+      niveauRef: data['niveauRef'] as DocumentReference,
+      sportRef: data['sportRef'] as DocumentReference,
       video: data['video'] ?? '',
     );
   }
