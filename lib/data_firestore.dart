@@ -9,8 +9,8 @@ List<Map<String, dynamic>> simulateData() {
     },
     {
       'id': 2,
-      'description': 'Description de l\'étape 2',
-      'name': 'Étape 2',
+      'description': 'Mise en place de l\'aile',
+      'name': 'BEGGINER - 1.2',
       'niveauRef': '/niveaux/2',
       'sportRef': '/sports/1',
     },
