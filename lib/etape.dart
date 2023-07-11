@@ -4,8 +4,9 @@ class Etape {
   final String etapeId;
   final String name;
   final String description;
-  final String niveauRef;
-  final String sportRef;
+  final DocumentReference niveauRef;
+  final DocumentReference sportRef;
+  final String video;
 
   Etape({
     required this.etapeId,
@@ -13,6 +14,7 @@ class Etape {
     required this.description,
     required this.niveauRef,
     required this.sportRef,
+    required this.video,
   });
 
   // Méthode statique pour créer une instance d'Etape à partir d'un document Firestore
@@ -24,6 +26,7 @@ class Etape {
       description: data['description'] ?? '',
       niveauRef: data['niveauRef'] ?? '',
       sportRef: data['sportRef'] ?? '',
+      video: data['video'] ?? '',
     );
   }
 }
