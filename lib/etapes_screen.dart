@@ -6,7 +6,7 @@ import 'data_firestore.dart';
 class EtapesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> etapesData = simulateData();
+    List<Map<String, dynamic>> etapesData = simulateDataEtapesWingfoil();
 
     return Scaffold(
       appBar: AppBar(

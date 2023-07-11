@@ -167,7 +167,7 @@ class Kitesurf extends StatelessWidget {
 }
 //Methode disposee a envoyer les donnees des etapes dans firestore
 /*void createEtapes() async {
-  List<Map<String, dynamic>> etapesData = simulateData();
+  List<Map<String, dynamic>> etapesData = simulateDataEtapesWingfoil();
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference etapesCollection = firestore.collection('etapes');
