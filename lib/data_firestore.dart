@@ -14,6 +14,5 @@ List<Map<String, dynamic>> simulateData() {
       'niveauRef': '/niveaux/2',
       'sportRef': '/sports/1',
     },
-    // Ajoutez d'autres données d'étapes ici
   ];
 }

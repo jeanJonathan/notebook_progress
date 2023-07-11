@@ -6,7 +6,7 @@ import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'etapes_screen.dart';
 import 'firebase_options.dart';
-
+import 'data_firestore.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -165,5 +165,19 @@ class Kitesurf extends StatelessWidget {
     );
   }
 }
+//Methode disposee a envoyer les donnees des etapes dans firestore
+/*void createEtapes() async {
+  List<Map<String, dynamic>> etapesData = simulateData();
+
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  CollectionReference etapesCollection = firestore.collection('etapes');
+
+  for (var data in etapesData) {
+    DocumentReference document = etapesCollection.doc(data['id'].toString());
+    await document.set(data);
+    print('Document cree: ${document.path}');
+  }
+}
+*/
 
 
