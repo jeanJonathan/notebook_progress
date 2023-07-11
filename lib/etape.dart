@@ -4,37 +4,26 @@ class Etape {
   final String etapeId;
   final String name;
   final String description;
-  final String niveauId;
-  final String sportId;
+  final String niveauRef;
+  final String sportRef;
 
   Etape({
     required this.etapeId,
     required this.name,
     required this.description,
-    required this.niveauId,
-    required this.sportId,
+    required this.niveauRef,
+    required this.sportRef,
   });
 
-  // Implementation d'une méthode pour convertir l'objet Etape en Map
-  Map<String, dynamic> toMap() {
-    return {
-      'etapeId': etapeId,
-      'name': name,
-      'description': description,
-      'niveauId': niveauId,
-      'sportId': sportId,
-    };
-  }
-
-  // Implementation d'une méthode pour créer un objet Etape à partir d'un document Firestore
-  factory Etape.fromFirestore(DocumentSnapshot doc) {
+  // Méthode statique pour créer une instance d'Etape à partir d'un document Firestore
+  static Etape fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Etape(
       etapeId: doc.id,
-      name: data['name'],
-      description: data['description'],
-      niveauId: data['niveauId'],
-      sportId: data['sportId'],
+      name: data['name'] ?? '',
+      description: data['description'] ?? '',
+      niveauRef: data['niveauRef'] ?? '',
+      sportRef: data['sportRef'] ?? '',
     );
   }
 }

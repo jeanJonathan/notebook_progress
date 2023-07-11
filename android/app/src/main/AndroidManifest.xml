@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Ajoutez cette ligne pour la permission d'accès à Internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:label="notebook_progress"
         android:name="${applicationName}"

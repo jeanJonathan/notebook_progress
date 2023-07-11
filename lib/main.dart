@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'Wingfoil.dart';
 import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
+import 'etapes_screen.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/menu': (context) => MenuScreen(),
         '/parametres': (context) => ParametresScreen(),
+        '/etapes': (context) => EtapesScreen(),
       },
     );
   }
@@ -125,6 +127,7 @@ class Kitesurf extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Action du bouton
+                        Navigator.pushNamed(context, '/etapes');
                       },
                       child: Text(
                         'VOIR LES ETAPES',
