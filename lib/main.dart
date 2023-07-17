@@ -28,21 +28,21 @@ class MyApp extends StatelessWidget {
       title: 'My App',
       theme: ThemeData(
         primarySwatch: MaterialColor(
-          0xFF074868,
+          0xFFF5F5F5,
           <int, Color>{
-            50: Color(0xFF074868),
-            100: Color(0xFF074868),
-            200: Color(0xFF074868),
-            300: Color(0xFF074868),
-            400: Color(0xFF074868),
-            500: Color(0xFF074868),
-            600: Color(0xFF074868),
-            700: Color(0xFF074868),
-            800: Color(0xFF074868),
-            900: Color(0xFF074868),
+            50: Color(0xFFF5F5F5),
+            100: Color(0xFFF5F5F5),
+            200: Color(0xFFF5F5F5),
+            300: Color(0xFFF5F5F5),
+            400: Color(0xFFF5F5F5),
+            500: Color(0xFFF5F5F5),
+            600: Color(0xFFF5F5F5),
+            700: Color(0xFFF5F5F5),
+            800: Color(0xFFF5F5F5),
+            900: Color(0xFFF5F5F5),
           },
         ),
-      ),
+    ),
       home: Kitesurf(),
       routes: {
         '/menu': (context) => MenuScreen(),
@@ -52,10 +52,10 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class Kitesurf extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //fetchData(); // Appel de la méthode pour récupérer les données lors de la création du widget
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, '/menu');
@@ -73,6 +73,27 @@ class Kitesurf extends StatelessWidget {
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/logoIONCLUB.png',
+                    width: 80,
+                    height: 80,
+                  ),
+                  SizedBox(width: 10),
+                  Image.asset(
+                    'assets/logoOcean.png',
+                    width: 130,
+                    height: 100,
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    '',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(width: kToolbarHeight),
@@ -84,7 +105,6 @@ class Kitesurf extends StatelessWidget {
             ),
           ],
           centerTitle: true,
-          title: const Text('Kitesurf'),
         ),
         body: GestureDetector(
           onHorizontalDragEnd: (DragEndDetails details) {
@@ -97,7 +117,7 @@ class Kitesurf extends StatelessWidget {
           child: Stack(
             children: [
               Image.asset(
-                'assets/kitesurf2.jpg',
+                'assets/kitesurf.jpg',
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
@@ -128,11 +148,10 @@ class Kitesurf extends StatelessWidget {
                     SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {
-                        // Action du bouton
                         Navigator.pushNamed(context, '/etapes');
                       },
                       child: Text(
-                        'VOIR LES ETAPES',
+                        'VOIR LES ÉTAPES',
                         style: TextStyle(fontSize: 20),
                       ),
                       style: ElevatedButton.styleFrom(
@@ -143,7 +162,7 @@ class Kitesurf extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        primary: Color(0xFF64C8C8), // Modifier la couleur ici
+                        primary: Color(0xFF64C8C8),
                       ),
                     ),
                   ],
@@ -165,6 +184,7 @@ class Kitesurf extends StatelessWidget {
     );
   }
 }
+
 //Methode disposee a envoyer les donnees des etapes dans firestore
 /*void createEtapes() async {
   List<Map<String, dynamic>> etapesData = simulateDataEtapesWingfoil();
