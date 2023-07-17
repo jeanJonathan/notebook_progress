@@ -4,6 +4,7 @@ import 'etape.dart';
 import 'data_firestore.dart';
 
 class EtapesScreen extends StatelessWidget {
+  /*
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> etapesData = simulateDataEtapesWingfoil();
@@ -16,16 +17,21 @@ class EtapesScreen extends StatelessWidget {
         itemCount: etapesData.length,
         itemBuilder: (context, index) {
           final etape = etapesData[index];
-          return ListTile(
-            title: Text(etape['name']),
-            subtitle: Text(etape['description']),
-            // Autres widgets pour afficher les autres données d'étape
+          return Card(
+            child:
+              ListTile(
+                leading: Image.asset('assets/kitesurf.jpg'),
+                title: Text(etape['name']),
+                subtitle: Text(etape['description']),
+                trailing: Icon(Icons.more_vert),
+              )
           );
         },
       ),
     );
   }
-  /*@override
+  */
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -49,10 +55,14 @@ class EtapesScreen extends StatelessWidget {
             itemCount: etapes.length,
             itemBuilder: (context, index) {
               Etape etape = etapes[index];
-              return ListTile(
-                title: Text(etape.name),
-                subtitle: Text(etape.description),
-                // Ajoutez d'autres widgets pour afficher les autres propriétés de l'étape
+              return Card(
+                  child:
+                  ListTile(
+                    leading: Image.asset('assets/kitesurf.jpg'),
+                    title: Text(etape.name),
+                    subtitle: Text(etape.description),
+                    trailing: Icon(Icons.more_vert),
+                  )
               );
             },
           );
@@ -60,5 +70,4 @@ class EtapesScreen extends StatelessWidget {
       ),
     );
   }
-  */
 }
