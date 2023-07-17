@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/etape.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class EtapeDetailScreen extends StatelessWidget {
   final Etape etape;
@@ -8,6 +9,8 @@ class EtapeDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String videoId = YoutubePlayer.convertUrlToId(etape.video) ?? '';
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Détails de l\'étape'),
@@ -29,7 +32,25 @@ class EtapeDetailScreen extends StatelessWidget {
               etape.description,
               style: TextStyle(fontSize: 18),
             ),
-            // Ajoutez d'autres widgets pour afficher plus de détails de l'étape si nécessaire
+            SizedBox(height: 16),
+            Container(
+              height: 200,
+              child: YoutubePlayer(
+                controller: YoutubePlayerController(
+                  initialVideoId: videoId,
+                  flags: YoutubePlayerFlags(
+                    autoPlay: false,
+                    mute: false,
+                  ),
+                ),
+                showVideoProgressIndicator: true,
+                progressIndicatorColor: Colors.amber,
+                progressColors: ProgressBarColors(
+                  playedColor: Colors.amber,
+                  handleColor: Colors.amberAccent,
+                ),
+              ),
+            ),
           ],
         ),
       ),
