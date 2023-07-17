@@ -47,7 +47,9 @@ class MyApp extends StatelessWidget {
       routes: {
         '/menu': (context) => MenuScreen(),
         '/parametres': (context) => ParametresScreen(),
-        '/etapes': (context) => EtapesScreen(),
+        '/etapesW': (context) => EtapesScreenWingfoil(),
+        '/etapesK': (context) => EtapesScreenKitesurf(),
+        '/etapesS': (context) => EtapesScreenSurf(),
       },
     );
   }
@@ -157,7 +159,7 @@ class Kitesurf extends StatelessWidget {
                     SizedBox(height: 46),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/etapes');
+                        Navigator.pushNamed(context, '/etapesK');
                       },
                       child: Text(
                         'VOIR LES ÉTAPES',

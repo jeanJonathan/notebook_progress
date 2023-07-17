@@ -109,7 +109,7 @@ class Wingfoil extends StatelessWidget {
                   SizedBox(height: 46),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/etapes');
+                      Navigator.pushNamed(context, '/etapesW');
                     },
                     child: Text(
                       'VOIR LES ÉTAPES',

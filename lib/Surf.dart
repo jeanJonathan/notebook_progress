@@ -109,7 +109,7 @@ class Surf extends StatelessWidget {
                   SizedBox(height: 46),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/etapes');
+                      Navigator.pushNamed(context, '/etapesS');
                     },
                     child: Text(
                       'VOIR LES ÉTAPES',
