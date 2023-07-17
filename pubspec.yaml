@@ -57,6 +57,15 @@ flutter:
     - assets/kitesurf.jpg
     - assets/surf.jpg
     - assets/wingfoil.jpg
+    - assets/desc_etapes.jpg
+    - assets/wingfoil1.jpg
+    - assets/surf1.jpg
+    - assets/surf2.png
+    - assets/kitesurf4.png
+    - assets/kitesurf3.jpg
+    - assets/kitesurf2.jpg
+    - assets/kitesurf1.jpg
+    - assets/surf2.jpg
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
