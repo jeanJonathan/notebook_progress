@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'etape.dart';
 import 'data_firestore.dart';
+import 'etapes_details_screen.dart';
 
 class EtapesScreen extends StatelessWidget {
   @override
@@ -28,14 +29,24 @@ class EtapesScreen extends StatelessWidget {
             itemCount: etapes.length,
             itemBuilder: (context, index) {
               Etape etape = etapes[index];
-              return Card(
-                  child:
-                  ListTile(
+              return InkWell(
+                onTap: () {
+                  // Action à effectuer lorsqu'une étape est cliquée
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EtapeDetailScreen(etape: etape),
+                    ),
+                  );
+                },
+                child: Card(
+                  child: ListTile(
                     leading: Image.asset('assets/kitesurf.jpg'),
                     title: Text(etape.name),
                     subtitle: Text(etape.description),
                     trailing: Icon(Icons.more_vert),
-                  )
+                  ),
+                ),
               );
             },
           );
