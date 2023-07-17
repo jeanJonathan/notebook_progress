@@ -119,8 +119,8 @@ class Kitesurf extends StatelessWidget {
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
-                //color: Color.fromRGBO(0, 0, 0, 0.6), // Pour rendre la couleur foncée avec une opacité de 0.6
-                //colorBlendMode: BlendMode.darken, // Pour rendre l'image plus sombre
+                color: Color.fromRGBO(0, 0, 0, 0.4), // Pour rendre la couleur foncée avec une opacité de 0.4
+                colorBlendMode: BlendMode.darken, // Pour rendre l'image plus sombre
               ),
               Positioned(
                 top: MediaQuery.of(context).size.height * 0.35,
@@ -134,7 +134,7 @@ class Kitesurf extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 46,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Color(0xFF64C8C8),
                         shadows: [
                           Shadow(
                             color: Colors.black,
@@ -145,7 +145,7 @@ class Kitesurf extends StatelessWidget {
                         fontFamily: 'Concert One',
                       ),
                     ),
-                    SizedBox(height: 26),
+                    SizedBox(height: 16),
                     Text(
                       "Let's while",
                       style: TextStyle(
@@ -154,26 +154,27 @@ class Kitesurf extends StatelessWidget {
                         fontFamily: 'Concert One',
                       ),
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 46),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/etapes');
                       },
                       child: Text(
                         'VOIR LES ÉTAPES',
-                        style: TextStyle(fontSize: 20,
-                          fontFamily: 'Roboto Slab',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Open Sans',
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(
-                          horizontal: 32,
-                          vertical: 16,
+                          horizontal: 25,
+                          vertical: 10,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        primary: Color(0xFF64C8C8),
+                        primary: Colors.white,
                       ),
                     ),
                   ],
@@ -185,7 +186,7 @@ class Kitesurf extends StatelessWidget {
                 child: Icon(
                   Icons.arrow_forward_ios,
                   size: 50,
-                  color: Color(0xFF074868),
+                  color: Color(0xFFF5F5F5),
                 ),
               ),
             ],

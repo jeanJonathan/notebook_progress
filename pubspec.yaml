@@ -64,6 +64,10 @@ flutter:
     - family: Roboto Slab
       fonts:
         - asset: fonts/RobotoSlab-VariableFont_wght.ttf
+    - family: Open Sans
+      fonts:
+        - asset: fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf
+        - asset: fonts/OpenSans-VariableFont_wdth,wght.ttf
   assets:
     - assets/kitesurf.jpg
     - assets/surf.jpg
