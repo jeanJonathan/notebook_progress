@@ -53,6 +53,17 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: Montserrat Subrayada
+      fonts:
+        - asset: fonts/MontserratSubrayada-Regular.ttf
+        - asset: fonts/MontserratSubrayada-Bold.ttf
+    - family: Concert One
+      fonts:
+        - asset: fonts/ConcertOne-Regular.ttf
+    - family: Roboto Slab
+      fonts:
+        - asset: fonts/RobotoSlab-VariableFont_wght.ttf
   assets:
     - assets/kitesurf.jpg
     - assets/surf.jpg
@@ -67,6 +78,7 @@ flutter:
     - assets/surf2.jpg
     - assets/logoIONCLUB.png
     - assets/logoOcean.png
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

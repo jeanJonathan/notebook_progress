@@ -119,6 +119,8 @@ class Kitesurf extends StatelessWidget {
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
+                //color: Color.fromRGBO(0, 0, 0, 0.6), // Pour rendre la couleur foncée avec une opacité de 0.6
+                //colorBlendMode: BlendMode.darken, // Pour rendre l'image plus sombre
               ),
               Positioned(
                 top: MediaQuery.of(context).size.height * 0.35,
@@ -132,7 +134,15 @@ class Kitesurf extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 46,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF64C8C8),
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black,
+                            blurRadius: 2,
+                            offset: Offset(1, 1),
+                          ),
+                        ],
+                        fontFamily: 'Concert One',
                       ),
                     ),
                     SizedBox(height: 26),
@@ -141,6 +151,7 @@ class Kitesurf extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         color: Colors.white,
+                        fontFamily: 'Concert One',
                       ),
                     ),
                     SizedBox(height: 16),
@@ -150,7 +161,9 @@ class Kitesurf extends StatelessWidget {
                       },
                       child: Text(
                         'VOIR LES ÉTAPES',
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 20,
+                          fontFamily: 'Roboto Slab',
+                        ),
                       ),
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(
