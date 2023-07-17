@@ -23,6 +23,33 @@ class Surf extends StatelessWidget {
             },
           ),
           actions: [
+            const SizedBox(width: kToolbarHeight),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/logoIONCLUB.png',
+                    width: 80,
+                    height: 80,
+                  ),
+                  SizedBox(width: 10),
+                  Image.asset(
+                    'assets/logoOcean.png',
+                    width: 130,
+                    height: 100,
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    '',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {

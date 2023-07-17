@@ -96,7 +96,6 @@ class Kitesurf extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(width: kToolbarHeight),
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {
@@ -104,7 +103,6 @@ class Kitesurf extends StatelessWidget {
               },
             ),
           ],
-          centerTitle: true,
         ),
         body: GestureDetector(
           onHorizontalDragEnd: (DragEndDetails details) {
