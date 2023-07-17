@@ -4,33 +4,6 @@ import 'etape.dart';
 import 'data_firestore.dart';
 
 class EtapesScreen extends StatelessWidget {
-  /*
-  @override
-  Widget build(BuildContext context) {
-    List<Map<String, dynamic>> etapesData = simulateDataEtapesWingfoil();
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Liste des étapes'),
-      ),
-      body: ListView.builder(
-        itemCount: etapesData.length,
-        itemBuilder: (context, index) {
-          final etape = etapesData[index];
-          return Card(
-            child:
-              ListTile(
-                leading: Image.asset('assets/kitesurf.jpg'),
-                title: Text(etape['name']),
-                subtitle: Text(etape['description']),
-                trailing: Icon(Icons.more_vert),
-              )
-          );
-        },
-      ),
-    );
-  }
-  */
   @override
   Widget build(BuildContext context) {
     return Scaffold(
