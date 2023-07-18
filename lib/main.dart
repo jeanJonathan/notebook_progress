@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Wingfoil.dart';
@@ -17,7 +18,8 @@ Future<void> main() async {
 
   runApp(const MyApp());
 }
-
+// Créez une instance de FirebaseAuth
+final FirebaseAuth _auth = FirebaseAuth.instance;
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -213,5 +215,17 @@ class Kitesurf extends StatelessWidget {
   }
 }
 */
-
+// Méthode pour s'authentifier avec l'e-mail et le mot de passe
+Future<UserCredential?> signInWithEmailAndPassword(String email, String password) async {
+  try {
+    UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return userCredential;
+  } catch (e) {
+    print('Erreur lors de l\'authentification : $e');
+    return null;
+  }
+}
 
