@@ -121,8 +121,8 @@ class Kitesurf extends StatelessWidget {
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
-                color: Color.fromRGBO(0, 0, 0, 0.4), // Pour rendre la couleur foncée avec une opacité de 0.4
-                colorBlendMode: BlendMode.darken, // Pour rendre l'image plus sombre
+                //color: Color.fromRGBO(0, 0, 0, 0.4), // Pour rendre la couleur foncée avec une opacité de 0.4
+                //colorBlendMode: BlendMode.darken, // Pour rendre l'image plus sombre
               ),
               Positioned(
                 top: MediaQuery.of(context).size.height * 0.35,

@@ -35,6 +35,8 @@ class EtapesScreenWingfoil extends StatelessWidget {
           List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
           List<Etape> etapes = documents.map((doc) => Etape.fromFirestore(doc)).toList();
 
+          // On filtre les étapes dont sportRef est égal à 1
+          etapes = etapes.where((etape) => etape.sportRef.id == '1').toList();
           return ListView.builder(
             itemCount: etapes.length,
             itemBuilder: (context, index) {
@@ -58,7 +60,7 @@ class EtapesScreenWingfoil extends StatelessWidget {
                         color: Colors.black.withOpacity(0.1),
                         spreadRadius: 1,
                         blurRadius: 5,
-                        offset: Offset(0, 2), // Changement de l'ombre selon vos préférences
+                        offset: Offset(0, 2), // Changement de l'ombre selon mes préférences
                       ),
                     ],
                   ),
@@ -87,7 +89,7 @@ class EtapesScreenWingfoil extends StatelessWidget {
                     ),
                     trailing: Icon(
                       Icons.arrow_forward,
-                      color: Colors.grey, // Modifier la couleur de l'icône selon vos besoins
+                      color: Colors.grey, // Couleur de l'icone
                     ),
                   ),
                 ),
@@ -130,7 +132,8 @@ class EtapesScreenKitesurf extends StatelessWidget {
 
           List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
           List<Etape> etapes = documents.map((doc) => Etape.fromFirestore(doc)).toList();
-
+          // On filtre les étapes dont sportRef est égal à 1
+          etapes = etapes.where((etape) => etape.sportRef.id == '2').toList();
           return ListView.builder(
             itemCount: etapes.length,
             itemBuilder: (context, index) {
@@ -228,6 +231,8 @@ class EtapesScreenSurf extends StatelessWidget {
           List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
           List<Etape> etapes = documents.map((doc) => Etape.fromFirestore(doc)).toList();
 
+          // On filtre les étapes dont sportRef est égal à 1
+          etapes = etapes.where((etape) => etape.sportRef.id == '3').toList();
           return ListView.builder(
             itemCount: etapes.length,
             itemBuilder: (context, index) {
