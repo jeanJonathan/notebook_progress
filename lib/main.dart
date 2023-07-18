@@ -18,8 +18,6 @@ Future<void> main() async {
 
   runApp(const MyApp());
 }
-// Créez une instance de FirebaseAuth
-final FirebaseAuth _auth = FirebaseAuth.instance;
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -215,6 +213,8 @@ class Kitesurf extends StatelessWidget {
   }
 }
 */
+// Création d'une instance de FirebaseAuth
+final FirebaseAuth _auth = FirebaseAuth.instance;
 // Méthode pour s'authentifier avec l'e-mail et le mot de passe
 Future<UserCredential?> signInWithEmailAndPassword(String email, String password) async {
   try {
