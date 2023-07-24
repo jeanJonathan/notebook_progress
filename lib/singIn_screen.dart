@@ -31,34 +31,61 @@ class _SignInScreenState extends State<SignInScreen> {
       print('Erreur lors de l\'authentification : $e');
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Se connecter'),
+        title: Text(''),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Column(
+        child: ListView(
           children: [
+            Container(
+              alignment: Alignment.center,
+              child: Image.asset(
+                'assets/logoOcean.png',
+                width: 250,
+                height: 150,
+              ),
+            ),
+            SizedBox(height: 12),
             TextFormField(
               controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
+                border: OutlineInputBorder(),
               ),
             ),
+            SizedBox(height: 12),
             TextFormField(
               controller: _passwordController,
               decoration: InputDecoration(
                 labelText: 'Mot de passe',
+                border: OutlineInputBorder(),
               ),
-              obscureText: true,
+              obscureText: true
             ),
-            SizedBox(height: 16.0),
+            SizedBox(height: 12),
             ElevatedButton(
               onPressed: _signInWithEmailAndPassword,
               child: Text('Se connecter'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+            SizedBox(height: 6),
+            TextButton(
+              onPressed: () {
+                // Action pour réinitialiser le mot de passe (à implémenter plustard)
+              },
+              child: Text(
+                'Mot de passe oublié ?',
+                style: TextStyle(color: Colors.blue),
+              ),
             ),
           ],
         ),

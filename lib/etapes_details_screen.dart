@@ -101,22 +101,13 @@ class EtapeDetailScreen extends StatelessWidget {
                         );
                       } else {
                         // On navigue vers l'écran d'authentification (SignInScreen par exemple)
-                        bool signInSuccess = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SignInScreen(),
-                          ),
-                        );
-                        // Si l'authentification a réussi, naviguez vers l'écran du formulaire FormScreen
-                        if (signInSuccess) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => FormScreen(),
+                              builder: (context) => SignInScreen(),
                             ),
                           );
                         }
-                      }
                     },
                     style: ElevatedButton.styleFrom(
                       //primary: Colors.blue, // Modifier la couleur du bouton selon vos besoins

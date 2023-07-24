@@ -72,13 +72,11 @@ class _ParametresScreenState extends State<ParametresScreen> {
     try {
       // On utilise la fonction signOut() de firebase pour déconnecter l'utilisateur actuel
       await _auth.signOut();
-
       // Redirection de l'utilisateur vers l'écran de connexion
-      Navigator.pushAndRemoveUntil(
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => SignInScreen()),
-            (Route<dynamic> route) => false, // Supprime toutes les routes de la pile
-      );
+           );
     } catch (e) {
       print('Erreur lors de la déconnexion : $e');
     }
