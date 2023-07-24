@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notebook_progress/singIn_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ParametresScreen extends StatefulWidget {
   @override
@@ -6,6 +8,7 @@ class ParametresScreen extends StatefulWidget {
 }
 
 class _ParametresScreenState extends State<ParametresScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +68,19 @@ class _ParametresScreenState extends State<ParametresScreen> {
     );
   }
 
-  void _deconnexion() {//fonction pour gerer la deconnexion
+  Future<void> _deconnexion() async {//fonction pour gerer la deconnexion
+    try {
+      // On utilise la fonction signOut() de firebase pour déconnecter l'utilisateur actuel
+      await _auth.signOut();
+
+      // Redirection de l'utilisateur vers l'écran de connexion
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => SignInScreen()),
+            (Route<dynamic> route) => false, // Supprime toutes les routes de la pile
+      );
+    } catch (e) {
+      print('Erreur lors de la déconnexion : $e');
+    }
   }
 }
