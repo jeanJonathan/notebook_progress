@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:notebook_progress/form_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -18,6 +19,13 @@ class _SignInScreenState extends State<SignInScreen> {
         password: _passwordController.text,
       );
       // L'utilisateur est connecté avec succès, effectuez les actions souhaitées ici
+      // Si la connexion reussie aller vers l'ecran du formulaire.
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FormScreen(), // Remplacez "AutreEcran" par l'écran que vous souhaitez afficher après la connexion réussie.
+        ),
+      );
     } catch (e) {
       // Une erreur s'est produite lors de l'authentification, affichez un message d'erreur ou effectuez des actions supplémentaires ici
       print('Erreur lors de l\'authentification : $e');

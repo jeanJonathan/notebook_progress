@@ -88,7 +88,7 @@ class EtapeDetailScreen extends StatelessWidget {
                 SizedBox(height: 16),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // Action à effectuer lors du clic sur le bouton "Valider l'étape"
                       // On verifie si l'utilisateur est déjà connecté
                       if (_auth.currentUser != null) {
@@ -101,12 +101,21 @@ class EtapeDetailScreen extends StatelessWidget {
                         );
                       } else {
                         // On navigue vers l'écran d'authentification (SignInScreen par exemple)
-                        Navigator.push(
+                        bool signInSuccess = await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => SignInScreen(),
                           ),
                         );
+                        // Si l'authentification a réussi, naviguez vers l'écran du formulaire FormScreen
+                        if (signInSuccess) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FormScreen(),
+                            ),
+                          );
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(
