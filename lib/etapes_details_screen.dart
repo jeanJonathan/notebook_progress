@@ -1,9 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/etape.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import 'singIn_screen.dart';
+import 'form_screen.dart';
+
 class EtapeDetailScreen extends StatelessWidget {
   final Etape etape;
+  final FirebaseAuth _auth = FirebaseAuth.instance; //
 
   EtapeDetailScreen({required this.etape});
 
@@ -85,6 +90,24 @@ class EtapeDetailScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       // Action à effectuer lors du clic sur le bouton "Valider l'étape"
+                      // On verifie si l'utilisateur est déjà connecté
+                      if (_auth.currentUser != null) {
+                        // On navigue vers l'écran du formulaire FormScreen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FormScreen(),
+                          ),
+                        );
+                      } else {
+                        // On navigue vers l'écran d'authentification (SignInScreen par exemple)
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SignInScreen(),
+                          ),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       //primary: Colors.blue, // Modifier la couleur du bouton selon vos besoins
@@ -101,6 +124,7 @@ class EtapeDetailScreen extends StatelessWidget {
                         //color: Colors.white, // Modifier la couleur du texte selon vos besoins
                       ),
                     ),
+
                   ),
                 ),
               ],
@@ -111,4 +135,5 @@ class EtapeDetailScreen extends StatelessWidget {
     );
   }
 }
+
 
