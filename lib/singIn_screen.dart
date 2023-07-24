@@ -54,17 +54,49 @@ class _SignInScreenState extends State<SignInScreen> {
               controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
+                labelStyle: TextStyle(color: Colors.black), // Couleur noire pour le label
                 border: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF64C8C8)),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red),
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
+              onChanged: (value) {
+                setState(() {});
+              },
             ),
             SizedBox(height: 12),
             TextFormField(
               controller: _passwordController,
               decoration: InputDecoration(
                 labelText: 'Mot de passe',
+                labelStyle: TextStyle(color: Colors.black), // Couleur noire pour le label
                 border: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF64C8C8)),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red),
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
-              obscureText: true
+              obscureText: true,
+              onChanged: (value) {
+                setState(() {});
+              },
             ),
             SizedBox(height: 12),
             ElevatedButton(
