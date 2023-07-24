@@ -20,6 +20,20 @@ class _FormScreenState extends State<FormScreen> {
   final TextEditingController _commentController = TextEditingController();
   File? _videoFile;
 
+  Future<void> _selectDate() async {
+    DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (selectedDate != null) {
+      setState(() {
+        _dateController.text = selectedDate.toLocal().toString().split(' ')[0];
+      });
+    }
+  }
   Future<void> _pickVideo() async {
     final pickedFile = await ImagePicker().pickVideo(source: ImageSource.gallery);
     setState(() {
@@ -47,9 +61,7 @@ class _FormScreenState extends State<FormScreen> {
           'videoUrl': downloadUrl,
           'userId': uid,
         });
-
         // Le formulaire a été enregistré avec succès, effectuez les actions souhaitées ici
-
       } catch (e) {
         // Une erreur s'est produite lors de l'enregistrement du formulaire, affichez un message d'erreur ou effectuez des actions supplémentaires ici
         print('Erreur lors de l\'enregistrement du formulaire : $e');
@@ -66,45 +78,97 @@ class _FormScreenState extends State<FormScreen> {
       appBar: AppBar(
         title: Text('Enregistrer votre progression'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _dateController,
-              decoration: InputDecoration(
-                labelText: 'Date',
+      body: SingleChildScrollView( // Utilisation de SingleChildScrollView pour faire défiler le contenu lorsque le clavier est affiché pour que tous les champs restent visibles pendant la saisie
+        // et eviter les probleme de bordure
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextFormField(
+                controller: _dateController,
+                decoration: InputDecoration(
+                  labelText: 'Date',
+                  labelStyle: TextStyle(color: Colors.black),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
+                ),
               ),
-            ),
-            TextFormField(
-              controller: _locationController,
-              decoration: InputDecoration(
-                labelText: 'Lieu',
+              SizedBox(height: 12),
+              TextFormField(
+                controller: _locationController,
+                decoration: InputDecoration(
+                  labelText: 'Lieu',
+                  labelStyle: TextStyle(color: Colors.black),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
+                ),
               ),
-            ),
-            TextFormField(
-              controller: _weatherController,
-              decoration: InputDecoration(
-                labelText: 'Météo',
+              SizedBox(height: 12),
+              TextFormField(
+                controller: _weatherController,
+                decoration: InputDecoration(
+                  labelText: 'Météo',
+                  labelStyle: TextStyle(color: Colors.black),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
+                ),
               ),
-            ),
-            TextFormField(
-              controller: _commentController,
-              decoration: InputDecoration(
-                labelText: 'Commentaire',
+              SizedBox(height: 12),
+              TextFormField(
+                controller: _commentController,
+                decoration: InputDecoration(
+                  labelText: 'Commentaire',
+                  labelStyle: TextStyle(color: Colors.black),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _pickVideo,
-              child: Text('Sélectionner une vidéo'),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _uploadVideo,
-              child: Text('Enregistrer'),
-            ),
-          ],
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _pickVideo,
+                child: Text('Sélectionner une vidéo'),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _uploadVideo,
+                child: Text('Enregistrer'),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
