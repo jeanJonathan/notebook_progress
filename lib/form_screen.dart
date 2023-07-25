@@ -89,16 +89,19 @@ class _FormScreenState extends State<FormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: Text('Formulaire de progression'),
       ),
       body: Stack(
         children: [
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/form2.jpg'), // Remplacez 'assets/form2.jpg' par le chemin de votre image de fond
+                image: AssetImage('assets/form2.jpg',), // Remplacez 'assets/form2.jpg' par le chemin de votre image de fond
                 fit: BoxFit.cover,
-              ),
+                ),
+            ),
+            child: Container(
+              //color: Colors.black.withOpacity(0.2), // On deifinis une opacité de 0.4 pour le filtre sombre
             ),
           ),
           SafeArea(
@@ -161,7 +164,7 @@ class _FormScreenState extends State<FormScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.blue),
+                              borderSide: BorderSide(color: Color(0xFFF5F5F5)),
                             ),
                           ),
                         ),
@@ -222,7 +225,13 @@ class _FormScreenState extends State<FormScreen> {
                         },
                         itemBuilder: (context, lieu) {
                           return ListTile(
-                            title: Text(lieu),
+                            title: Text(
+                              lieu,
+                              style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0xFF64C8C8),
+                            ),
+                          ),
                           );
                         },
                         onSuggestionSelected: (lieu) {
@@ -230,6 +239,9 @@ class _FormScreenState extends State<FormScreen> {
                             _locationController.text = lieu;
                           });
                         },
+                        suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                          borderRadius: BorderRadius.circular(8), // Pour arrondir les bords
+                        ),
                       ),
                     ),
                     SizedBox(height: 12),
@@ -248,7 +260,7 @@ class _FormScreenState extends State<FormScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.blue),
+                              borderSide: BorderSide(color: Color(0xFFF5F5F5)),
                             ),
                           ),
                         ),
@@ -260,7 +272,12 @@ class _FormScreenState extends State<FormScreen> {
                         },
                         itemBuilder: (context, meteo) {
                           return ListTile(
-                            title: Text(meteo),
+                            title: Text(meteo,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Color(0xFF64C8C8),
+                                ),
+                              )
                           );
                         },
                         onSuggestionSelected: (meteo) {
@@ -268,6 +285,9 @@ class _FormScreenState extends State<FormScreen> {
                             _weatherController.text = meteo;
                           });
                         },
+                        suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                          borderRadius: BorderRadius.circular(8), //
+                        ),
                       ),
                     ),
                     SizedBox(height: 12),
