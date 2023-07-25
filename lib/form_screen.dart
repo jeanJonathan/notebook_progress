@@ -20,6 +20,32 @@ class _FormScreenState extends State<FormScreen> {
   final TextEditingController _commentController = TextEditingController();
   File? _videoFile;
 
+  Future<void> _selectDate() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: const Color(0xFF64C8C8),
+            hintColor: const Color(0xFF64C8C8),
+            colorScheme: ColorScheme.light(primary: const Color(0xFF64C8C8)),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedDate != null && pickedDate != DateTime.now()) {
+      setState(() {
+        _dateController.text = pickedDate.toLocal().toString().split(' ')[0];
+      });
+    }
+  }
+
   Future<void> _pickVideo() async {
     final pickedFile = await ImagePicker().pickVideo(source: ImageSource.gallery);
     setState(() {
@@ -98,21 +124,22 @@ class _FormScreenState extends State<FormScreen> {
                       ),
                     ),
                     SizedBox(height: 60), // Espace entre le texte et les champs du formulaire
-                    Container(
-                      width: 400,
-                      height: 50,
-                      child: TextFormField(
-                        controller: _dateController,
-                        decoration: InputDecoration(
-                          labelText: 'Date',
-                          labelStyle: TextStyle(color: Colors.black),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.blue),
+                    InkWell(
+                      onTap: _selectDate,
+                      child: IgnorePointer(
+                        child: TextFormField(
+                          controller: _dateController,
+                          decoration: InputDecoration(
+                            labelText: 'Date',
+                            labelStyle: TextStyle(color: Colors.black),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
                           ),
                         ),
                       ),
