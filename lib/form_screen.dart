@@ -84,7 +84,7 @@ class _FormScreenState extends State<FormScreen> {
                     Text(
                       'VALIDER VOTRE PROGRESSION',
                       style: TextStyle(
-                        fontSize: 46,
+                        fontSize: 50,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF64C8C8),
                         shadows: [
@@ -97,7 +97,7 @@ class _FormScreenState extends State<FormScreen> {
                         fontFamily: 'Concert One',
                       ),
                     ),
-                    SizedBox(height: 20), // Espace entre le texte et les champs du formulaire
+                    SizedBox(height: 60), // Espace entre le texte et les champs du formulaire
                     Container(
                       width: 400,
                       height: 50,
@@ -182,7 +182,6 @@ class _FormScreenState extends State<FormScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        primary: Color(0xFF64C8C8),
                         minimumSize: Size(400, 40), // Taille souhaitée pour le bouton "Ajouter une vidéo"
                       ),
                     ),
@@ -194,6 +193,7 @@ class _FormScreenState extends State<FormScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
+                        primary: Color(0xFF64C8C8),
                         minimumSize: Size(200, 50), // Taille souhaitée pour le bouton "Enregistrer"
                       ),
                     ),
