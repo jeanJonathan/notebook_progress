@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  intl: ^0.17.0
   flutter:
     sdk: flutter
 #Ajout<ya des dependances pour firebase
@@ -85,7 +86,9 @@ flutter:
     - assets/surf2.jpg
     - assets/logoIONCLUB.png
     - assets/logoOcean.png
-
+    - assets/form.jpg
+    - assets/form2.jpg
+    - assets/form3.jpg
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
