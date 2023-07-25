@@ -124,7 +124,26 @@ class _FormScreenState extends State<FormScreen> {
                       ),
                     ),
                     SizedBox(height: 60), // Espace entre le texte et les champs du formulaire
-
+                    InkWell(
+                      onTap: _selectDate,
+                      child: IgnorePointer(
+                        child: TextFormField(
+                          controller: _dateController,
+                          decoration: InputDecoration(
+                            labelText: 'Date',
+                            labelStyle: TextStyle(color: Colors.black),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     SizedBox(height: 12),
                     Container(
                       width: 400, // largeur du champs
