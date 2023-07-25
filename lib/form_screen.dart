@@ -149,9 +149,7 @@ class _FormScreenState extends State<FormScreen> {
                     Container(
                       width: 400, // largeur du champs
                       height: 50,
-                      child:
-                      //On supprime TextFormField pour le remplacer par TypeAheadFormField afin d'appliquer l'autocompletion flutter
-                      TypeAheadFormField(
+                      child: TypeAheadFormField(
                         textFieldConfiguration: TextFieldConfiguration(
                           controller: _locationController,
                           decoration: InputDecoration(
@@ -219,7 +217,8 @@ class _FormScreenState extends State<FormScreen> {
                             'Weligama',
                             'Zanzibar',
                           ];
-                          return lieux.where((lieu) => lieu.toLowerCase().contains(pattern.toLowerCase())).toList();
+                          //Pour ce faire on remplace contains par starsWith
+                          return lieux.where((lieu) => lieu.toLowerCase().startsWith(pattern.toLowerCase())).toList();
                         },
                         itemBuilder: (context, lieu) {
                           return ListTile(
