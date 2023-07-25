@@ -182,6 +182,7 @@ class _FormScreenState extends State<FormScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
+                        primary: Color(0xFF64C8C8),
                         minimumSize: Size(400, 40), // Taille souhaitée pour le bouton "Ajouter une vidéo"
                       ),
                     ),

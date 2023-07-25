@@ -107,6 +107,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
+                primary: Color(0xFF64C8C8),
               ),
             ),
             SizedBox(height: 6),
