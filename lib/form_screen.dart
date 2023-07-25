@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class FormScreen extends StatefulWidget {
   @override
@@ -148,20 +149,88 @@ class _FormScreenState extends State<FormScreen> {
                     Container(
                       width: 400, // largeur du champs
                       height: 50,
-                      child: TextFormField(
-                        controller: _locationController,
-                        decoration: InputDecoration(
-                          labelText: 'Lieu',
-                          labelStyle: TextStyle(color: Colors.black),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.white),
+                      child:
+                      //On supprime TextFormField pour le remplacer par TypeAheadFormField afin d'appliquer l'autocompletion flutter
+                      TypeAheadFormField(
+                        textFieldConfiguration: TextFieldConfiguration(
+                          controller: _locationController,
+                          decoration: InputDecoration(
+                            labelText: 'Lieu',
+                            labelStyle: TextStyle(color: Colors.black),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
                           ),
                         ),
+                        suggestionsCallback: (pattern) {
+                          List<String> lieux = [
+                            'Ahangama',
+                            'Açores',
+                            'Arugam Bay',
+                            'Bali',
+                            'Biarritz',
+                            'Bilbao',
+                            'Boa Vista',
+                            'Cabarete',
+                            'Caparica',
+                            'Capbreton',
+                            'Conil',
+                            'Dakhla',
+                            'El Gouna',
+                            'Ericeira',
+                            'Essaouira',
+                            'Fuerteventura',
+                            'Galice',
+                            'Hendaye',
+                            'Herekitya',
+                            'Hossegor',
+                            'Imsouane',
+                            'Jaco',
+                            'Lacanau',
+                            'Las Palmas',
+                            'Lanzarote',
+                            'Lisbonne',
+                            'Madère',
+                            'Madiha',
+                            'Mentawai',
+                            'Mirissa',
+                            'Montezuma',
+                            'Nazare',
+                            'Nosara',
+                            'Pavones',
+                            'Peniche',
+                            'Polhena',
+                            'Porto',
+                            'Quepos',
+                            'Santa Teresa',
+                            'Sicile',
+                            'Sumbawa',
+                            'Tamarindo',
+                            'Taghazout',
+                            'Tarifa',
+                            'Toncones',
+                            'Uvita',
+                            'Vieux Boucau',
+                            'Weligama',
+                            'Zanzibar',
+                          ];
+                          return lieux.where((lieu) => lieu.toLowerCase().contains(pattern.toLowerCase())).toList();
+                        },
+                        itemBuilder: (context, lieu) {
+                          return ListTile(
+                            title: Text(lieu),
+                          );
+                        },
+                        onSuggestionSelected: (lieu) {
+                          setState(() {
+                            _locationController.text = lieu;
+                          });
+                        },
                       ),
                     ),
                     SizedBox(height: 12),
