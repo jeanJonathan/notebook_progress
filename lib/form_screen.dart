@@ -138,7 +138,7 @@ class _FormScreenState extends State<FormScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.blue),
+                              borderSide: BorderSide(color: Colors.white),
                             ),
                           ),
                         ),
@@ -159,7 +159,7 @@ class _FormScreenState extends State<FormScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.blue),
+                            borderSide: BorderSide(color: Colors.white),
                           ),
                         ),
                       ),
@@ -179,7 +179,7 @@ class _FormScreenState extends State<FormScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.blue),
+                            borderSide: BorderSide(color: Colors.white),
                           ),
                         ),
                       ),
@@ -187,7 +187,7 @@ class _FormScreenState extends State<FormScreen> {
                     SizedBox(height: 12),
                     TextFormField(
                       controller: _commentController,
-                      maxLines: 8, // Augmenter le nombre de lignes pour permettre plus de texte
+                      maxLines: 5, // Augmentation le nombre de lignes pour permettre plus de texte
                       decoration: InputDecoration(
                         labelText: 'Commentaire',
                         labelStyle: TextStyle(color: Colors.black),
@@ -197,7 +197,7 @@ class _FormScreenState extends State<FormScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.blue),
+                          borderSide: BorderSide(color: Colors.white),
                         ),
                       ),
                     ),
