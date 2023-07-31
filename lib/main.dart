@@ -15,7 +15,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  sendEtapesWingfoil();
+  sendEtapesWingfoil(); //envoies des donnees dans firestore
+  sendEtapesKitesurf(); //envoies des donnees dans firestore
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -216,7 +217,22 @@ void sendEtapesWingfoil() async {
     print('Erreur lors de la création des étapes : $e');
   }
 }
+void sendEtapesKitesurf() async {
+  try {
+    List<Map<String, dynamic>> etapesData = simulateDataEtapesKitesurf();
 
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference etapesCollection = firestore.collection('etapes');
+
+    for (var data in etapesData) {
+      DocumentReference document = etapesCollection.doc(data['id'].toString());
+      await document.set(data);
+      print('Document créé: ${document.path}');
+    }
+  } catch (e) {
+    print('Erreur lors de la création des étapes : $e');
+  }
+}
 
 // Création d'une instance de FirebaseAuth
 final FirebaseAuth _auth = FirebaseAuth.instance;
