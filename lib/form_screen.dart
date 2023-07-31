@@ -67,11 +67,11 @@ class _FormScreenState extends State<FormScreen> {
         final Reference ref = _storage.ref().child('videos/$uid/$fileName');
         final UploadTask uploadTask = ref.putFile(_videoFile!);
 
-        // Attendez que le téléchargement de la vidéo soit terminé
+        // Attente du téléchargement de la vidéo soit terminé
         await uploadTask.whenComplete(() async {
           final String downloadUrl = await ref.getDownloadURL();
 
-          // Enregistrez les données du formulaire, y compris le lien de la vidéo, dans Firestore
+          // Enregistrement des données du formulaire, y compris le lien de la vidéo, dans Firestore
           await _firestore.collection('progression').add({
             'date': _dateController.text,
             'location': _locationController.text,
@@ -81,11 +81,11 @@ class _FormScreenState extends State<FormScreen> {
             'userId': uid,
           });
 
-          // Afficher un message de succès à l'utilisateur
+          // Affichage un message de succès à l'utilisateur
           _showSuccessMessage();
         });
       } else {
-        // Si aucune vidéo n'a été sélectionnée, enregistrez simplement les données du formulaire dans Firestore sans le lien de la vidéo
+        // Si aucune vidéo n'a été sélectionnée, on enregistre simplement les données du formulaire dans Firestore sans le lien de la vidéo
         await _firestore.collection('progression').add({
           'date': _dateController.text,
           'location': _locationController.text,
@@ -94,13 +94,13 @@ class _FormScreenState extends State<FormScreen> {
           'userId': uid,
         });
 
-        // Afficher un message de succès à l'utilisateur
+        // Affichage du message de succès à l'utilisateur
         _showSuccessMessage();
       }
 
-      // Le formulaire a été enregistré avec succès, effectuez les actions souhaitées ici
+      // Le formulaire a été enregistré avec succès, on effectue les actions souhaitées ici
     } catch (e) {
-      // Une erreur s'est produite lors de l'enregistrement du formulaire, affichez un message d'erreur à l'utilisateur
+      // Une erreur s'est produite lors de l'enregistrement du formulaire, on affiche un message d'erreur à l'utilisateur
       _showErrorMessage('Erreur lors de l\'enregistrement du formulaire : $e');
     }
   }
