@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
   return [
     {
-      'id': 1,
+      'id': 1.1,
       'description': 'Règles de sécurité de base',
       'name': 'BEGINNER - 1.1',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/1'),
@@ -11,7 +11,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/-HTkf1UXjiE',
     },
     {
-      'id': 2,
+      'id': 1.2,
       'description': 'Mise en place de l\'aile',
       'name': 'BEGGINER - 1.2',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/1'),
@@ -19,7 +19,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/y4RfRN9V4tY',
     },
     {
-      'id': 3,
+      'id': 1.3,
       'description': 'Contrôle de l\'aile',
       'name': 'BEGINNER - 1.3',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/1'),
@@ -27,7 +27,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/rLOI-XK1M_Y',
     },
     {
-      'id': 4,
+      'id': 1.4,
       'description': 'Commencer à sourire sur un longboard',
       'name': 'BEGINNER - 1.4',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/1'),
@@ -35,7 +35,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/E7mLr4DX284',
     },
     {
-      'id': 6,
+      'id': 1.5,
       'description': 'Pilotage avec l\'aile',
       'name': 'BEGINNER - 2.1',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/1'),
@@ -43,7 +43,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/ceOf57SEK74',
     },
     {
-      'id': 7,
+      'id': 1.6,
       'description': 'Naviguer sur différents parcours',
       'name': 'BEGINNER - 2.2',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/1'),
@@ -51,7 +51,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/isNluAUp6VQ',
     },
     {
-      'id': 8,
+      'id': 1.7,
       'description': 'Virer de bord et empanner',
       'name': 'BEGINNER - 2.3',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/1'),
@@ -59,7 +59,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/isNluAUp6VQ',
     },
     {
-      'id': 9,
+      'id': 1.8,
       'description': 'Remonter au vent',
       'name': 'BEGINNER - 2.4',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/1'),
@@ -67,7 +67,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/t_-9aWM-KUE',
     },
     {
-      'id': 10,
+      'id': 1.9,
       'description': 'Règles de priorité dans la navigation',
       'name': 'BEGINNER - 2.5',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/1'),
@@ -75,7 +75,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/31hUD1HJEVA',
     },
     {
-      'id': 11,
+      'id': 2.1,
       'description': 'Règles de sécurité du foil',
       'name': 'INTERMEDIATE - 3.1',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/2'),
@@ -83,7 +83,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/bb1Xt7hJPz0',
     },
     {
-      'id': 13,
+      'id': 2.2,
       'description': 'Sécurité de navigation sur un foil',
       'name': 'INTERMEDIATE - 3.2',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/2'),
@@ -91,7 +91,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/ZoNO6jFEiSs',
     },
     {
-      'id': 14,
+      'id': 2.3,
       'description': 'Pilotage avec la planche',
       'name': 'INTERMEDIATE - 3.3',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/2'),
@@ -99,7 +99,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/ZoNO6jFEiSs',
     },
     {
-      'id': 15,
+      'id': 2.4,
       'description': 'Foil sur différents parcours',
       'name': 'INTERMEDIATE - 3.4',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/2'),
@@ -107,7 +107,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/76T0sEVcglA',
     },
     {
-      'id': 17,
+      'id': 2.5,
       'description': 'Apprentissage des transitions',
       'name': 'ADVANCED - 5.1',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/3'),
@@ -115,7 +115,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/dK9HRdHp4M4',
     },
     {
-      'id': 18,
+      'id': 2.6,
       'description': 'Apprentissage des tricks',
       'name': 'ADVANCED - 5.2',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/3'),
@@ -123,7 +123,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/OrCtWTpHx-M',
     },
     {
-      'id': 19,
+      'id': 2.7,
       'description': 'Apprentissage du surf avec l\'aile',
       'name': 'ADVANCED - 5.3',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/3'),
@@ -131,7 +131,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/kXo0Ez06m1Y',
     },
     {
-      'id': 20,
+      'id': 2.8,
       'description': 'Sauts et figures',
       'name': 'ADVANCED - 5.4',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/3'),
@@ -139,7 +139,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/BbqbdrHyxM8',
     },
     {
-      'id': 22,
+      'id': 2.9,
       'description': 'Techniques avancées de navigation',
       'name': 'PRO - 6.1',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/4'),
@@ -147,7 +147,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/3wNqfV6g1Vo',
     },
     {
-      'id': 23,
+      'id': 3.1,
       'description': 'Maîtrise des sauts et figures',
       'name': 'PRO - 6.2',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/4'),
@@ -155,7 +155,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/N9XyevsLsM4',
     },
     {
-      'id': 24,
+      'id': 3.2,
       'description': 'Gestion de l\'aile dans des conditions extrêmes',
       'name': 'PRO - 6.3',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/4'),
@@ -163,7 +163,7 @@ List<Map<String, dynamic>> simulateDataEtapesWingfoil() {
       'video': 'https://youtu.be/UO4OQT4_GZg',
     },
     {
-      'id': 25,
+      'id': 3.3,
       'description': 'Compétition de wingfoil',
       'name': 'PRO - 6.4',
       'niveauRef': FirebaseFirestore.instance.doc('/niveaux/4'),

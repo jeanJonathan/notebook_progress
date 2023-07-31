@@ -15,7 +15,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  createEtapes();
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -200,19 +200,24 @@ class Kitesurf extends StatelessWidget {
 }
 
 //Methode disposee a envoyer les donnees des etapes dans firestore
-/*void createEtapes() async {
-  List<Map<String, dynamic>> etapesData = simulateDataEtapesWingfoil();
+void createEtapes() async {
+  try {
+    List<Map<String, dynamic>> etapesData = simulateDataEtapesWingfoil();
 
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference etapesCollection = firestore.collection('etapes');
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference etapesCollection = firestore.collection('etapes');
 
-  for (var data in etapesData) {
-    DocumentReference document = etapesCollection.doc(data['id'].toString());
-    await document.set(data);
-    print('Document cree: ${document.path}');
+    for (var data in etapesData) {
+      DocumentReference document = etapesCollection.doc(data['id'].toString());
+      await document.set(data);
+      print('Document créé: ${document.path}');
+    }
+  } catch (e) {
+    print('Erreur lors de la création des étapes : $e');
   }
 }
-*/
+
+
 // Création d'une instance de FirebaseAuth
 final FirebaseAuth _auth = FirebaseAuth.instance;
 // Méthode pour s'authentifier avec l'e-mail et le mot de passe
@@ -228,4 +233,3 @@ Future<UserCredential?> signInWithEmailAndPassword(String email, String password
     return null;
   }
 }
-

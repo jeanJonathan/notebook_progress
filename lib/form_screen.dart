@@ -266,7 +266,24 @@ class _FormScreenState extends State<FormScreen> {
                         ),
                         suggestionsCallback: (pattern) {
                           List<String> meteos = [
-                            'vent de terre off shore léger', 'ciel bleu', '1m de houle, personne à l\'eau',    'vent de nord est 15 noeuds', 'ciel brumeux', 'peu de monde sur la plage',    'vent de sud-est 10 noeuds', 'ciel couvert avec risque d\'averse', 'houle de 2m, conditions difficiles',    'vent d\'ouest 20 noeuds', 'ciel variable avec éclaircies', 'vagues de 1m à 1m50, conditions moyennes',    'vent de nord 5 noeuds', 'ciel dégagé', 'plage calme et tranquille',    'vent de sud-ouest 25 noeuds', 'ciel orageux', 'mer agitée avec des vagues de plus de 2m'
+                            'vent de terre off shore léger',
+                            'ciel bleu',
+                            '1m de houle, personne à l\'eau',
+                            'vent de nord est 15 noeuds',
+                            'ciel brumeux',
+                            'peu de monde sur la plage',
+                            'vent de sud-est 10 noeuds',
+                            'ciel couvert avec risque d\'averse',
+                            'houle de 2m, conditions difficiles',
+                            'vent d\'ouest 20 noeuds',
+                            'ciel variable avec éclaircies',
+                            'vagues de 1m à 1m50, conditions moyennes',
+                            'vent de nord 5 noeuds',
+                            'ciel dégagé',
+                            'plage calme et tranquille',
+                            'vent de sud-ouest 25 noeuds',
+                            'ciel orageux',
+                            'mer agitée avec des vagues de plus de 2m'
                           ];
                           return meteos.where((meteo) => meteo.toLowerCase().startsWith(pattern.toLowerCase())).toList();
                         },
