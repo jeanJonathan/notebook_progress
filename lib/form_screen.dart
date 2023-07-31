@@ -57,11 +57,12 @@ class _FormScreenState extends State<FormScreen> {
   }
 
   Future<void> _uploadData() async {
-    if (_videoFile != null) {
-      try {
-        final User? user = _auth.currentUser;
-        final String uid = user?.uid ?? '';
-        final String fileName = DateTime.now().toString() + '.mp4';
+    try {
+      final User? user = _auth.currentUser;
+      final String uid = user?.uid ?? '';
+      final String fileName = DateTime.now().toString() + '.mp4';
+
+      if (_videoFile != null) {
         final Reference ref = _storage.ref().child('videos/$uid/$fileName');
         final UploadTask uploadTask = ref.putFile(_videoFile!);
 
@@ -84,17 +85,29 @@ class _FormScreenState extends State<FormScreen> {
           //   'isValidated': true,
           // });
         });
+      } else {
+        // Si aucune vidéo n'a été sélectionnée, enregistrez simplement les données du formulaire dans Firestore sans le lien de la vidéo
+        await _firestore.collection('progression').add({
+          'date': _dateController.text,
+          'location': _locationController.text,
+          'weather': _weatherController.text,
+          'comment': _commentController.text,
+          'userId': uid,
+        });
 
-        // Le formulaire a été enregistré avec succès, effectuez les actions souhaitées ici
-      } catch (e) {
-        // Une erreur s'est produite lors de l'enregistrement du formulaire, affichez un message d'erreur ou effectuez des actions supplémentaires ici
-        print('Erreur lors de l\'enregistrement du formulaire : $e');
+        // Marquez l'étape comme validée si nécessaire
+        // await FirebaseFirestore.instance.collection('etapes').doc(etape.id).update({
+        //   'isValidated': true,
+        // });
       }
-    } else {
-      // Aucune vidéo sélectionnée, affichez un message ou effectuez des actions supplémentaires ici
-      print('Aucune vidéo sélectionnée');
+
+      // Le formulaire a été enregistré avec succès, effectuez les actions souhaitées ici
+    } catch (e) {
+      // Une erreur s'est produite lors de l'enregistrement du formulaire, affichez un message d'erreur ou effectuez des actions supplémentaires ici
+      print('Erreur lors de l\'enregistrement du formulaire : $e');
     }
   }
+
 
 
   @override
