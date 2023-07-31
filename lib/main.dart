@@ -15,7 +15,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  createEtapes();
+  sendEtapesWingfoil();
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -200,7 +200,7 @@ class Kitesurf extends StatelessWidget {
 }
 
 //Methode disposee a envoyer les donnees des etapes dans firestore
-void createEtapes() async {
+void sendEtapesWingfoil() async {
   try {
     List<Map<String, dynamic>> etapesData = simulateDataEtapesWingfoil();
 
