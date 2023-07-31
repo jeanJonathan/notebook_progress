@@ -16,7 +16,8 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   sendEtapesWingfoil(); //envoies des donnees dans firestore
-  sendEtapesKitesurf(); //envoies des donnees dans firestore
+  sendEtapesKitesurf();
+  sendEtapesSurf();
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -234,6 +235,22 @@ void sendEtapesKitesurf() async {
   }
 }
 
+void sendEtapesSurf() async {
+  try {
+    List<Map<String, dynamic>> etapesData = simulateDataEtapesSurf();
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference etapesCollection = firestore.collection('etapes');
+
+    for (var data in etapesData) {
+      DocumentReference document = etapesCollection.doc(data['id'].toString());
+      await document.set(data);
+      print('Document créé: ${document.path}');
+    }
+  } catch (e) {
+    print('Erreur lors de la création des étapes : $e');
+  }
+}
 // Création d'une instance de FirebaseAuth
 final FirebaseAuth _auth = FirebaseAuth.instance;
 // Méthode pour s'authentifier avec l'e-mail et le mot de passe
