@@ -47,6 +47,7 @@ class _FormScreenState extends State<FormScreen> {
     }
   }
 
+  //Pour selectionner les videos niveau apple sans avoir besoin d'ajouter la permission car depuis ios14 apple a integrer ce  framework PhotosUI qui permet aussi un acces direct a la galerie
   Future<void> _pickVideo() async {
     final pickedFile = await ImagePicker().pickVideo(source: ImageSource.gallery);
     setState(() {
@@ -80,10 +81,8 @@ class _FormScreenState extends State<FormScreen> {
             'userId': uid,
           });
 
-          // Marquez l'étape comme validée si nécessaire
-          // await FirebaseFirestore.instance.collection('etapes').doc(etape.id).update({
-          //   'isValidated': true,
-          // });
+          // Afficher un message de succès à l'utilisateur
+          _showSuccessMessage();
         });
       } else {
         // Si aucune vidéo n'a été sélectionnée, enregistrez simplement les données du formulaire dans Firestore sans le lien de la vidéo
@@ -95,17 +94,33 @@ class _FormScreenState extends State<FormScreen> {
           'userId': uid,
         });
 
-        // Marquez l'étape comme validée si nécessaire
-        // await FirebaseFirestore.instance.collection('etapes').doc(etape.id).update({
-        //   'isValidated': true,
-        // });
+        // Afficher un message de succès à l'utilisateur
+        _showSuccessMessage();
       }
 
       // Le formulaire a été enregistré avec succès, effectuez les actions souhaitées ici
     } catch (e) {
-      // Une erreur s'est produite lors de l'enregistrement du formulaire, affichez un message d'erreur ou effectuez des actions supplémentaires ici
-      print('Erreur lors de l\'enregistrement du formulaire : $e');
+      // Une erreur s'est produite lors de l'enregistrement du formulaire, affichez un message d'erreur à l'utilisateur
+      _showErrorMessage('Erreur lors de l\'enregistrement du formulaire : $e');
     }
+  }
+
+// Fonction pour afficher un message de succès à l'utilisateur
+  void _showSuccessMessage() {
+    final snackBar = SnackBar(
+      content: Text('Enregistrement effectué avec succès.'),
+      backgroundColor: Colors.green, // Couleur de fond du SnackBar pour indiquer le succès
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+// Fonction pour afficher un message d'erreur à l'utilisateur
+  void _showErrorMessage(String errorMessage) {
+    final snackBar = SnackBar(
+      content: Text(errorMessage),
+      backgroundColor: Colors.red, // Couleur de fond du SnackBar pour indiquer l'erreur
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
 
