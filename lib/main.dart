@@ -15,9 +15,9 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  sendEtapesWingfoil(); //envoies des donnees dans firestore
-  sendEtapesKitesurf();
-  sendEtapesSurf();
+  //sendEtapesWingfoil(); //envoies des donnees dans firestore
+  //sendEtapesKitesurf();
+  //sendEtapesSurf();
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {

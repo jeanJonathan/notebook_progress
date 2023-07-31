@@ -68,7 +68,7 @@ class EtapesScreenWingfoil extends StatelessWidget {
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.asset(
-                        'assets/kitesurf.jpg',
+                        'assets/wingfoil.jpg',
                         width: 56,
                         height: 56,
                         fit: BoxFit.cover,
@@ -165,7 +165,7 @@ class EtapesScreenKitesurf extends StatelessWidget {
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.asset(
-                        'assets/kitesurf.jpg',
+                        'assets/kitesurf1.jpg',
                         width: 56,
                         height: 56,
                         fit: BoxFit.cover,
@@ -264,7 +264,7 @@ class EtapesScreenSurf extends StatelessWidget {
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.asset(
-                        'assets/kitesurf.jpg',
+                        'assets/surf1.jpg',
                         width: 56,
                         height: 56,
                         fit: BoxFit.cover,

@@ -56,24 +56,35 @@ class _FormScreenState extends State<FormScreen> {
     });
   }
 
-  Future<void> _uploadVideo() async {
+  Future<void> _uploadData() async {
     if (_videoFile != null) {
       try {
         final User? user = _auth.currentUser;
         final String uid = user?.uid ?? '';
         final String fileName = DateTime.now().toString() + '.mp4';
         final Reference ref = _storage.ref().child('videos/$uid/$fileName');
-        final TaskSnapshot uploadTask = await ref.putFile(_videoFile!);
-        final String downloadUrl = await uploadTask.ref.getDownloadURL();
+        final UploadTask uploadTask = ref.putFile(_videoFile!);
 
-        await _firestore.collection('progress').add({
-          'date': _dateController.text,
-          'location': _locationController.text,
-          'weather': _weatherController.text,
-          'comment': _commentController.text,
-          'videoUrl': downloadUrl,
-          'userId': uid,
+        // Attendez que le téléchargement de la vidéo soit terminé
+        await uploadTask.whenComplete(() async {
+          final String downloadUrl = await ref.getDownloadURL();
+
+          // Enregistrez les données du formulaire, y compris le lien de la vidéo, dans Firestore
+          await _firestore.collection('progression').add({
+            'date': _dateController.text,
+            'location': _locationController.text,
+            'weather': _weatherController.text,
+            'comment': _commentController.text,
+            'videoUrl': downloadUrl,
+            'userId': uid,
+          });
+
+          // Marquez l'étape comme validée si nécessaire
+          // await FirebaseFirestore.instance.collection('etapes').doc(etape.id).update({
+          //   'isValidated': true,
+          // });
         });
+
         // Le formulaire a été enregistré avec succès, effectuez les actions souhaitées ici
       } catch (e) {
         // Une erreur s'est produite lors de l'enregistrement du formulaire, affichez un message d'erreur ou effectuez des actions supplémentaires ici
@@ -84,6 +95,7 @@ class _FormScreenState extends State<FormScreen> {
       print('Aucune vidéo sélectionnée');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -337,7 +349,7 @@ class _FormScreenState extends State<FormScreen> {
                     ),
                     SizedBox(height: 16.0),
                     ElevatedButton(
-                      onPressed: _uploadVideo,
+                      onPressed: _uploadData,
                       child: Text('Enregistrer'),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
