@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Ajoutez cette ligne pour la permission d'accès à Internet -->
+    <!-- Permission d'accès à Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <!--permission d'accès en lecture externe des fichier multimedia-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:label="notebook_progress"
         android:name="${applicationName}"
