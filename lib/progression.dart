@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Progression {
   final String id;
   final String date;
@@ -17,26 +19,17 @@ class Progression {
     required this.userId,
   });
 
-  factory Progression.fromMap(Map<String, dynamic> map, String id) {
+  // Factory method pour créer une instance de Progression à partir d'un document Firestore
+  factory Progression.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data()!;
     return Progression(
-      id: id,
-      date: map['date'] ?? '',
-      location: map['location'] ?? '',
-      weather: map['weather'] ?? '',
-      comment: map['comment'] ?? '',
-      videoUrl: map['videoUrl'] ?? '',
-      userId: map['userId'] ?? '',
+      id: doc.id,
+      date: data['date'] ?? '',
+      location: data['location'] ?? '',
+      weather: data['weather'] ?? '',
+      comment: data['comment'] ?? '',
+      videoUrl: data['videoUrl'] ?? '',
+      userId: data['userId'] ?? '',
     );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'date': date,
-      'location': location,
-      'weather': weather,
-      'comment': comment,
-      'videoUrl': videoUrl,
-      'userId': userId,
-    };
   }
 }
