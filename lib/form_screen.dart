@@ -83,6 +83,9 @@ class _FormScreenState extends State<FormScreen> {
 
           // Affichage un message de succès à l'utilisateur
           _showSuccessMessage();
+
+          //await Future.delayed(Duration(seconds: 5));
+          //Navigator.pop(context);
         });
       } else {
         // Si aucune vidéo n'a été sélectionnée, on enregistre simplement les données du formulaire dans Firestore sans le lien de la vidéo
@@ -96,6 +99,11 @@ class _FormScreenState extends State<FormScreen> {
 
         // Affichage du message de succès à l'utilisateur
         _showSuccessMessage();
+        // Attente de 5 secondes avant de revenir à l'écran précédent
+        await Future.delayed(Duration(seconds: 5));
+
+        // Redirection vers l'écran précédent
+        Navigator.pop(context);
       }
 
       // Le formulaire a été enregistré avec succès, on effectue les actions souhaitées ici
