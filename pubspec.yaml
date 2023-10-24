@@ -73,22 +73,15 @@ flutter:
         - asset: fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf
         - asset: fonts/OpenSans-VariableFont_wdth,wght.ttf
   assets:
+    - assets/desc_etapes.jpg
     - assets/kitesurf.jpg
     - assets/surf.jpg
-    - assets/desc_etapes.jpg
     - assets/wingfoil.jpg
     - assets/surf1.jpg
-    - assets/surf2.png
-    - assets/kitesurf4.png
-    - assets/kitesurf3.jpg
-    - assets/kitesurf2.jpg
-    - assets/kitesurf1.jpg
-    - assets/surf2.jpg
     - assets/logoIONCLUB.png
     - assets/logoOcean.png
-    - assets/form.jpg
     - assets/form2.jpg
-    - assets/form3.jpg
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
