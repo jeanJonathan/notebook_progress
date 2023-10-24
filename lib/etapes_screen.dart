@@ -165,7 +165,7 @@ class EtapesScreenKitesurf extends StatelessWidget {
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.asset(
-                        'assets/kitesurf1.jpg',
+                        'assets/kitesurf.jpg',
                         width: 56,
                         height: 56,
                         fit: BoxFit.cover,

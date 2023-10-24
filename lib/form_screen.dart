@@ -6,6 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
+import 'main.dart';
+
 class FormScreen extends StatefulWidget {
   @override
   _FormScreenState createState() => _FormScreenState();
@@ -99,11 +101,14 @@ class _FormScreenState extends State<FormScreen> {
 
         // Affichage du message de succès à l'utilisateur
         _showSuccessMessage();
-        // Attente de 5 secondes avant de revenir à l'écran précédent
-        await Future.delayed(Duration(seconds: 5));
+        // Attente de 1 secondes avant de revenir à l'écran précédent
+        await Future.delayed(Duration(seconds: 1));
 
         // Redirection vers l'écran précédent
-        Navigator.pop(context);
+        Navigator.push(
+          context as BuildContext,
+          MaterialPageRoute(builder: (context) => Kitesurf()), //Pour renvoyer l'utilisateur sur l'ecran par defaut
+        );
       }
 
       // Le formulaire a été enregistré avec succès, on effectue les actions souhaitées ici
@@ -160,7 +165,7 @@ class _FormScreenState extends State<FormScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'VALIDER VOTRE PROGRESSION',
+                      'PROGRESSION',
                       style: TextStyle(
                         fontSize: 50,
                         fontWeight: FontWeight.bold,
