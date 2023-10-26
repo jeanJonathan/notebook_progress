@@ -47,6 +47,9 @@ class EtapesScreenWingfoil extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => EtapeDetailScreen(etape: etape),
+                      settings: RouteSettings(
+                        arguments: etape.etapeId, // on passe l identificant de l'etape a l'ecran de description que va recevoir le formulaire plustatd
+                      )
                     ),
                   );
                 },
