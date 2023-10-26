@@ -8,6 +8,7 @@ class Progression {
   final String comment;
   final String videoUrl;
   final String userId;
+  final DocumentReference etapeRef;
 
   Progression({
     required this.id,
@@ -17,6 +18,7 @@ class Progression {
     required this.comment,
     required this.videoUrl,
     required this.userId,
+    required this.etapeRef,
   });
 
   // Factory method pour créer une instance de Progression à partir d'un document Firestore
@@ -30,6 +32,7 @@ class Progression {
       comment: data['comment'] ?? '',
       videoUrl: data['videoUrl'] ?? '',
       userId: data['userId'] ?? '',
+      etapeRef: data['etapeRef'] as DocumentReference,
     );
   }
 }
