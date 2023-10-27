@@ -100,7 +100,7 @@ class _FormScreenState extends State<FormScreen> {
           'weather': _weatherController.text,
           'comment': _commentController.text,
           'userId': uid,
-          'etapeId': 'Test',
+          'etapeId': widget.etapeId,
         });
 
         // Affichage du message de succès à l'utilisateur
