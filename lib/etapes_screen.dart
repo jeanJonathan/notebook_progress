@@ -35,10 +35,8 @@ class EtapesScreenWingfoil extends StatelessWidget {
 
           List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
           List<Etape> etapes = documents.map((doc) => Etape.fromFirestore(doc)).toList();
-
           final user = FirebaseAuth.instance.currentUser;
           String? userId = user?.uid;
-
           // filtrage des progressions via l'id
           List<Progression> progressions = documents
               .map((doc) => Progression.fromFirestore(doc))
