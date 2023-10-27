@@ -61,13 +61,14 @@ class _ParametresScreenState extends State<ParametresScreen> {
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Déconnexion'),
-            onTap: _deconnexion, // Appel de la fonction de déconnexion
+            //onTap: _deconnexion, // Appel de la fonction de déconnexion
           ),
         ],
       ),
     );
   }
 
+  /*
   Future<void> _deconnexion() async {//fonction pour gerer la deconnexion
     try {
       // On utilise la fonction signOut() de firebase pour déconnecter l'utilisateur actuel
@@ -75,10 +76,10 @@ class _ParametresScreenState extends State<ParametresScreen> {
       // Redirection de l'utilisateur vers l'écran de connexion
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SignInScreen()),
+        MaterialPageRoute(builder: (context) => SignInScreen(etapeId: etape.etapeId)),
            );
     } catch (e) {
       print('Erreur lors de la déconnexion : $e');
     }
-  }
+  } */
 }

@@ -7,10 +7,11 @@ import 'singIn_screen.dart';
 import 'form_screen.dart';
 
 class EtapeDetailScreen extends StatelessWidget {
+  final String etapeId; // Variable pour stocker l'identifiant de l'étape
   final Etape etape;
   final FirebaseAuth _auth = FirebaseAuth.instance; //
 
-  EtapeDetailScreen({required this.etape});
+  EtapeDetailScreen({required this.etape,required this.etapeId});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +97,7 @@ class EtapeDetailScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => FormScreen(),
+                            builder: (context) => FormScreen(etapeId: etape.etapeId),//
                           ),
                         );
                       } else {
@@ -104,7 +105,7 @@ class EtapeDetailScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SignInScreen(),
+                              builder: (context) => SignInScreen(etapeId: etape.etapeId),
                             ),
                           );
                         }

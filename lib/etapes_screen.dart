@@ -46,10 +46,7 @@ class EtapesScreenWingfoil extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EtapeDetailScreen(etape: etape),
-                      settings: RouteSettings(
-                        arguments: etape.etapeId, // on passe l identificant de l'etape a l'ecran de description que va recevoir le formulaire plustatd
-                      )
+                      builder: (context) => EtapeDetailScreen(etape: etape,etapeId: etape.etapeId),// On transmet l'identifiant de l'étape à la page EtapeDetailScreen en utilisatn le constructeur
                     ),
                   );
                 },
@@ -146,7 +143,7 @@ class EtapesScreenKitesurf extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EtapeDetailScreen(etape: etape),
+                      builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId,),
                     ),
                   );
                 },
@@ -245,7 +242,7 @@ class EtapesScreenSurf extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EtapeDetailScreen(etape: etape),
+                      builder: (context) => EtapeDetailScreen(etape: etape,etapeId: etape.etapeId,),
                     ),
                   );
                 },

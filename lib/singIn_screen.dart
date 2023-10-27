@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notebook_progress/form_screen.dart';
 
 class SignInScreen extends StatefulWidget {
+  final String etapeId; // Pour stocker l'identifiant de l'étape
+  SignInScreen({required this.etapeId});
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
@@ -23,7 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => FormScreen(), // Remplacez "AutreEcran" par l'écran que vous souhaitez afficher après la connexion réussie.
+            builder: (context) => FormScreen(etapeId: widget.etapeId),// // Remplacez "AutreEcran" par l'écran que vous souhaitez afficher après la connexion réussie.
         ),
       );
     } catch (e) {
