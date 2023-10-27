@@ -8,7 +8,7 @@ class Progression {
   final String comment;
   final String videoUrl;
   final String userId;
-  final DocumentReference etapeRef;
+  final String etapeRef;
 
   Progression({
     required this.id,
@@ -22,8 +22,8 @@ class Progression {
   });
 
   // Factory method pour créer une instance de Progression à partir d'un document Firestore
-  factory Progression.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
-    final data = doc.data()!;
+  factory Progression.fromFirestore(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Progression(
       id: doc.id,
       date: data['date'] ?? '',
@@ -32,7 +32,7 @@ class Progression {
       comment: data['comment'] ?? '',
       videoUrl: data['videoUrl'] ?? '',
       userId: data['userId'] ?? '',
-      etapeRef: data['etapeRef'] as DocumentReference,
+      etapeRef: data['etapeRef'] ?? '', // On ne creer pas de document donc il faudrait supprement la reference appliquee
     );
   }
 }
