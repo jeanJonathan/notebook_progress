@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:notebook_progress/progression.dart';
 import 'etape.dart';
 import 'data_firestore.dart';
 import 'etapes_details_screen.dart';
@@ -17,7 +19,6 @@ class EtapesScreenWingfoil extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        //backgroundColor: Colors.blue, // Modifier la couleur de l'AppBar selon vos besoins
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('etapes').snapshots(),
@@ -34,33 +35,69 @@ class EtapesScreenWingfoil extends StatelessWidget {
 
           List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
           List<Etape> etapes = documents.map((doc) => Etape.fromFirestore(doc)).toList();
-
+          final user = FirebaseAuth.instance.currentUser;
+          String? userId = user?.uid;
+          // filtrage des progressions via l'id
+          List<Progression> progressions = documents
+              .map((doc) => Progression.fromFirestore(doc))
+              .where((progression) => progression.userId == userId)
+              .toList();
           // On filtre les étapes dont sportRef est égal à 1
           etapes = etapes.where((etape) => etape.sportRef.id == '1').toList();
+
           return ListView.builder(
             itemCount: etapes.length,
             itemBuilder: (context, index) {
               Etape etape = etapes[index];
+              bool isLocked = true; // Initialisation à true
+
+              for (var progression in progressions) {
+                if (etape.etapeId == progression.etapeRef) {
+                  // L'étape n'est pas verrouillée car elle a été validée
+                  isLocked = false;
+                  break;
+                }
+              }
+
               return InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EtapeDetailScreen(etape: etape,etapeId: etape.etapeId),// On transmet l'identifiant de l'étape à la page EtapeDetailScreen en utilisatn le constructeur
-                    ),
-                  );
+                  if (!isLocked) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId),
+                      ),
+                    );
+                  } else {
+                    // L'étape est verrouillée, vous pouvez afficher un message à l'utilisateur
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('Étape verrouillée'),
+                        content: Text('Vous devez d\'abord valider les étapes précédentes.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Fermer'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 },
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: isLocked ? Colors.grey : Colors.white,
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.1),
                         spreadRadius: 1,
                         blurRadius: 5,
-                        offset: Offset(0, 2), // Changement de l'ombre selon mes préférences
+                        offset: Offset(0, 2),
                       ),
                     ],
                   ),
@@ -89,7 +126,7 @@ class EtapesScreenWingfoil extends StatelessWidget {
                     ),
                     trailing: Icon(
                       Icons.arrow_forward,
-                      color: Colors.grey, // Couleur de l'icone
+                      color: isLocked ? Colors.grey : Colors.black,
                     ),
                   ),
                 ),
@@ -101,6 +138,7 @@ class EtapesScreenWingfoil extends StatelessWidget {
     );
   }
 }
+
 
 class EtapesScreenKitesurf extends StatelessWidget {
   @override
@@ -165,7 +203,7 @@ class EtapesScreenKitesurf extends StatelessWidget {
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.asset(
-                        'assets/kitesurf.jpg',
+                        'assets/kite.jpg',
                         width: 56,
                         height: 56,
                         fit: BoxFit.cover,
@@ -264,7 +302,7 @@ class EtapesScreenSurf extends StatelessWidget {
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.asset(
-                        'assets/surf1.jpg',
+                        'assets/surf2.jpg',
                         width: 56,
                         height: 56,
                         fit: BoxFit.cover,

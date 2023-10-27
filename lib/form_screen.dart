@@ -9,8 +9,8 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'main.dart';
 
 class FormScreen extends StatefulWidget {
-  final String etapeId; // pour stocker l'identifiant de l'étape
-  FormScreen({required this.etapeId});
+  final String etapeRef; // pour stocker l'identifiant de l'étape
+  FormScreen({required this.etapeRef});
   @override
   _FormScreenState createState() => _FormScreenState();
 }
@@ -83,7 +83,7 @@ class _FormScreenState extends State<FormScreen> {
             'comment': _commentController.text,
             'videoUrl': downloadUrl,
             'userId': uid,
-            'etapeId': widget.etapeId, // Associez l'identifiant de l'étape ici
+            'etapeRef': widget.etapeRef, //
           });
 
           // Affichage un message de succès à l'utilisateur
@@ -100,7 +100,7 @@ class _FormScreenState extends State<FormScreen> {
           'weather': _weatherController.text,
           'comment': _commentController.text,
           'userId': uid,
-          'etapeId': widget.etapeId,
+          'etapeRef': widget.etapeRef,
         });
 
         // Affichage du message de succès à l'utilisateur

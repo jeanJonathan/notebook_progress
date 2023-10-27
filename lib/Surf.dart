@@ -62,7 +62,7 @@ class Surf extends StatelessWidget {
         body: Stack(
           children: [
             Image.asset(
-              'assets/surf1.jpg',
+              'assets/surf3.png',
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
