@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:notebook_progress/progression.dart';
@@ -34,8 +35,15 @@ class EtapesScreenWingfoil extends StatelessWidget {
 
           List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
           List<Etape> etapes = documents.map((doc) => Etape.fromFirestore(doc)).toList();
-          List<Progression> progressions = documents.map((doc) => Progression.fromFirestore(doc)).toList();
 
+          final user = FirebaseAuth.instance.currentUser;
+          String? userId = user?.uid;
+
+          // filtrage des progressions via l'id
+          List<Progression> userProgressions = documents
+              .map((doc) => Progression.fromFirestore(doc))
+              .where((progression) => progression.userId == userId)
+              .toList();
           // On filtre les étapes dont sportRef est égal à 1
           etapes = etapes.where((etape) => etape.sportRef.id == '1').toList();
 
