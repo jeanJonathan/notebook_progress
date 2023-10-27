@@ -119,7 +119,7 @@ class Kitesurf extends StatelessWidget {
           child: Stack(
             children: [
               Image.asset(
-                'assets/kitesurf.jpg',
+                'assets/kitesurf3.png',
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
