@@ -50,7 +50,7 @@ class EtapesScreenWingfoil extends StatelessWidget {
             itemBuilder: (context, index) {
               Etape etape = etapes[index];
               bool isLocked = true; // Initialisation à true
-
+              //Transformer cela en un while
               for (var progression in progressions) {
                 if (etape.etapeId == progression.etapeRef) {
                   // L'étape n'est pas verrouillée car elle a été validée
