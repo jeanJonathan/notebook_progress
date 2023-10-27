@@ -40,7 +40,7 @@ class EtapesScreenWingfoil extends StatelessWidget {
           String? userId = user?.uid;
 
           // filtrage des progressions via l'id
-          List<Progression> userProgressions = documents
+          List<Progression> progressions = documents
               .map((doc) => Progression.fromFirestore(doc))
               .where((progression) => progression.userId == userId)
               .toList();
