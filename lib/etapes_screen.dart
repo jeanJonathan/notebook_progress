@@ -110,13 +110,23 @@ class EtapesScreenWingfoil extends StatelessWidget {
                         ],
                       ),
                       child: ListTile(
-                        leading: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.asset(
-                            'assets/wingfoil.jpg',
-                            width: 56,
-                            height: 56,
-                            fit: BoxFit.cover,
+                        leading: Container(
+                          width: 56,
+                          height: 56,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle, // Forme de cercle
+                            color: estValide ? Colors.red : Colors.blue, // Couleur du cercle
+                          ),
+                          child: Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(25), // demi du container
+                              child: Image.asset(
+                                'assets/wingfoil.jpg',
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ),
                         title: Text(
