@@ -40,57 +40,43 @@ class EtapesScreenWingfoil extends StatelessWidget {
           // filtrage des progressions via l'id
           List<Progression> progressions = documents
               .map((doc) => Progression.fromFirestore(doc))
-              .where((progression) => progression.userId == userId)
               .toList();
           // On filtre les étapes dont sportRef est égal à 1
           etapes = etapes.where((etape) => etape.sportRef.id == '1').toList();
+          // Affichage des données de progression dans la console
+          //Debuggage pour verification
+          debugPrint('=== Etapes ===');
+          for (var etape in etapes) {
+            debugPrint('Etape ID: ${etape.etapeId}');
+            debugPrint('Description: ${etape.description}');
+            debugPrint('Name: ${etape.name}');
+            // Affichage ok
+          }
+
+          debugPrint('=== Progressions ===');
+          for (var progression in progressions) {
+            debugPrint('User ID: ${progression.userId}');
+            // Ajoutez d'autres propriétés de progression si nécessaire
+          }
 
           return ListView.builder(
             itemCount: etapes.length,
             itemBuilder: (context, index) {
               Etape etape = etapes[index];
-              bool isLocked = true; // Initialisation à true
-              //Transformer cela en un while
-              for (var progression in progressions) {
-                if (etape.etapeId == progression.etapeRef) {
-                  // L'étape n'est pas verrouillée car elle a été validée
-                  isLocked = false;
-                  break;
-                }
-              }
 
               return InkWell(
                 onTap: () {
-                  if (!isLocked) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId),
-                      ),
-                    );
-                  } else {
-                    // L'étape est verrouillée, vous pouvez afficher un message à l'utilisateur
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text('Étape verrouillée'),
-                        content: Text('Vous devez d\'abord valider les étapes précédentes.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('Fermer'),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId),
+                    ),
+                  );
                 },
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   decoration: BoxDecoration(
-                    color: isLocked ? Colors.grey : Colors.white,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
@@ -122,11 +108,12 @@ class EtapesScreenWingfoil extends StatelessWidget {
                       etape.description,
                       style: TextStyle(
                         fontSize: 14,
+                        color: Colors.grey,
                       ),
                     ),
                     trailing: Icon(
                       Icons.arrow_forward,
-                      color: isLocked ? Colors.grey : Colors.black,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -224,7 +211,7 @@ class EtapesScreenKitesurf extends StatelessWidget {
                     ),
                     trailing: Icon(
                       Icons.arrow_forward,
-                      color: Colors.grey, // Modifier la couleur de l'icône selon vos besoins
+                      color: Colors.grey,
                     ),
                   ),
                 ),
