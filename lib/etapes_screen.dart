@@ -85,9 +85,9 @@ class EtapesScreenWingfoil extends StatelessWidget {
                   }
                   bool estValide = _isEtapeValide(etape.etapeId,progressions);
 
-
                   return InkWell(
-                    onTap: () {
+                    onTap: estValide ? null  // On desactive onTap si l'étape est valide
+                      : () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
