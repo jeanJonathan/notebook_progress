@@ -37,10 +37,15 @@ class EtapesScreenWingfoil extends StatelessWidget {
           List<Etape> etapes = documents.map((doc) => Etape.fromFirestore(doc)).toList();
           final user = FirebaseAuth.instance.currentUser;
           String? userId = user?.uid;
+          debugPrint('=== User id ===');
+          debugPrint('user ID: ${userId}'); //Rerccuperation de user connecte ok
+
           // filtrage des progressions via l'id
           List<Progression> progressions = documents
               .map((doc) => Progression.fromFirestore(doc))
-              .toList();
+              .where((progression) => progression.userId == userId)
+                  .toList();
+
           // On filtre les étapes dont sportRef est égal à 1
           etapes = etapes.where((etape) => etape.sportRef.id == '2').toList();
           // Affichage des données de progression dans la console
