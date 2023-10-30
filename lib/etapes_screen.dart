@@ -115,7 +115,7 @@ class EtapesScreenWingfoil extends StatelessWidget {
                           height: 56,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle, // Forme de cercle
-                            color: estValide ? Colors.red : Colors.blue, // Couleur du cercle
+                            color: estValide ? Colors.green : Colors.red, // Couleur du cercle
                           ),
                           child: Center(
                             child: ClipRRect(
@@ -143,7 +143,7 @@ class EtapesScreenWingfoil extends StatelessWidget {
                             color: Colors.grey,
                           ),
                         ),
-                        trailing: estValide ? Icon( Icons.lock, color: Colors.red)
+                        trailing: estValide ? Icon( Icons.lock_open, color: Colors.green)
                           : Icon(Icons.arrow_forward,
                           color: Colors.black),
                         ),
@@ -158,7 +158,6 @@ class EtapesScreenWingfoil extends StatelessWidget {
     );
   }
 }
-
 
 
 class EtapesScreenKitesurf extends StatelessWidget {
