@@ -67,16 +67,27 @@ class EtapesScreenWingfoil extends StatelessWidget {
               debugPrint('=== Progressions ===');
               for (var progression in progressions) {
                 debugPrint('User ID: ${progression.userId}');
+                debugPrint('EtapeRef: ${progression.etapeRef}');
                 // Ajoutez d'autres propriétés de progression si nécessaire
               }
-
               return ListView.builder(
                 itemCount: etapes.length,
                 itemBuilder: (context, index) {
                   Etape etape = etapes[index];
+                  //Implementation de la fonction _isEtapeValide reutilisable
+                  bool _isEtapeValide(String etapeId, List<Progression> progression){
+                    for (var progression in progressions){
+                      if(progression.etapeRef == etape.etapeId){
+                        return true;
+                      }
+                    }
+                    return false;
+                  }
+                  bool estValide = _isEtapeValide(etape.etapeId,progressions);
 
                   return InkWell(
-                    onTap: () {
+                    onTap: estValide ? null  // On desactive onTap si l'étape est valide
+                      : () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -99,13 +110,23 @@ class EtapesScreenWingfoil extends StatelessWidget {
                         ],
                       ),
                       child: ListTile(
-                        leading: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.asset(
-                            'assets/wingfoil.jpg',
-                            width: 56,
-                            height: 56,
-                            fit: BoxFit.cover,
+                        leading: Container(
+                          width: 56,
+                          height: 56,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle, // Forme de cercle
+                            color: estValide ? Colors.red : Colors.blue, // Couleur du cercle
+                          ),
+                          child: Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(25), // demi du container
+                              child: Image.asset(
+                                'assets/wingfoil.jpg',
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ),
                         title: Text(
@@ -122,13 +143,12 @@ class EtapesScreenWingfoil extends StatelessWidget {
                             color: Colors.grey,
                           ),
                         ),
-                        trailing: Icon(
-                          Icons.arrow_forward,
-                          color: Colors.black,
+                        trailing: estValide ? Icon( Icons.lock, color: Colors.red)
+                          : Icon(Icons.arrow_forward,
+                          color: Colors.black),
                         ),
                       ),
-                    ),
-                  );
+                    );
                 },
               );
             },
