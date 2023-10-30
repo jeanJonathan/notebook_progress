@@ -42,14 +42,12 @@ class EtapesScreenWingfoil extends StatelessWidget {
               .map((doc) => Progression.fromFirestore(doc))
               .toList();
           // On filtre les étapes dont sportRef est égal à 1
-          etapes = etapes.where((etape) => etape.sportRef.id == '1').toList();
+          etapes = etapes.where((etape) => etape.sportRef.id == '2').toList();
           // Affichage des données de progression dans la console
           //Debuggage pour verification
           debugPrint('=== Etapes ===');
           for (var etape in etapes) {
             debugPrint('Etape ID: ${etape.etapeId}');
-            debugPrint('Description: ${etape.description}');
-            debugPrint('Name: ${etape.name}');
             // Affichage ok
           }
 
@@ -158,7 +156,7 @@ class EtapesScreenKitesurf extends StatelessWidget {
           List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
           List<Etape> etapes = documents.map((doc) => Etape.fromFirestore(doc)).toList();
           // On filtre les étapes dont sportRef est égal à 1
-          etapes = etapes.where((etape) => etape.sportRef.id == '2').toList();
+          etapes = etapes.where((etape) => etape.sportRef.id == '1').toList();
           return ListView.builder(
             itemCount: etapes.length,
             itemBuilder: (context, index) {
