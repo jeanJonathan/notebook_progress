@@ -74,13 +74,18 @@ class EtapesScreenWingfoil extends StatelessWidget {
                 itemCount: etapes.length,
                 itemBuilder: (context, index) {
                   Etape etape = etapes[index];
-                  bool estValide = false;
-                  for (var progression in progressions){
-                    if(progression.etapeRef == etape.etapeId){
-                      estValide = true;
-                      break;
+                  //Implementation de la fonction _isEtapeValide reutilisable
+                  bool _isEtapeValide(String etapeId, List<Progression> progression){
+                    for (var progression in progressions){
+                      if(progression.etapeRef == etape.etapeId){
+                        return true;
+                      }
                     }
+                    return false;
                   }
+                  bool estValide = _isEtapeValide(etape.etapeId,progressions);
+
+
                   return InkWell(
                     onTap: () {
                       Navigator.push(
