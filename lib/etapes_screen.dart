@@ -67,14 +67,20 @@ class EtapesScreenWingfoil extends StatelessWidget {
               debugPrint('=== Progressions ===');
               for (var progression in progressions) {
                 debugPrint('User ID: ${progression.userId}');
+                debugPrint('EtapeRef: ${progression.etapeRef}');
                 // Ajoutez d'autres propriétés de progression si nécessaire
               }
-
               return ListView.builder(
                 itemCount: etapes.length,
                 itemBuilder: (context, index) {
                   Etape etape = etapes[index];
-
+                  bool estValide = false;
+                  for (var progression in progressions){
+                    if(progression.etapeRef == etape.etapeId){
+                      estValide = true;
+                      break;
+                    }
+                  }
                   return InkWell(
                     onTap: () {
                       Navigator.push(
@@ -122,13 +128,12 @@ class EtapesScreenWingfoil extends StatelessWidget {
                             color: Colors.grey,
                           ),
                         ),
-                        trailing: Icon(
-                          Icons.arrow_forward,
-                          color: Colors.black,
+                        trailing: estValide ? Icon( Icons.lock, color: Colors.red)
+                          : Icon(Icons.arrow_forward,
+                          color: Colors.black),
                         ),
                       ),
-                    ),
-                  );
+                    );
                 },
               );
             },
