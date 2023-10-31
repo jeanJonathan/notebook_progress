@@ -97,7 +97,7 @@ class EtapeDetailScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           PageRouteBuilder(
-                            transitionDuration: Duration(milliseconds: 250),
+                            transitionDuration: Duration(milliseconds: 500),
                             pageBuilder: (context, animation, secondaryAnimation) {
                               return FormScreen(etapeRef: etape.etapeId);
                             },

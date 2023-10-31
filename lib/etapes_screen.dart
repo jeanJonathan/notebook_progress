@@ -151,7 +151,7 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
                 ),
                 trailing: estVerouillee
                     ? Icon(Icons.lock, color: Colors.red)
-                    : (dejaValidee ? Icon(Icons.arrow_forward, color: Colors.black) : Icon(Icons.lock_open, color: Colors.green)),
+                    : (dejaValidee ? Icon(Icons.lock_open, color: Colors.green) : Icon(Icons.arrow_forward, color: Colors.black)),
               ),
             ),
           );
