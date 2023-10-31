@@ -1,21 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notebook_progress/etape.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'etape.dart'; // Assurez-vous que le fichier etape.dart est importé correctement
 
 import 'singIn_screen.dart';
 import 'form_screen.dart';
 
 class EtapeDetailScreen extends StatelessWidget {
-  final String etapeId; // Variable pour stocker l'identifiant de l'étape
+  final String etapeId;
   final Etape etape;
-  final FirebaseAuth _auth = FirebaseAuth.instance; //
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  EtapeDetailScreen({required this.etape,required this.etapeId});
+  EtapeDetailScreen({required this.etape, required this.etapeId});
 
   @override
   Widget build(BuildContext context) {
     String videoId = YoutubePlayer.convertUrlToId(etape.video) ?? '';
+    String youtubeUrl = 'https://www.youtube.com/embed/$videoId';
 
     return Scaffold(
       appBar: AppBar(
@@ -27,7 +29,6 @@ class EtapeDetailScreen extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        //backgroundColor: Colors.blue,
       ),
       body: Stack(
         children: [
@@ -38,7 +39,7 @@ class EtapeDetailScreen extends StatelessWidget {
             height: double.infinity,
           ),
           Container(
-            color: Colors.black.withOpacity(0.3), // Modifier la couleur et l'opacité du filtre de superposition selon vos besoins
+            color: Colors.black.withOpacity(0.6),
             padding: EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +51,7 @@ class EtapeDetailScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white, // Modifier la couleur du texte selon vos besoins
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -60,86 +61,43 @@ class EtapeDetailScreen extends StatelessWidget {
                     etape.description,
                     style: TextStyle(
                       fontSize: 18,
-                      color: Colors.white, // Modifier la couleur du texte selon vos besoins
+                      color: Colors.white,
                     ),
                   ),
                 ),
                 SizedBox(height: 16),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: AspectRatio(
-                    aspectRatio: 16 / 9, // Définir le rapport d'aspect de la vidéo selon vos besoins
-                    child: YoutubePlayer(
-                      controller: YoutubePlayerController(
-                        initialVideoId: videoId,
-                        flags: YoutubePlayerFlags(
-                          autoPlay: false,
-                          mute: false,
-                        ),
-                      ),
-                      showVideoProgressIndicator: true,
-                      progressIndicatorColor: Colors.amber,
-                      progressColors: ProgressBarColors(
-                        playedColor: Colors.amber,
-                        handleColor: Colors.amberAccent,
-                      ),
-                    ),
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: WebView(
+                    initialUrl: youtubeUrl,
+                    javascriptMode: JavascriptMode.unrestricted,
                   ),
                 ),
                 SizedBox(height: 16),
                 Center(
                   child: ElevatedButton(
                     onPressed: () async {
-                      // Action à effectuer lors du clic sur le bouton "Valider l'étape"
-                      // On verifie si l'utilisateur est déjà connecté
                       if (_auth.currentUser != null) {
-                        // On navigue vers l'écran du formulaire FormScreen
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            transitionDuration: Duration(milliseconds: 500),
-                            pageBuilder: (context, animation, secondaryAnimation) {
-                              return FormScreen(etapeRef: etape.etapeId);
-                            },
-                            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                              var begin = Offset(1.0, 0.0);
-                              var end = Offset.zero;
-                              var tween = Tween(begin: begin, end: end);
-                              var offsetAnimation = animation.drive(tween);
-
-                              return SlideTransition(
-                                position: offsetAnimation,
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
+                        _navigateToFormScreen(context);
                       } else {
-                        // On navigue vers l'écran d'authentification (SignInScreen par exemple)
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SignInScreen(etapeId: etape.etapeId),
-                            ),
-                          );
-                        }
+                        _navigateToSignInScreen(context);
+                      }
                     },
                     style: ElevatedButton.styleFrom(
-                      //primary: Colors.blue, // Modifier la couleur du bouton selon vos besoins
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      primary: Colors.blue, // Changer la couleur du bouton selon vos besoins
                     ),
                     child: Text(
                       'Valider l\'étape',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        //color: Colors.white, // Modifier la couleur du texte selon vos besoins
+                        color: Colors.white, // Changer la couleur du texte selon vos besoins
                       ),
                     ),
-
                   ),
                 ),
               ],
@@ -149,6 +107,36 @@ class EtapeDetailScreen extends StatelessWidget {
       ),
     );
   }
+
+  void _navigateToFormScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration(milliseconds: 500),
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return FormScreen(etapeRef: etape.etapeId);
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(1.0, 0.0);
+          var end = Offset.zero;
+          var tween = Tween(begin: begin, end: end);
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
+  void _navigateToSignInScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SignInScreen(etapeId: etape.etapeId),
+      ),
+    );
+  }
 }
-
-
