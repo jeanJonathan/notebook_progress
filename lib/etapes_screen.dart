@@ -1,18 +1,56 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:notebook_progress/progression.dart';
 import 'etape.dart';
-import 'data_firestore.dart';
 import 'etapes_details_screen.dart';
 
-class EtapesScreenWingfoil extends StatelessWidget {
+/*Utilisation d'un statefull pour gerer bien la dynamie et l'etat de la classe*/
+class EtapesScreenWingfoil extends StatefulWidget {
+  @override
+  _EtapesScreenWingfoilState createState() => _EtapesScreenWingfoilState();
+}
+
+class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
+  List<Etape> etapes = [];
+  String? userId;
+  List<Progression> progressions = [];
+
+  @override
+  void initState() { // Pour reccuperer et initialiser les donnees de firebase
+    super.initState();
+    final user = FirebaseAuth.instance.currentUser;
+    userId = user?.uid;
+
+    // Récupération des étapes
+    FirebaseFirestore.instance.collection('etapes').snapshots().listen((snapshot) {
+      if (snapshot.docs.isNotEmpty) {
+        etapes = snapshot.docs.map((doc) => Etape.fromFirestore(doc)).where((etape) => etape.sportRef.id == '2').toList();
+        setState(() {});
+      }
+    });
+
+    // Récupération des progressions de l'utilisateur connecté
+    FirebaseFirestore.instance
+        .collection('progression')
+        .where('userId', isEqualTo: userId)
+        .snapshots()
+        .listen((progressionSnapshot) {
+      if (progressionSnapshot.docs.isNotEmpty) {
+        progressions = progressionSnapshot.docs.map((doc) => Progression.fromFirestore(doc)).toList();
+        setState(() {});
+      }
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Liste des étapes',
+          'étapes wingfoil',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -20,144 +58,109 @@ class EtapesScreenWingfoil extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('etapes').snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text('Une erreur s\'est produite');
-          }
+      body: ListView.builder(
+        itemCount: etapes.length,
+        itemBuilder: (context, index) {
+          Etape etape = etapes[index];
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId);
+          bool estVerouillee = (progressions.length + 1) <= index;
 
-          List<QueryDocumentSnapshot> etapesDocuments = snapshot.data!.docs;
-          List<Etape> etapes = etapesDocuments.map((doc) => Etape.fromFirestore(doc)).toList();
-          final user = FirebaseAuth.instance.currentUser;
-          String? userId = user?.uid;
+          return InkWell(
+            onTap: () {
+              if (estVerouillee) {
+                HapticFeedback.heavyImpact(); // declenchement de l'effet de vibration
+                // On ajoute des animations ou des effets visuels pour les étapes verrouillées ici
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Cette étape est verrouillée.'),
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.grey,
+                  duration: Duration(milliseconds: 500),
+                ));
+              } else {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    transitionDuration: Duration(milliseconds: 250),
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return EtapeDetailScreen(etape: etape, etapeId: etape.etapeId);
+                    },
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      var begin = Offset(1.0, 0.0);
+                      var end = Offset.zero;
+                      var tween = Tween(begin: begin, end: end);
+                      var offsetAnimation = animation.drive(tween);
 
-          // Récupération des progressions de l'utilisateur connecté
-          return StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('progression').where('userId', isEqualTo: userId).snapshots(),
-            builder: (context, progressionSnapshot) {
-              if (progressionSnapshot.hasError) {
-                return Text('Une erreur s\'est produite');
-              }
-
-              if (progressionSnapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-
-              List<QueryDocumentSnapshot> progressionDocuments = progressionSnapshot.data!.docs;
-              List<Progression> progressions = progressionDocuments.map((doc) => Progression.fromFirestore(doc)).toList();
-
-              // Filtrer les étapes selon des critères
-              etapes = etapes.where((etape) => etape.sportRef.id == '2').toList();
-
-              // Affichage des données dans la console pour déboguer
-              debugPrint('=== Etapes ===');
-              for (var etape in etapes) {
-                debugPrint('Etape ID: ${etape.etapeId}');
-              }
-
-              debugPrint('=== Progressions ===');
-              for (var progression in progressions) {
-                debugPrint('User ID: ${progression.userId}');
-                debugPrint('EtapeRef: ${progression.etapeRef}');
-                // Ajoutez d'autres propriétés de progression si nécessaire
-              }
-              return ListView.builder(
-                itemCount: etapes.length,
-                itemBuilder: (context, index) {
-                  Etape etape = etapes[index];
-                  //Implementation de la fonction _isEtapeValide reutilisable
-                  bool _isEtapeValide(String etapeId, List<Progression> progression){
-                    for (var progression in progressions){
-                      if(progression.etapeRef == etape.etapeId){
-                        return true;
-                      }
-                    }
-                    return false;
-                  }
-                  bool estValide = _isEtapeValide(etape.etapeId,progressions);
-
-                  return InkWell(
-                    onTap: estValide ? null  // On desactive onTap si l'étape est valide
-                      : () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId),
-                        ),
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
                       );
                     },
-                    child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: ListTile(
-                        leading: Container(
-                          width: 56,
-                          height: 56,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle, // Forme de cercle
-                            color: estValide ? Colors.green : Colors.red, // Couleur du cercle
-                          ),
-                          child: Center(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(25), // demi du container
-                              child: Image.asset(
-                                'assets/wingfoil.jpg',
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                        title: Text(
-                          etape.name,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: Text(
-                          etape.description,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        trailing: estValide ? Icon( Icons.lock_open, color: Colors.green)
-                          : Icon(Icons.arrow_forward,
-                          color: Colors.black),
-                        ),
-                      ),
-                    );
-                },
-              );
+                  ),
+                );
+              }
             },
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                color: estVerouillee ? Colors.grey[200] : Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: ListTile(
+                leading: Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: estVerouillee ? Colors.red : Colors.green,
+                  ),
+                  child: Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Image.asset(
+                        'assets/wingfoil.jpg',
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+                title: Text(
+                  etape.name,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  etape.description,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+                trailing: estVerouillee
+                    ? Icon(Icons.lock, color: Colors.red)
+                    : (dejaValidee ? Icon(Icons.lock_open, color: Colors.green) : Icon(Icons.arrow_forward, color: Colors.black)),
+              ),
+            ),
           );
         },
       ),
     );
   }
 }
+
 
 
 class EtapesScreenKitesurf extends StatelessWidget {
