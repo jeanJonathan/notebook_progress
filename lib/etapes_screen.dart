@@ -50,7 +50,7 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Liste des étapes',
+          'étapes wingfoil',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -69,13 +69,28 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
           return InkWell(
             onTap: () {
               if (estVerouillee) {
-                HapticFeedback.heavyImpact();
-                // Trigger visual effect here
+                HapticFeedback.heavyImpact(); // declenchement de l'effet de vibration
+                // On ajoute des animations ou des effets visuels pour les étapes verrouillées ici
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Cette étape est verrouillée.'),
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.grey,
+                  duration: Duration(milliseconds: 500),
+                ));
               } else {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId),
+                  PageRouteBuilder(
+                    transitionDuration: Duration(milliseconds: 500),
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return EtapeDetailScreen(etape: etape, etapeId: etape.etapeId);
+                    },
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
                   ),
                 );
               }
