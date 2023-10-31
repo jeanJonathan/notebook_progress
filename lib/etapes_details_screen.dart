@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'etape.dart'; // Assurez-vous que le fichier etape.dart est importé correctement
+import 'etape.dart';
 
 import 'singIn_screen.dart';
 import 'form_screen.dart';
@@ -95,7 +95,7 @@ class EtapeDetailScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white, // Changer la couleur du texte selon vos besoins
+                        color: Colors.white,
                       ),
                     ),
                   ),
