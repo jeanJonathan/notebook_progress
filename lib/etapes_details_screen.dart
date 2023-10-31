@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'etape.dart';
-
 import 'singIn_screen.dart';
 import 'form_screen.dart';
 
@@ -24,7 +23,7 @@ class EtapeDetailScreen extends StatelessWidget {
         title: Text(
           'Description de l\'étape',
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -32,38 +31,39 @@ class EtapeDetailScreen extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          Image.asset(
-            'assets/desc_etapes.jpg',
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
           Container(
-            color: Colors.black.withOpacity(0.6),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/desc_etapes.jpg'),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.6),
+                  BlendMode.srcOver,
+                ),
+              ),
+            ),
             padding: EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 16),
-                Center(
-                  child: Text(
-                    etape.name,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                Text(
+                  etape.name,
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 8),
-                Center(
-                  child: Text(
-                    etape.description,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
+                Text(
+                  etape.description,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 16),
                 AspectRatio(
@@ -74,30 +74,29 @@ class EtapeDetailScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 16),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if (_auth.currentUser != null) {
-                        _navigateToFormScreen(context);
-                      } else {
-                        _navigateToSignInScreen(context);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                      primary: Colors.blue, // Changer la couleur du bouton selon vos besoins
+                ElevatedButton.icon(
+                  onPressed: () async {
+                    if (_auth.currentUser != null) {
+                      _navigateToFormScreen(context);
+                    } else {
+                      _navigateToSignInScreen(context);
+                    }
+                  },
+                  icon: Icon(Icons.check, size: 24),
+                  label: Text(
+                    'Valider l\'étape',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
-                    child: Text(
-                      'Valider l\'étape',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical:10),
+                    primary: Colors.white, // Changer la couleur du bouton selon vos besoins
                   ),
                 ),
               ],
