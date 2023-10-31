@@ -81,13 +81,18 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
-                    transitionDuration: Duration(milliseconds: 500),
+                    transitionDuration: Duration(milliseconds: 250),
                     pageBuilder: (context, animation, secondaryAnimation) {
                       return EtapeDetailScreen(etape: etape, etapeId: etape.etapeId);
                     },
                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                      return FadeTransition(
-                        opacity: animation,
+                      var begin = Offset(1.0, 0.0);
+                      var end = Offset.zero;
+                      var tween = Tween(begin: begin, end: end);
+                      var offsetAnimation = animation.drive(tween);
+
+                      return SlideTransition(
+                        position: offsetAnimation,
                         child: child,
                       );
                     },
