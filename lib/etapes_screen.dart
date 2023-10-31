@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:notebook_progress/progression.dart';
 import 'etape.dart';
 import 'data_firestore.dart';
@@ -97,20 +98,24 @@ class EtapesScreenWingfoil extends StatelessWidget {
                   bool estVerouillee = (nombreEtapesValidees + 1 ) <= index;
 
                   return InkWell(
-                    onTap: estVerouillee
-                        ? null // On desactive onTap si l'étape est verrouillée
-                        : () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId),
-                        ),
-                      );
+                    onTap: () {
+                      if (estVerouillee) {
+                        HapticFeedback.heavyImpact(); // Un retour haptique pour une interaction
+                        // Déclencher l'effet visuel ici
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId),
+                          ),
+                        );
+                      }
                     },
-                    child: Container(
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 500), // Durée de l'animation
                       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: estVerouillee ? Colors.grey[200] : Colors.white,
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
