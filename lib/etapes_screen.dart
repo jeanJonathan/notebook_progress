@@ -58,6 +58,21 @@ class EtapesScreenWingfoil extends StatelessWidget {
               // Filtrer les étapes selon des critères
               etapes = etapes.where((etape) => etape.sportRef.id == '2').toList();
 
+              // Compteur d'étapes validées
+              int nombreEtapesValidees = 0;
+              String? derniereEtapeValidee;
+
+              // Calculer le nombre d'étapes validées et l'identifiant de la dernière étape validée
+              for (var progression in progressions) {
+                if (progression.etapeRef != null) {
+                  nombreEtapesValidees++;
+                  derniereEtapeValidee = progression.etapeRef;
+                }
+              }
+              debugPrint('=== Nombre Etapes Validee ===');
+              debugPrint('Etape Validee: ${nombreEtapesValidees}');
+              debugPrint('Derniere Etape Validee: ${derniereEtapeValidee}');
+
               // Affichage des données dans la console pour déboguer
               debugPrint('=== Etapes ===');
               for (var etape in etapes) {
@@ -70,24 +85,21 @@ class EtapesScreenWingfoil extends StatelessWidget {
                 debugPrint('EtapeRef: ${progression.etapeRef}');
                 // Ajoutez d'autres propriétés de progression si nécessaire
               }
+
               return ListView.builder(
                 itemCount: etapes.length,
                 itemBuilder: (context, index) {
                   Etape etape = etapes[index];
-                  //Implementation de la fonction _isEtapeValide reutilisable
-                  bool _isEtapeValide(String etapeId, List<Progression> progression){
-                    for (var progression in progressions){
-                      if(progression.etapeRef == etape.etapeId){
-                        return true;
-                      }
-                    }
-                    return false;
-                  }
-                  bool estValide = _isEtapeValide(etape.etapeId,progressions);
+
+                  // On vérifie si l'étape est déjà validée
+                  bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId);
+                  // On verifie si l'étape est verrouillée
+                  bool estVerouillee = (nombreEtapesValidees + 1 ) <= index;
 
                   return InkWell(
-                    onTap: estValide ? null  // On desactive onTap si l'étape est valide
-                      : () {
+                    onTap: estVerouillee
+                        ? null // On desactive onTap si l'étape est verrouillée
+                        : () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -114,12 +126,12 @@ class EtapesScreenWingfoil extends StatelessWidget {
                           width: 56,
                           height: 56,
                           decoration: BoxDecoration(
-                            shape: BoxShape.circle, // Forme de cercle
-                            color: estValide ? Colors.green : Colors.red, // Couleur du cercle
+                            shape: BoxShape.circle,
+                            color: estVerouillee ? Colors.red : Colors.green,
                           ),
                           child: Center(
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(25), // demi du container
+                              borderRadius: BorderRadius.circular(25),
                               child: Image.asset(
                                 'assets/wingfoil.jpg',
                                 width: 50,
@@ -143,12 +155,14 @@ class EtapesScreenWingfoil extends StatelessWidget {
                             color: Colors.grey,
                           ),
                         ),
-                        trailing: estValide ? Icon( Icons.lock_open, color: Colors.green)
-                          : Icon(Icons.arrow_forward,
-                          color: Colors.black),
-                        ),
+                        trailing: estVerouillee
+                            ? Icon(Icons.lock, color: Colors.red) // Icône de verrouillage pour les étapes verrouillées
+                            : (dejaValidee
+                            ? Icon(Icons.arrow_forward, color: Colors.black)
+                            : Icon(Icons.lock_open, color: Colors.green)), // Icône appropriée pour l'étape
                       ),
-                    );
+                    ),
+                  );
                 },
               );
             },
