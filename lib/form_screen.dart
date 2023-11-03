@@ -178,7 +178,7 @@ class _FormScreenState extends State<FormScreen> {
                         Shadow(
                           color: Colors.blue,
                           blurRadius: 2,
-                          offset: Offset(1, 1),
+                          offset: Offset(3, 4),
                         ),
                       ],
                       fontFamily: 'YourFont', // Choisissez votre police
@@ -192,38 +192,40 @@ class _FormScreenState extends State<FormScreen> {
                           controller: _dateController,
                           decoration: InputDecoration(
                             labelText: 'Date',
-                            labelStyle: TextStyle(color: Colors.white),
+                            labelStyle: TextStyle(color: Colors.black),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(28),
                               borderSide: BorderSide(color: Colors.black),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.white),
+                              borderSide: BorderSide(color: Colors.black),
                             ),
                           ),
+                          style: TextStyle(color: Colors.black), // Couleur du texte
                         ),
                       ),
                     ),
                     SizedBox(height: 12),
                     Container(
-                      width: 400, // largeur du champs
+                      width: 400, // largeur du champ
                       height: 50,
                       child: TypeAheadFormField(
                         textFieldConfiguration: TextFieldConfiguration(
                           controller: _locationController,
                           decoration: InputDecoration(
                             labelText: 'Lieu',
-                            labelStyle: TextStyle(color: Colors.black),
+                            labelStyle: TextStyle(color: Colors.black), // Couleur du label
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.grey),
+                              borderSide: BorderSide(color: Color(0xFF363636)), // Couleur de la bordure
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Color(0xFFF5F5F5)),
+                              borderSide: BorderSide(color: Color(0xFFF5F5F5)), // Couleur de la bordure lorsqu'il est sélectionné
                             ),
                           ),
+                          style: TextStyle(color: Colors.black), // Couleur du texte
                         ),
                         suggestionsCallback: (pattern) {
                           List<String> lieux = [
@@ -373,11 +375,11 @@ class _FormScreenState extends State<FormScreen> {
                         labelStyle: TextStyle(color: Colors.black),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey),
+                          borderSide: BorderSide(color: Colors.black),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.white),
+                          borderSide: BorderSide(color: Colors.black),
                         ),
                       ),
                     ),
