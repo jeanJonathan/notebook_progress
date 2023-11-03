@@ -153,12 +153,12 @@ class _FormScreenState extends State<FormScreen> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/form2.jpg',), // Remplacez 'assets/form2.jpg' par le chemin de votre image de fond
+                image: AssetImage('assets/form2.jpg'), // Insérez le chemin de votre image de fond
                 fit: BoxFit.cover,
-                ),
+              ),
             ),
             child: Container(
-              //color: Colors.black.withOpacity(0.2), // On deifinis une opacité de 0.4 pour le filtre sombre
+              color: Colors.white.withOpacity(0.2), // Ajoute un filtre sombre
             ),
           ),
           SafeArea(
@@ -169,21 +169,21 @@ class _FormScreenState extends State<FormScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'PROGRESSION',
-                      style: TextStyle(
-                        fontSize: 50,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF64C8C8),
-                        shadows: [
-                          Shadow(
-                            color: Colors.black,
-                            blurRadius: 2,
-                            offset: Offset(1, 1),
-                          ),
-                        ],
-                        fontFamily: 'Concert One',
-                      ),
+                    'PROGRESSION',
+                    style: TextStyle(
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF64C8C8),
+                      shadows: [
+                        Shadow(
+                          color: Colors.blue,
+                          blurRadius: 2,
+                          offset: Offset(3, 4),
+                        ),
+                      ],
+                      fontFamily: 'YourFont', // Choisissez votre police
                     ),
+                  ),
                     SizedBox(height: 60), // Espace entre le texte et les champs du formulaire
                     InkWell(
                       onTap: _selectDate,
@@ -194,36 +194,38 @@ class _FormScreenState extends State<FormScreen> {
                             labelText: 'Date',
                             labelStyle: TextStyle(color: Colors.black),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(28),
+                              borderSide: BorderSide(color: Colors.black),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.white),
+                              borderSide: BorderSide(color: Colors.black),
                             ),
                           ),
+                          style: TextStyle(color: Colors.black), // Couleur du texte
                         ),
                       ),
                     ),
                     SizedBox(height: 12),
                     Container(
-                      width: 400, // largeur du champs
+                      width: 400, // largeur du champ
                       height: 50,
                       child: TypeAheadFormField(
                         textFieldConfiguration: TextFieldConfiguration(
                           controller: _locationController,
                           decoration: InputDecoration(
                             labelText: 'Lieu',
-                            labelStyle: TextStyle(color: Colors.black),
+                            labelStyle: TextStyle(color: Colors.black), // Couleur du label
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.grey),
+                              borderSide: BorderSide(color: Color(0xFF363636)), // Couleur de la bordure
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Color(0xFFF5F5F5)),
+                              borderSide: BorderSide(color: Color(0xFFF5F5F5)), // Couleur de la bordure lorsqu'il est sélectionné
                             ),
                           ),
+                          style: TextStyle(color: Colors.black), // Couleur du texte
                         ),
                         suggestionsCallback: (pattern) {
                           List<String> lieux = [
@@ -373,11 +375,11 @@ class _FormScreenState extends State<FormScreen> {
                         labelStyle: TextStyle(color: Colors.black),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey),
+                          borderSide: BorderSide(color: Colors.black),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.white),
+                          borderSide: BorderSide(color: Colors.black),
                         ),
                       ),
                     ),
@@ -389,7 +391,7 @@ class _FormScreenState extends State<FormScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        minimumSize: Size(400, 40), // Taille souhaitée pour le bouton "Ajouter une vidéo"
+                        minimumSize: Size(400, 40), // Taille souhaitée pour le bouton
                       ),
                     ),
                     SizedBox(height: 16.0),
@@ -401,7 +403,7 @@ class _FormScreenState extends State<FormScreen> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         primary: Color(0xFF64C8C8),
-                        minimumSize: Size(200, 50), // Taille souhaitée pour le bouton "Enregistrer"
+                        minimumSize: Size(200, 50), // Taille souhaitée pour le bouton
                       ),
                     ),
                   ],
