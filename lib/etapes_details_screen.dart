@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:notebook_progress/singIn_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'etape.dart';
-import 'singIn_screen.dart';
 import 'form_screen.dart';
 
 class EtapeDetailScreen extends StatelessWidget {
@@ -12,7 +12,11 @@ class EtapeDetailScreen extends StatelessWidget {
   final Etape etape;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  EtapeDetailScreen({required this.etape, required this.etapeId, required this.sportRef});
+  EtapeDetailScreen({
+    required this.etape,
+    required this.etapeId,
+    required this.sportRef,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class EtapeDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Description de l\'étape',
+          '🏆',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -49,7 +53,7 @@ class EtapeDetailScreen extends StatelessWidget {
               children: [
                 SizedBox(height: 16),
                 Text(
-                  '🚀 ${etape.name}',
+                  '🚀 ${etape.name} 🌟',
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -59,7 +63,7 @@ class EtapeDetailScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  '🌟 ${etape.description}',
+                  '🔍 ${etape.description}',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
@@ -75,7 +79,7 @@ class EtapeDetailScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 16),
-                ElevatedButton.icon(
+                ElevatedButton(
                   onPressed: () async {
                     if (_auth.currentUser != null) {
                       _navigateToFormScreen(context);
@@ -83,20 +87,28 @@ class EtapeDetailScreen extends StatelessWidget {
                       _navigateToSignInScreen(context);
                     }
                   },
-                  icon: Icon(Icons.check, size: 24),
-                  label: Text(
-                    'Valider l\'étape',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     primary: Colors.white, // Changer la couleur du bouton selon vos besoins
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '✔ Valider l\'étape ',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Text(
+                        '✅',
+                        style: TextStyle(fontSize: 18), // Adapter la taille de l'emoji
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -113,7 +125,10 @@ class EtapeDetailScreen extends StatelessWidget {
       PageRouteBuilder(
         transitionDuration: Duration(milliseconds: 500),
         pageBuilder: (context, animation, secondaryAnimation) {
-          return FormScreen(etapeRef: etape.etapeId, sportRef: etape.sportRef.id);
+          return FormScreen(
+            etapeRef: etape.etapeId,
+            sportRef: etape.sportRef.id,
+          );
         },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           var begin = Offset(1.0, 0.0);
@@ -139,3 +154,4 @@ class EtapeDetailScreen extends StatelessWidget {
     );
   }
 }
+
