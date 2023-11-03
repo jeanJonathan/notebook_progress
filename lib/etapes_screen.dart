@@ -62,9 +62,9 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
         itemCount: etapes.length,
         itemBuilder: (context, index) {
           Etape etape = etapes[index];
-
-          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId);
-          bool estVerouillee = (progressions.length + 1) <= index;
+          //On vérifie si au moins une des progressions stockées a une référence d'étape correspondant à l'identifiant (etapeId) de l'étape actuellement parcourue dans la boucle
+          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '2');
+          bool estVerouillee = (progressions.where((progression) => progression.sportRef == '2').length + 1) <= index;
 
           return InkWell(
             onTap: () {
@@ -83,7 +83,7 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
                   PageRouteBuilder(
                     transitionDuration: Duration(milliseconds: 250),
                     pageBuilder: (context, animation, secondaryAnimation) {
-                      return EtapeDetailScreen(etape: etape, etapeId: etape.etapeId);
+                      return EtapeDetailScreen(etape: etape, etapeId: etape.etapeId, sportRef: '2',);
                     },
                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
                       var begin = Offset(1.0, 0.0);
@@ -216,8 +216,9 @@ class _EtapesScreenKitesurfState extends State<EtapesScreenKitesurf> {
         itemBuilder: (context, index) {
           Etape etape = etapes[index];
 
-          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId);
-          bool estVerouillee = (progressions.length + 1) <= index;
+          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '1');
+          bool estVerouillee = (progressions.where((progression) => progression.sportRef == '1').length + 1) <= index;
+
 
           return InkWell(
             onTap: () {
@@ -233,7 +234,7 @@ class _EtapesScreenKitesurfState extends State<EtapesScreenKitesurf> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId),
+                    builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId, sportRef: '1',),
                   ),
                 );
               }
@@ -354,8 +355,8 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
         itemBuilder: (context, index) {
           Etape etape = etapes[index];
 
-          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId);
-          bool estVerouillee = (progressions.length + 1) <= index;
+          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '3');
+          bool estVerouillee = (progressions.where((progression) => progression.sportRef == '3').length + 1) <= index;
 
           return InkWell(
             onTap: () {
@@ -371,7 +372,7 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId),
+                    builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId, sportRef: '3',),
                   ),
                 );
               }
