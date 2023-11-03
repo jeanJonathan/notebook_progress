@@ -71,17 +71,84 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
     });
   }
 
+  void _showAdditionalInfo(BuildContext context) {
+    // Afficher les informations supplémentaires à l'utilisateur
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '🌟 Infos Wingfoil 🌟',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Bienvenue dans la section Wingfoil! 👋',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Ici, vous pouvez accéder à différentes étapes pour améliorer vos compétences dans le wingfoil. Chaque étape a ses propres défis et objectifs. Les étapes verrouillées nécessitent de valider les étapes précédentes pour être accessibles. 🔒🎯',
+                  style: TextStyle(
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  child: Text(
+                    'Fermer',
+                    style: TextStyle(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'étapes wingfoil',
+          'Étapes Wingfoil',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.info_outline),
+            onPressed: () {
+              _showAdditionalInfo(context);
+            },
+          ),
+        ],
         centerTitle: true,
       ),
       body: ListView.builder(
@@ -89,7 +156,8 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
         itemBuilder: (context, index) {
           Etape etape = etapes[index];
 
-          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '2');
+          bool dejaValidee =
+          progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '2');
           bool estVerouillee = (progressions.where((progression) => progression.sportRef == '2').length + 1) <= index;
 
           return InkWell(
@@ -98,7 +166,7 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
                 HapticFeedback.heavyImpact();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Cette étape est verrouillée.'),
+                    content: Text('Cette étape est verrouillée. 🔒'),
                     behavior: SnackBarBehavior.floating,
                     backgroundColor: Colors.grey,
                     duration: Duration(milliseconds: 500),
@@ -167,23 +235,23 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
                   ),
                 ),
                 title: Text(
-                  etape.name,
+                  '🚀 ${etape.name}',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
-                  etape.description,
+                  '🌟 ${etape.description}',
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey,
+                    color: Colors.blue,
                   ),
                 ),
                 trailing: estVerouillee
-                    ? Icon(Icons.lock, color: Colors.red)
+                    ? Text('🔒', style: TextStyle(color: Colors.red))
                     : (dejaValidee
-                    ? Icon(Icons.lock_open, color: Colors.green)
+                    ? Text('🔓', style: TextStyle(color: Colors.green))
                     : Icon(Icons.arrow_forward, color: Colors.black)),
               ),
             ),
@@ -494,10 +562,7 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
   }
 
   void _handleEtapeValidation(String etapeId, bool dejaValidee) {
-    // Mettre en œuvre la logique de validation de l'étape et l'interaction avec la base de données Firestore
-    if (dejaValidee) {
-      // Ici, implémentez la logique de déverrouillage de l'étape si déjà validée
-      // Par exemple, supprimer l'étape de la progression dans Firestore
+  if (dejaValidee) {
       FirebaseFirestore.instance
           .collection('progression')
           .where('userId', isEqualTo: userId)
@@ -509,8 +574,6 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
         }
       });
     } else {
-      // Ici, implémentez la logique de validation de l'étape
-      // Par exemple, ajouter l'étape à la progression dans Firestore
       FirebaseFirestore.instance.collection('progression').add({
         'userId': userId,
         'etapeRef': etapeId,
