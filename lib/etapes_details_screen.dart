@@ -8,10 +8,11 @@ import 'form_screen.dart';
 
 class EtapeDetailScreen extends StatelessWidget {
   final String etapeId;
+  final String sportRef;
   final Etape etape;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  EtapeDetailScreen({required this.etape, required this.etapeId});
+  EtapeDetailScreen({required this.etape, required this.etapeId,required this.sportRef });
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +114,7 @@ class EtapeDetailScreen extends StatelessWidget {
       PageRouteBuilder(
         transitionDuration: Duration(milliseconds: 500),
         pageBuilder: (context, animation, secondaryAnimation) {
-          return FormScreen(etapeRef: etape.etapeId);
+          return FormScreen(etapeRef: etape.etapeId, sportRef: etape.sportRef.id,);
         },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           var begin = Offset(1.0, 0.0);

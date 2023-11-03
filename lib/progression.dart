@@ -9,6 +9,7 @@ class Progression {
   final String videoUrl;
   final String userId;
   final String etapeRef;
+  final String sportRef;
 
   Progression({
     required this.id,
@@ -19,6 +20,7 @@ class Progression {
     required this.videoUrl,
     required this.userId,
     required this.etapeRef,
+    required this.sportRef,
   });
 
   // Factory method pour créer une instance de Progression à partir d'un document Firestore
@@ -33,6 +35,7 @@ class Progression {
       videoUrl: data['videoUrl'] ?? '',
       userId: data['userId'] ?? '',
       etapeRef: data['etapeRef'] ?? '', // On ne creer pas de document donc il faudrait supprement la reference appliquee
+      sportRef: data['sportRef'] ?? '',
     );
   }
 }

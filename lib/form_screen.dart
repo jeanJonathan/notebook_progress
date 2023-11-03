@@ -10,7 +10,8 @@ import 'main.dart';
 
 class FormScreen extends StatefulWidget {
   final String etapeRef; // pour stocker l'identifiant de l'étape
-  FormScreen({required this.etapeRef});
+  final String sportRef;
+  FormScreen({required this.etapeRef,required this.sportRef});
   @override
   _FormScreenState createState() => _FormScreenState();
 }
@@ -84,6 +85,7 @@ class _FormScreenState extends State<FormScreen> {
             'videoUrl': downloadUrl,
             'userId': uid,
             'etapeRef': widget.etapeRef, //
+            'sportRef': widget.sportRef,
           });
 
           // Affichage un message de succès à l'utilisateur
@@ -101,6 +103,7 @@ class _FormScreenState extends State<FormScreen> {
           'comment': _commentController.text,
           'userId': uid,
           'etapeRef': widget.etapeRef,
+          'sportRef': widget.sportRef,
         });
 
         // Affichage du message de succès à l'utilisateur
