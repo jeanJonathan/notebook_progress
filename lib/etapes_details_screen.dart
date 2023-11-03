@@ -12,7 +12,7 @@ class EtapeDetailScreen extends StatelessWidget {
   final Etape etape;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  EtapeDetailScreen({required this.etape, required this.etapeId,required this.sportRef });
+  EtapeDetailScreen({required this.etape, required this.etapeId, required this.sportRef});
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +45,11 @@ class EtapeDetailScreen extends StatelessWidget {
             ),
             padding: EdgeInsets.all(16.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 16),
                 Text(
-                  etape.name,
+                  '🚀 ${etape.name}',
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -59,7 +59,7 @@ class EtapeDetailScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  etape.description,
+                  '🌟 ${etape.description}',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
@@ -96,7 +96,6 @@ class EtapeDetailScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical:10),
                     primary: Colors.white, // Changer la couleur du bouton selon vos besoins
                   ),
                 ),
@@ -114,7 +113,7 @@ class EtapeDetailScreen extends StatelessWidget {
       PageRouteBuilder(
         transitionDuration: Duration(milliseconds: 500),
         pageBuilder: (context, animation, secondaryAnimation) {
-          return FormScreen(etapeRef: etape.etapeId, sportRef: etape.sportRef.id,);
+          return FormScreen(etapeRef: etape.etapeId, sportRef: etape.sportRef.id);
         },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           var begin = Offset(1.0, 0.0);
