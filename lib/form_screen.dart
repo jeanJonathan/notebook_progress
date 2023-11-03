@@ -211,24 +211,24 @@ class _FormScreenState extends State<FormScreen> {
                     ),
                     SizedBox(height: 12),
                     Container(
-                      width: 400, // largeur du champ
+                      width: 400,
                       height: 50,
                       child: TypeAheadFormField(
                         textFieldConfiguration: TextFieldConfiguration(
                           controller: _locationController,
                           decoration: InputDecoration(
                             labelText: 'Lieu',
-                            labelStyle: TextStyle(color: Colors.black), // Couleur du label
+                            labelStyle: TextStyle(color: Colors.black), //label
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Color(0xFF363636)), // Couleur de la bordure
+                              borderSide: BorderSide(color: Colors.white), // bordure
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Color(0xFFF5F5F5)), // Couleur de la bordure lorsqu'il est sélectionné
+                              borderSide: BorderSide(color: Colors.blueAccent), // bordure en sélection
                             ),
                           ),
-                          style: TextStyle(color: Colors.black), // Couleur du texte
+                          style: TextStyle(color: Colors.white), //texte
                         ),
                         suggestionsCallback: (pattern) {
                           List<String> lieux = [
@@ -290,10 +290,10 @@ class _FormScreenState extends State<FormScreen> {
                             title: Text(
                               lieu,
                               style: TextStyle(
-                              fontSize: 18,
-                              color: Color(0xFF64C8C8),
+                                fontSize: 18,
+                                color: Colors.lightBlue,
+                              ),
                             ),
-                          ),
                           );
                         },
                         onSuggestionSelected: (lieu) {
@@ -302,29 +302,30 @@ class _FormScreenState extends State<FormScreen> {
                           });
                         },
                         suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                          borderRadius: BorderRadius.circular(8), // Pour arrondir les bords
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                     ),
                     SizedBox(height: 12),
                     Container(
-                      width: 400, //
+                      width: 400,
                       height: 50,
                       child: TypeAheadFormField(
                         textFieldConfiguration: TextFieldConfiguration(
                           controller: _weatherController,
                           decoration: InputDecoration(
-                            labelText: 'Meteo',
+                            labelText: 'Météo',
                             labelStyle: TextStyle(color: Colors.black),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.grey),
+                              borderSide: BorderSide(color: Colors.green),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Color(0xFFF5F5F5)),
+                              borderSide: BorderSide(color: Colors.blueAccent),
                             ),
                           ),
+                          style: TextStyle(color: Colors.white),
                         ),
                         suggestionsCallback: (pattern) {
                           List<String> meteos = [
@@ -350,41 +351,43 @@ class _FormScreenState extends State<FormScreen> {
                           return meteos.where((meteo) => meteo.toLowerCase().startsWith(pattern.toLowerCase())).toList();
                         },
                         itemBuilder: (context, meteo) {
-                          return ListTile(
-                            title: Text(meteo,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xFF64C8C8),
-                                ),
-                              )
-                          );
-                        },
+                        return ListTile(
+                          title: Text(
+                            meteo,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.lightBlue,
+                            ),
+                          ),
+                        );
+                      },
                         onSuggestionSelected: (meteo) {
                           setState(() {
                             _weatherController.text = meteo;
                           });
                         },
                         suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                          borderRadius: BorderRadius.circular(8), //
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                     ),
                     SizedBox(height: 12),
                     TextFormField(
                       controller: _commentController,
-                      maxLines: 5, // Augmentation le nombre de lignes pour permettre plus de texte
+                      maxLines: 5,
                       decoration: InputDecoration(
                         labelText: 'Commentaire',
                         labelStyle: TextStyle(color: Colors.black),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.black),
+                          borderSide: BorderSide(color: Colors.white),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.black),
+                          borderSide: BorderSide(color: Colors.blueAccent),
                         ),
                       ),
+                      style: TextStyle(color: Colors.white),
                     ),
                     SizedBox(height: 16.0),
                     ElevatedButton(
