@@ -58,11 +58,30 @@ class MyApp extends StatelessWidget {
 }
 
 class Kitesurf extends StatelessWidget {
+  Offset? _initialPosition;
+  bool _showSwipeIndicator = false;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, '/menu');
+      onHorizontalDragStart: (DragStartDetails details) {
+        _initialPosition = details.globalPosition;
+        _showSwipeIndicator = true; // Pour afficher l'indicateur au début du glissement
+      },
+      onHorizontalDragUpdate: (DragUpdateDetails details) {
+        if (_initialPosition != null) {
+          final offset = details.globalPosition;
+          final difference = offset.dx - _initialPosition!.dx;
+
+          // Si le mouvement est vers la droite
+          if (difference < 10) {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Wingfoil()));
+          }
+        }
+      },
+      onHorizontalDragEnd: (DragEndDetails details) {
+        _initialPosition = null;
+        _showSwipeIndicator = false; // Pour masquer l'indicateur lorsque le glissement se termine
       },
       child: Scaffold(
         appBar: AppBar(
@@ -107,99 +126,99 @@ class Kitesurf extends StatelessWidget {
               },
             ),
           ],
+          title: const Text(''),
         ),
-        body: GestureDetector(
-          onHorizontalDragEnd: (DragEndDetails details) {
-            if (details.primaryVelocity! < 0) {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => Wingfoil()),
-              );
-            }
-          },
-          child: Stack(
-            children: [
-              Image.asset(
-                'assets/kitesurf3.png',
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-                //color: Color.fromRGBO(0, 0, 0, 0.4), // Pour rendre la couleur foncée avec une opacité de 0.4
-                //colorBlendMode: BlendMode.darken, // Pour rendre l'image plus sombre
-              ),
+        body: Stack(
+          children: [
+            Image.asset(
+              'assets/kitesurf3.png',
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+            if (_showSwipeIndicator)
               Positioned(
-                top: MediaQuery.of(context).size.height * 0.35,
+                top: MediaQuery.of(context).size.height * 0.4,
                 left: 16,
                 right: 16,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'KITE SURF',
-                      style: TextStyle(
-                        fontSize: 46,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF64C8C8),
-                        shadows: [
-                          Shadow(
-                            color: Colors.black,
-                            blurRadius: 2,
-                            offset: Offset(1, 1),
-                          ),
-                        ],
-                        fontFamily: 'Concert One',
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      "Let's while",
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                        fontFamily: 'Concert One',
-                      ),
-                    ),
-                    SizedBox(height: 46),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/etapesK');
-                      },
-                      child: Text(
-                        'VOIR LES ÉTAPES',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Open Sans',
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 25,
-                          vertical: 10,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        primary: Colors.white,
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  'Faites glisser vers la gauche pour Wingfoil',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              Positioned(
-                top: 250,
-                right: 5,
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 50,
-                  color: Color(0xFFF5F5F5),
-                ),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.35,
+              left: 16,
+              right: 16,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'KITE SURF',
+                    style: TextStyle(
+                      fontSize: 46,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF64C8C8),
+                      shadows: [
+                        Shadow(
+                          color: Colors.black,
+                          blurRadius: 2,
+                          offset: Offset(1, 1),
+                        ),
+                      ],
+                      fontFamily: 'Concert One',
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    "Let's while",
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.white,
+                      fontFamily: 'Concert One',
+                    ),
+                  ),
+                  SizedBox(height: 46),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/etapesK');
+                    },
+                    child: Text(
+                      'VOIR LES ÉTAPES',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Open Sans',
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 25,
+                        vertical: 10,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      primary: Colors.white,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            Positioned(
+              top: 250,
+              right: 5,
+              child: Icon(Icons.arrow_forward_ios, size: 50, color: Color(0xFFF5F5F5)),
+            ),
+          ],
         ),
       ),
     );
   }
 }
+
 
 //Methode disposee a envoyer les donnees des etapes dans firestore
 void sendEtapesWingfoil() async {
