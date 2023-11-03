@@ -172,21 +172,21 @@ class _FormScreenState extends State<FormScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                    'PROGRESSION',
-                    style: TextStyle(
-                      fontSize: 50,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF64C8C8),
-                      shadows: [
-                        Shadow(
-                          color: Colors.blue,
-                          blurRadius: 2,
-                          offset: Offset(3, 4),
-                        ),
-                      ],
-                      fontFamily: 'YourFont', // Choisissez votre police
+                      'PROGRESSION',
+                      style: TextStyle(
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(
+                            color: Colors.lightBlueAccent, // Couleur de l'ombre
+                            blurRadius: 2,
+                            offset: Offset(3, 4),
+                          ),
+                        ],
+                        fontFamily: 'Comic Sans MS', // Police amusante
+                      ),
                     ),
-                  ),
                     SizedBox(height: 60), // Espace entre le texte et les champs du formulaire
                     InkWell(
                       onTap: _selectDate,
