@@ -1,12 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
-import 'package:notebook_progress/progression.dart';
 import 'etape.dart';
 import 'etapes_details_screen.dart';
+import 'package:notebook_progress/progression.dart';
 
-/*Utilisation d'un statefull pour gerer bien la dynamie et l'etat de la classe*/
 class EtapesScreenWingfoil extends StatefulWidget {
   @override
   _EtapesScreenWingfoilState createState() => _EtapesScreenWingfoilState();
@@ -16,33 +17,117 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
   List<Etape> etapes = [];
   String? userId;
   List<Progression> progressions = [];
+  late StreamSubscription<QuerySnapshot> etapesSubscription;
+  late StreamSubscription<QuerySnapshot> progressionsSubscription;
 
   @override
-  void initState() { // Pour reccuperer et initialiser les donnees de firebase
+  void initState() {
     super.initState();
     final user = FirebaseAuth.instance.currentUser;
     userId = user?.uid;
+    fetchDataFromFirebase();
+  }
 
-    // Récupération des étapes
-    FirebaseFirestore.instance.collection('etapes').snapshots().listen((snapshot) {
-      if (snapshot.docs.isNotEmpty) {
-        etapes = snapshot.docs.map((doc) => Etape.fromFirestore(doc)).where((etape) => etape.sportRef.id == '2').toList();
-        setState(() {});
+  @override
+  void dispose() {
+    etapesSubscription.cancel();
+    progressionsSubscription.cancel();
+    super.dispose();
+  }
+
+  void fetchDataFromFirebase() {
+    etapesSubscription = FirebaseFirestore.instance
+        .collection('etapes')
+        .snapshots()
+        .listen((snapshot) {
+      if (mounted) {
+        if (snapshot.docs.isNotEmpty) {
+          etapes = snapshot.docs
+              .map((doc) => Etape.fromFirestore(doc))
+              .where((etape) => etape.sportRef.id == '2')
+              .toList();
+          if (mounted) {
+            setState(() {});
+          }
+        }
       }
     });
 
-    // Récupération des progressions de l'utilisateur connecté
-    FirebaseFirestore.instance
+    progressionsSubscription = FirebaseFirestore.instance
         .collection('progression')
         .where('userId', isEqualTo: userId)
         .snapshots()
         .listen((progressionSnapshot) {
-      if (progressionSnapshot.docs.isNotEmpty) {
-        progressions = progressionSnapshot.docs.map((doc) => Progression.fromFirestore(doc)).toList();
-        setState(() {});
+      if (mounted) {
+        if (progressionSnapshot.docs.isNotEmpty) {
+          progressions = progressionSnapshot.docs
+              .map((doc) => Progression.fromFirestore(doc))
+              .toList();
+          if (mounted) {
+            setState(() {});
+          }
+        }
       }
     });
   }
+
+  void _showAdditionalInfo(BuildContext context) {
+    // Afficher les informations supplémentaires à l'utilisateur
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '🌟 Infos Wingfoil 🌟',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Bienvenue dans la section Wingfoil! 👋',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Ici, vous pouvez accéder à différentes étapes pour améliorer vos compétences dans le wingfoil. Chaque étape a ses propres défis et objectifs. Les étapes verrouillées nécessitent de valider les étapes précédentes pour être accessibles. 🔒🎯',
+                  style: TextStyle(
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  child: Text(
+                    'Fermer',
+                    style: TextStyle(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 
 
   @override
@@ -50,40 +135,54 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'étapes wingfoil',
+          'Étapes Wingfoil',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.info_outline),
+            onPressed: () {
+              _showAdditionalInfo(context);
+            },
+          ),
+        ],
         centerTitle: true,
       ),
       body: ListView.builder(
         itemCount: etapes.length,
         itemBuilder: (context, index) {
           Etape etape = etapes[index];
-          //On vérifie si au moins une des progressions stockées a une référence d'étape correspondant à l'identifiant (etapeId) de l'étape actuellement parcourue dans la boucle
-          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '2');
+
+          bool dejaValidee =
+          progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '2');
           bool estVerouillee = (progressions.where((progression) => progression.sportRef == '2').length + 1) <= index;
 
           return InkWell(
             onTap: () {
               if (estVerouillee) {
-                HapticFeedback.heavyImpact(); // declenchement de l'effet de vibration
-                // On ajoute des animations ou des effets visuels pour les étapes verrouillées ici
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Cette étape est verrouillée.'),
-                  behavior: SnackBarBehavior.floating,
-                  backgroundColor: Colors.grey,
-                  duration: Duration(milliseconds: 500),
-                ));
+                HapticFeedback.heavyImpact();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Cette étape est verrouillée. 🔒'),
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.grey,
+                    duration: Duration(milliseconds: 500),
+                  ),
+                );
               } else {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
                     transitionDuration: Duration(milliseconds: 250),
                     pageBuilder: (context, animation, secondaryAnimation) {
-                      return EtapeDetailScreen(etape: etape, etapeId: etape.etapeId, sportRef: '2',);
+                      return EtapeDetailScreen(
+                        etape: etape,
+                        etapeId: etape.etapeId,
+                        sportRef: '2',
+                      );
                     },
                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
                       var begin = Offset(1.0, 0.0);
@@ -136,22 +235,24 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
                   ),
                 ),
                 title: Text(
-                  etape.name,
+                  '🚀 ${etape.name}',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
-                  etape.description,
+                  '🌟 ${etape.description}',
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey,
+                    color: Colors.blue,
                   ),
                 ),
                 trailing: estVerouillee
-                    ? Icon(Icons.lock, color: Colors.red)
-                    : (dejaValidee ? Icon(Icons.lock_open, color: Colors.green) : Icon(Icons.arrow_forward, color: Colors.black)),
+                    ? Text('🔒', style: TextStyle(color: Colors.red))
+                    : (dejaValidee
+                    ? Text('🔓', style: TextStyle(color: Colors.green))
+                    : Icon(Icons.arrow_forward, color: Colors.black)),
               ),
             ),
           );
@@ -160,6 +261,7 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
     );
   }
 }
+
 
 
 
@@ -182,7 +284,9 @@ class _EtapesScreenKitesurfState extends State<EtapesScreenKitesurf> {
     FirebaseFirestore.instance.collection('etapes').snapshots().listen((snapshot) {
       if (snapshot.docs.isNotEmpty) {
         etapes = snapshot.docs.map((doc) => Etape.fromFirestore(doc)).where((etape) => etape.sportRef.id == '1').toList();
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
       }
     });
 
@@ -193,7 +297,9 @@ class _EtapesScreenKitesurfState extends State<EtapesScreenKitesurf> {
         .listen((progressionSnapshot) {
       if (progressionSnapshot.docs.isNotEmpty) {
         progressions = progressionSnapshot.docs.map((doc) => Progression.fromFirestore(doc)).toList();
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
       }
     });
   }
@@ -321,7 +427,9 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
     FirebaseFirestore.instance.collection('etapes').snapshots().listen((snapshot) {
       if (snapshot.docs.isNotEmpty) {
         etapes = snapshot.docs.map((doc) => Etape.fromFirestore(doc)).where((etape) => etape.sportRef.id == '3').toList();
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
       }
     });
 
@@ -332,7 +440,9 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
         .listen((progressionSnapshot) {
       if (progressionSnapshot.docs.isNotEmpty) {
         progressions = progressionSnapshot.docs.map((doc) => Progression.fromFirestore(doc)).toList();
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
       }
     });
   }
@@ -452,10 +562,7 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
   }
 
   void _handleEtapeValidation(String etapeId, bool dejaValidee) {
-    // Mettre en œuvre la logique de validation de l'étape et l'interaction avec la base de données Firestore
-    if (dejaValidee) {
-      // Ici, implémentez la logique de déverrouillage de l'étape si déjà validée
-      // Par exemple, supprimer l'étape de la progression dans Firestore
+  if (dejaValidee) {
       FirebaseFirestore.instance
           .collection('progression')
           .where('userId', isEqualTo: userId)
@@ -467,8 +574,6 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
         }
       });
     } else {
-      // Ici, implémentez la logique de validation de l'étape
-      // Par exemple, ajouter l'étape à la progression dans Firestore
       FirebaseFirestore.instance.collection('progression').add({
         'userId': userId,
         'etapeRef': etapeId,
