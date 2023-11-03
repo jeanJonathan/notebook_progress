@@ -149,7 +149,7 @@ class _FormScreenState extends State<FormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Formulaire de progression'),
+        title: Text('📝 Formulaire de progression'),
       ),
       body: Stack(
         children: [
@@ -389,26 +389,59 @@ class _FormScreenState extends State<FormScreen> {
                     SizedBox(height: 16.0),
                     ElevatedButton(
                       onPressed: _pickVideo,
-                      child: Text('Sélectionner une vidéo'),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Sélectionner une vidéo ',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            '🎬', // Ajout d'un emoji pour la sélection de vidéo
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ],
+                      ),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        minimumSize: Size(400, 40), // Taille souhaitée pour le bouton
+                        minimumSize: Size(400, 40),
                       ),
                     ),
                     SizedBox(height: 16.0),
                     ElevatedButton(
                       onPressed: _uploadData,
-                      child: Text('Enregistrer'),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Enregistrer ',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            '📁', // Ajout d'un emoji pour l'enregistrement
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ],
+                      ),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                         primary: Color(0xFF64C8C8),
-                        minimumSize: Size(200, 50), // Taille souhaitée pour le bouton
+                        minimumSize: Size(200, 50),
                       ),
                     ),
+
                   ],
                 ),
               ),
