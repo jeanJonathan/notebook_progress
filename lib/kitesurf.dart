@@ -1,9 +1,11 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'Surf.dart';
-import 'kitesurf.dart';
 
+import 'Wingfoil.dart';
 
-class Wingfoil extends StatelessWidget {
+class Kitesurf extends StatelessWidget {
   Offset? _initialPosition;
   bool _showSwipeIndicator = false;
 
@@ -12,26 +14,22 @@ class Wingfoil extends StatelessWidget {
     return GestureDetector(
       onHorizontalDragStart: (DragStartDetails details) {
         _initialPosition = details.globalPosition;
-        _showSwipeIndicator = true;
+        _showSwipeIndicator = true; // Pour afficher l'indicateur au début du glissement
       },
       onHorizontalDragUpdate: (DragUpdateDetails details) {
         if (_initialPosition != null) {
           final offset = details.globalPosition;
           final difference = offset.dx - _initialPosition!.dx;
 
-          // Si le mouvement est vers la gauche
-          if (difference < -10) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Surf()));
-          }
           // Si le mouvement est vers la droite
-          else if (difference > 10) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Kitesurf()));
+          if (difference < 10) {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Wingfoil()));
           }
         }
       },
       onHorizontalDragEnd: (DragEndDetails details) {
         _initialPosition = null;
-        _showSwipeIndicator = false;
+        _showSwipeIndicator = false; // Pour masquer l'indicateur lorsque le glissement se termine
       },
       child: Scaffold(
         appBar: AppBar(
@@ -78,11 +76,10 @@ class Wingfoil extends StatelessWidget {
           ],
           title: const Text(''),
         ),
-        body:
-        Stack(
+        body: Stack(
           children: [
             Image.asset(
-              'assets/wingfoil.png',
+              'assets/kitesurf3.png',
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
@@ -93,18 +90,13 @@ class Wingfoil extends StatelessWidget {
                 left: 16,
                 right: 16,
                 child: Text(
-                  'Faites glisser vers la gauche pour Wingfoil, et vers la droite pour Kitesurf',
+                  'Faites glisser vers la gauche pour Wingfoil',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
                   ),
                 ),
               ),
-            Positioned(
-              top: 250,
-              left: 5,
-              child: Icon(Icons.arrow_back_ios, size: 50, color: Color(0xFFF5F5F5)),
-            ),
             Positioned(
               top: MediaQuery.of(context).size.height * 0.35,
               left: 16,
@@ -113,7 +105,7 @@ class Wingfoil extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'WING FOIL',
+                    'KITE SURF',
                     style: TextStyle(
                       fontSize: 46,
                       fontWeight: FontWeight.bold,
@@ -140,7 +132,7 @@ class Wingfoil extends StatelessWidget {
                   SizedBox(height: 46),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/etapesW');
+                      Navigator.pushNamed(context, '/etapesK');
                     },
                     child: Text(
                       'VOIR LES ÉTAPES',
