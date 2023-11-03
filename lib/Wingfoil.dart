@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Surf.dart';
+import 'main.dart';
+
 
 class Wingfoil extends StatelessWidget {
   Offset? _initialPosition;
@@ -10,7 +12,7 @@ class Wingfoil extends StatelessWidget {
     return GestureDetector(
       onHorizontalDragStart: (DragStartDetails details) {
         _initialPosition = details.globalPosition;
-        _showSwipeIndicator = true; // Pour afficher l'indicateur au début du glissement
+        _showSwipeIndicator = true;
       },
       onHorizontalDragUpdate: (DragUpdateDetails details) {
         if (_initialPosition != null) {
@@ -21,12 +23,15 @@ class Wingfoil extends StatelessWidget {
           if (difference < -10) {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => Surf()));
           }
+          // Si le mouvement est vers la droite
+          else if (difference > 10) {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Kitesurf()));
+          }
         }
       },
       onHorizontalDragEnd: (DragEndDetails details) {
-        // Pour réinitialiser la position initiale au moment du DragEnd
         _initialPosition = null;
-        _showSwipeIndicator = false; // Pour masquer l'indicateur lorsque le glissement se termine
+        _showSwipeIndicator = false;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -73,7 +78,8 @@ class Wingfoil extends StatelessWidget {
           ],
           title: const Text(''),
         ),
-        body: Stack(
+        body:
+        Stack(
           children: [
             Image.asset(
               'assets/wingfoil.png',
@@ -87,7 +93,7 @@ class Wingfoil extends StatelessWidget {
                 left: 16,
                 right: 16,
                 child: Text(
-                  'Faites glisser vers la gauche pour continuer',
+                  'Faites glisser vers la gauche pour Wingfoil, et vers la droite pour Kitesurf',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
