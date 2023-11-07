@@ -71,8 +71,62 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
     });
   }
 
-
-
+  void _showAdditionalInfo(BuildContext context) {
+    // Afficher les informations supplémentaires à l'utilisateur
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '🌟 Infos Wingfoil 🌟',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Bienvenue dans la section Wingfoil! 👋',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Ici, vous pouvez accéder à différentes étapes pour améliorer vos compétences dans le wingfoil. Chaque étape a ses propres défis et objectifs. Les étapes verrouillées nécessitent de valider les étapes précédentes pour être accessibles. 🔒🎯',
+                  style: TextStyle(
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                    child: Text(
+                      'Fermer',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
 
   @override
@@ -249,6 +303,64 @@ class _EtapesScreenKitesurfState extends State<EtapesScreenKitesurf> {
     });
   }
 
+
+  void _showAdditionalInfo(BuildContext context) {
+    // Afficher les informations supplémentaires à l'utilisateur
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '🌟 Infos Kitesurf 🌟',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Bienvenue dans la section Kitesurf! 👋',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Ici, vous pouvez accéder à différentes étapes pour améliorer vos compétences dans le kitesurf. Chaque étape a ses propres défis et objectifs. Les étapes verrouillées nécessitent de valider les étapes précédentes pour être accessibles. 🔒🎯',
+                  style: TextStyle(
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                    child: Text(
+                      'Fermer',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -422,12 +534,69 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
     });
   }
 
+  void _showAdditionalInfo(BuildContext context) {
+    // Afficher les informations supplémentaires à l'utilisateur
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '🌟 Infos Surf 🌟',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Bienvenue dans la section Surf! 👋',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Ici, vous pouvez accéder à différentes étapes pour améliorer vos compétences dans le surf. Chaque étape a ses propres défis et objectifs. Les étapes verrouillées nécessitent de valider les étapes précédentes pour être accessibles. 🔒🎯',
+                  style: TextStyle(
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                    child: Text(
+                      'Fermer',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Étapes Wingfoil',
+          'Étapes Surf',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -552,62 +721,4 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
       ),
     );
   }
-}
-
-//fonction
-void _showAdditionalInfo(BuildContext context) {
-  // Afficher les informations supplémentaires à l'utilisateur
-  showDialog(
-    context: context,
-    builder: (context) {
-      return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        child: Container(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                '🌟 Infos Wingfoil 🌟',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Bienvenue dans la section Wingfoil! 👋',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Ici, vous pouvez accéder à différentes étapes pour améliorer vos compétences dans le wingfoil. Chaque étape a ses propres défis et objectifs. Les étapes verrouillées nécessitent de valider les étapes précédentes pour être accessibles. 🔒🎯',
-                style: TextStyle(
-                  color: Colors.black87,
-                ),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                  child: Text(
-                    'Fermer',
-                    style: TextStyle(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  }
-              ),
-            ],
-          ),
-        ),
-      );
-    },
-  );
 }
