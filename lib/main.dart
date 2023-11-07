@@ -45,6 +45,8 @@ class MyApp extends StatelessWidget {
           },
         ),
     ),
+      //Pour enlever l'icone debug
+      debugShowCheckedModeBanner: false,
       home: Kitesurf(),
       routes: {
         '/menu': (context) => MenuScreen(),
