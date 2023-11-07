@@ -15,31 +15,43 @@ class _MenuScreenState extends State<MenuScreen> {
       body: ListView(
         children: [
           ListTile(
-            leading: Icon(Icons.people_outlined),
+            leading: Text('👥',
+              style: TextStyle(
+                fontSize: 26,),
+            ),
             title: Text('Qui sommes nous'),
             onTap: () {
-              // Action lorsque l'utilisateur clique sur "Essayer la version premium gratuitement"
+              // Action lorsque l'utilisateur clique sur "Qui sommes nous"
             },
           ),
           ListTile(
-            leading: Icon(Icons.contact_page),
+            leading: Text('📇',
+              style: TextStyle(
+                fontSize: 26,),
+            ),
             title: Text('Contact'),
             onTap: () {
-              // Action lorsque l'utilisateur clique sur "Mon profil"
+              // Action lorsque l'utilisateur clique sur "Contact"
             },
           ),
           ListTile(
-            leading: Icon(Icons.account_circle_outlined),
+            leading: Text('🔑',
+              style: TextStyle(
+                fontSize: 26,),
+            ),
             title: Text('Connexion'),
             onTap: () {
-              // Action lorsque l'utilisateur clique sur "Objectifs"
+              // Action lorsque l'utilisateur clique sur "Connexion"
             },
           ),
           ListTile(
-            leading: Icon(Icons.travel_explore_outlined),
-            title: Text('Acceder au site'),
+            leading: Text('🌐',
+              style: TextStyle(
+                fontSize: 26,),
+            ),
+            title: Text('Accéder au site'),
             onTap: () {
-              // Action lorsque l'utilisateur clique sur "Centre de confidentialité"
+              // Action lorsque l'utilisateur clique sur "Accéder au site"
             },
           ),
         ],
