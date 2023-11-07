@@ -2,16 +2,6 @@
 _Description
 Cette application mobile est un cahier de progression pour les sports de kitesurf, wing foil et surf. Vidéos incluses pour améliorer la technique. Saisie de notes de progression dans une feuille de notes par niveaux.
 
-Capture d'ecrans_
-
-![img.png](img.png)
-
-![img_2.png](img_2.png)
-
-![img_3.png](img_3.png)
-
-![img_4.png](img_4.png)
-
 _Technologies Utilisées
 Langage de Programmation : Dart
 Framework : Flutter

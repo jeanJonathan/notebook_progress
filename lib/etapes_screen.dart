@@ -110,15 +110,15 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  child: Text(
-                    'Fermer',
-                    style: TextStyle(
-                      color: Colors.blue,
+                    child: Text(
+                      'Fermer',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
                     ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  }
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }
                 ),
               ],
             ),
@@ -127,7 +127,6 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
       },
     );
   }
-
 
 
   @override
@@ -304,17 +303,83 @@ class _EtapesScreenKitesurfState extends State<EtapesScreenKitesurf> {
     });
   }
 
+
+  void _showAdditionalInfo(BuildContext context) {
+    // Afficher les informations supplémentaires à l'utilisateur
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '🌟 Infos Kitesurf 🌟',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Bienvenue dans la section Kitesurf! 👋',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Ici, vous pouvez accéder à différentes étapes pour améliorer vos compétences dans le kitesurf. Chaque étape a ses propres défis et objectifs. Les étapes verrouillées nécessitent de valider les étapes précédentes pour être accessibles. 🔒🎯',
+                  style: TextStyle(
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                    child: Text(
+                      'Fermer',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Étapes kitesurf',
+          'Étapes Kitesurf',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.info_outline),
+            onPressed: () {
+              _showAdditionalInfo(context);
+            },
+          ),
+        ],
         centerTitle: true,
       ),
       body: ListView.builder(
@@ -322,25 +387,45 @@ class _EtapesScreenKitesurfState extends State<EtapesScreenKitesurf> {
         itemBuilder: (context, index) {
           Etape etape = etapes[index];
 
-          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '1');
+          bool dejaValidee =
+          progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '1');
           bool estVerouillee = (progressions.where((progression) => progression.sportRef == '1').length + 1) <= index;
-
 
           return InkWell(
             onTap: () {
               if (estVerouillee) {
                 HapticFeedback.heavyImpact();
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Cette étape est verrouillée.'),
-                  behavior: SnackBarBehavior.floating,
-                  backgroundColor: Colors.grey,
-                  duration: Duration(milliseconds: 500),
-                ));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Cette étape est verrouillée. 🔒'),
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.grey,
+                    duration: Duration(milliseconds: 500),
+                  ),
+                );
               } else {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId, sportRef: '1',),
+                  PageRouteBuilder(
+                    transitionDuration: Duration(milliseconds: 250),
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return EtapeDetailScreen(
+                        etape: etape,
+                        etapeId: etape.etapeId,
+                        sportRef: '1',
+                      );
+                    },
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      var begin = Offset(1.0, 0.0);
+                      var end = Offset.zero;
+                      var tween = Tween(begin: begin, end: end);
+                      var offsetAnimation = animation.drive(tween);
+
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      );
+                    },
                   ),
                 );
               }
@@ -381,22 +466,24 @@ class _EtapesScreenKitesurfState extends State<EtapesScreenKitesurf> {
                   ),
                 ),
                 title: Text(
-                  etape.name,
+                  '🚀 ${etape.name}',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
-                  etape.description,
+                  '🌟 ${etape.description}',
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey,
+                    color: Colors.blue,
                   ),
                 ),
                 trailing: estVerouillee
-                    ? Icon(Icons.lock, color: Colors.red)
-                    : (dejaValidee ? Icon(Icons.lock_open, color: Colors.green) : Icon(Icons.arrow_forward, color: Colors.black)),
+                    ? Text('🔒', style: TextStyle(color: Colors.red))
+                    : (dejaValidee
+                    ? Text('🔓', style: TextStyle(color: Colors.green))
+                    : Icon(Icons.arrow_forward, color: Colors.black)),
               ),
             ),
           );
@@ -447,6 +534,63 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
     });
   }
 
+  void _showAdditionalInfo(BuildContext context) {
+    // Afficher les informations supplémentaires à l'utilisateur
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '🌟 Infos Surf 🌟',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Bienvenue dans la section Surf! 👋',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Ici, vous pouvez accéder à différentes étapes pour améliorer vos compétences dans le surf. Chaque étape a ses propres défis et objectifs. Les étapes verrouillées nécessitent de valider les étapes précédentes pour être accessibles. 🔒🎯',
+                  style: TextStyle(
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                    child: Text(
+                      'Fermer',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -458,6 +602,14 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.info_outline),
+            onPressed: () {
+              _showAdditionalInfo(context);
+            },
+          ),
+        ],
         centerTitle: true,
       ),
       body: ListView.builder(
@@ -465,24 +617,45 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
         itemBuilder: (context, index) {
           Etape etape = etapes[index];
 
-          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '3');
+          bool dejaValidee =
+          progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '3');
           bool estVerouillee = (progressions.where((progression) => progression.sportRef == '3').length + 1) <= index;
 
           return InkWell(
             onTap: () {
               if (estVerouillee) {
                 HapticFeedback.heavyImpact();
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Cette étape est verrouillée.'),
-                  behavior: SnackBarBehavior.floating,
-                  backgroundColor: Colors.grey,
-                  duration: Duration(milliseconds: 500),
-                ));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Cette étape est verrouillée. 🔒'),
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.grey,
+                    duration: Duration(milliseconds: 500),
+                  ),
+                );
               } else {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId, sportRef: '3',),
+                  PageRouteBuilder(
+                    transitionDuration: Duration(milliseconds: 250),
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return EtapeDetailScreen(
+                        etape: etape,
+                        etapeId: etape.etapeId,
+                        sportRef: '2',
+                      );
+                    },
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      var begin = Offset(1.0, 0.0);
+                      var end = Offset.zero;
+                      var tween = Tween(begin: begin, end: end);
+                      var offsetAnimation = animation.drive(tween);
+
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      );
+                    },
                   ),
                 );
               }
@@ -523,35 +696,23 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
                   ),
                 ),
                 title: Text(
-                  etape.name,
+                  '🚀 ${etape.name}',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
-                  etape.description,
+                  '🌟 ${etape.description}',
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey,
+                    color: Colors.blue,
                   ),
                 ),
                 trailing: estVerouillee
-                    ? IconButton(
-                  icon: Icon(Icons.lock),
-                  color: Colors.red,
-                  onPressed: () {
-                    _handleEtapeValidation(etape.etapeId, dejaValidee);
-                  },
-                )
+                    ? Text('🔒', style: TextStyle(color: Colors.red))
                     : (dejaValidee
-                    ? IconButton(
-                  icon: Icon(Icons.lock_open),
-                  color: Colors.green,
-                  onPressed: () {
-                    _handleEtapeValidation(etape.etapeId, dejaValidee);
-                  },
-                )
+                    ? Text('🔓', style: TextStyle(color: Colors.green))
                     : Icon(Icons.arrow_forward, color: Colors.black)),
               ),
             ),
@@ -559,26 +720,5 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
         },
       ),
     );
-  }
-
-  void _handleEtapeValidation(String etapeId, bool dejaValidee) {
-  if (dejaValidee) {
-      FirebaseFirestore.instance
-          .collection('progression')
-          .where('userId', isEqualTo: userId)
-          .where('etapeRef', isEqualTo: etapeId)
-          .get()
-          .then((snapshot) {
-        for (DocumentSnapshot doc in snapshot.docs) {
-          doc.reference.delete();
-        }
-      });
-    } else {
-      FirebaseFirestore.instance.collection('progression').add({
-        'userId': userId,
-        'etapeRef': etapeId,
-        'dateValidated': DateTime.now(),
-      });
-    }
   }
 }
