@@ -427,12 +427,20 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Étapes Surf',
+          'Étapes Wingfoil',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.info_outline),
+            onPressed: () {
+              _showAdditionalInfo(context);
+            },
+          ),
+        ],
         centerTitle: true,
       ),
       body: ListView.builder(
@@ -440,24 +448,45 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
         itemBuilder: (context, index) {
           Etape etape = etapes[index];
 
-          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '3');
+          bool dejaValidee =
+          progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '3');
           bool estVerouillee = (progressions.where((progression) => progression.sportRef == '3').length + 1) <= index;
 
           return InkWell(
             onTap: () {
               if (estVerouillee) {
                 HapticFeedback.heavyImpact();
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Cette étape est verrouillée.'),
-                  behavior: SnackBarBehavior.floating,
-                  backgroundColor: Colors.grey,
-                  duration: Duration(milliseconds: 500),
-                ));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Cette étape est verrouillée. 🔒'),
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.grey,
+                    duration: Duration(milliseconds: 500),
+                  ),
+                );
               } else {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => EtapeDetailScreen(etape: etape, etapeId: etape.etapeId, sportRef: '3',),
+                  PageRouteBuilder(
+                    transitionDuration: Duration(milliseconds: 250),
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return EtapeDetailScreen(
+                        etape: etape,
+                        etapeId: etape.etapeId,
+                        sportRef: '2',
+                      );
+                    },
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      var begin = Offset(1.0, 0.0);
+                      var end = Offset.zero;
+                      var tween = Tween(begin: begin, end: end);
+                      var offsetAnimation = animation.drive(tween);
+
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      );
+                    },
                   ),
                 );
               }
@@ -498,35 +527,23 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
                   ),
                 ),
                 title: Text(
-                  etape.name,
+                  '🚀 ${etape.name}',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
-                  etape.description,
+                  '🌟 ${etape.description}',
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey,
+                    color: Colors.blue,
                   ),
                 ),
                 trailing: estVerouillee
-                    ? IconButton(
-                  icon: Icon(Icons.lock),
-                  color: Colors.red,
-                  onPressed: () {
-                    _handleEtapeValidation(etape.etapeId, dejaValidee);
-                  },
-                )
+                    ? Text('🔒', style: TextStyle(color: Colors.red))
                     : (dejaValidee
-                    ? IconButton(
-                  icon: Icon(Icons.lock_open),
-                  color: Colors.green,
-                  onPressed: () {
-                    _handleEtapeValidation(etape.etapeId, dejaValidee);
-                  },
-                )
+                    ? Text('🔓', style: TextStyle(color: Colors.green))
                     : Icon(Icons.arrow_forward, color: Colors.black)),
               ),
             ),
@@ -534,27 +551,6 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
         },
       ),
     );
-  }
-
-  void _handleEtapeValidation(String etapeId, bool dejaValidee) {
-  if (dejaValidee) {
-      FirebaseFirestore.instance
-          .collection('progression')
-          .where('userId', isEqualTo: userId)
-          .where('etapeRef', isEqualTo: etapeId)
-          .get()
-          .then((snapshot) {
-        for (DocumentSnapshot doc in snapshot.docs) {
-          doc.reference.delete();
-        }
-      });
-    } else {
-      FirebaseFirestore.instance.collection('progression').add({
-        'userId': userId,
-        'etapeRef': etapeId,
-        'dateValidated': DateTime.now(),
-      });
-    }
   }
 }
 
