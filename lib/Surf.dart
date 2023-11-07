@@ -30,14 +30,14 @@ class Surf extends StatelessWidget {
                 children: [
                   Image.asset(
                     'assets/logoIONCLUB.png',
-                    width: 80,
-                    height: 80,
+                    width: 130,
+                    height: 135,
                   ),
                   SizedBox(width: 10),
                   Image.asset(
                     'assets/logoOcean.png',
-                    width: 130,
-                    height: 100,
+                    width: 145,
+                    height: 140,
                   ),
                   SizedBox(width: 8),
                   Text(
