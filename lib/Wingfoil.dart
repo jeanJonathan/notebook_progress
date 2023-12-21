@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Surf.dart';
 import 'kitesurf.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 
 class Wingfoil extends StatelessWidget {
   Offset? _initialPosition;
@@ -47,16 +47,36 @@ class Wingfoil extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/logoIONCLUB.png',
-                    width: 130,
-                    height: 135,
+                  GestureDetector(
+                    onTap: () async {
+                      const url = 'https://www.ion-club.net/fr/home/'; // Remplacer par l'URL souhaitée
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    },
+                    child: Image.asset(
+                      'assets/logoIONCLUB.png',
+                      width: 130,
+                      height: 135,
+                    ),
                   ),
                   SizedBox(width: 10),
-                  Image.asset(
-                    'assets/logoOcean.png',
-                    width: 145,
-                    height: 140,
+                  GestureDetector(
+                    onTap: () async {
+                      const url = 'https://oceanadventure.surf/'; // Remplacer par l'URL souhaitée
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    },
+                    child: Image.asset(
+                      'assets/logoOcean.png',
+                      width: 145,
+                      height: 140,
+                    ),
                   ),
                   SizedBox(width: 8),
                   Text(

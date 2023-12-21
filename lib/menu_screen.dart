@@ -14,6 +14,7 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
       body: ListView(
         children: [
+          /*
           ListTile(
             leading: Text('👥',
               style: TextStyle(
@@ -53,7 +54,7 @@ class _MenuScreenState extends State<MenuScreen> {
             onTap: () {
               // Action lorsque l'utilisateur clique sur "Accéder au site"
             },
-          ),
+          ),*/
         ],
       ),
     );
