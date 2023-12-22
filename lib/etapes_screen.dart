@@ -225,7 +225,7 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
                       child: Image.asset(
-                        'assets/wingfoil.jpg',
+                        'assets/wingfoil1.png',
                         width: 50,
                         height: 50,
                         fit: BoxFit.cover,
@@ -457,7 +457,7 @@ class _EtapesScreenKitesurfState extends State<EtapesScreenKitesurf> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
                       child: Image.asset(
-                        'assets/kite.jpg',
+                        'assets/kite.png',
                         width: 50,
                         height: 50,
                         fit: BoxFit.cover,
@@ -687,7 +687,7 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
                       child: Image.asset(
-                        'assets/surf2.jpg',
+                        'assets/surf2.png',
                         width: 50,
                         height: 50,
                         fit: BoxFit.cover,
