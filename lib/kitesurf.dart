@@ -138,6 +138,7 @@ class Kitesurf extends StatelessWidget {
                       'VOIR LES ÉTAPES',
                       style: TextStyle(
                         fontSize: 20,
+                        color: Color(0xFF074868),
                         fontFamily: 'Open Sans',
                       ),
                     ),
