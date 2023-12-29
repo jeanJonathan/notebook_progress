@@ -39,7 +39,7 @@ class EtapeDetailScreen extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/desc_etapes.jpg'),
+                image: AssetImage('assets/desc_etapes.png'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.6),

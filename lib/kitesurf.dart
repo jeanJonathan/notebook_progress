@@ -48,23 +48,7 @@ class Kitesurf extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      const url = 'https://www.ion-club.net/fr/home/'; // Remplacer par l'URL souhaitée
-                      if (await canLaunch(url)) {
-                        await launch(url);
-                      } else {
-                        throw 'Could not launch $url';
-                      }
-                    },
-                    child: Image.asset(
-                      'assets/logoIONCLUB.png',
-                      width: 130,
-                      height: 135,
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  GestureDetector(
-                    onTap: () async {
-                      const url = 'https://oceanadventure.surf/'; // Remplacer par l'URL souhaitée
+                      const url = 'https://www.ion-club.net/fr/home/'; // URL de votre choix
                       if (await canLaunch(url)) {
                         await launch(url);
                       } else {
@@ -73,21 +57,16 @@ class Kitesurf extends StatelessWidget {
                     },
                     child: Image.asset(
                       'assets/logoOcean.png',
-                      width: 145,
-                      height: 140,
+                      width: 200, // Ajustez la largeur comme vous le souhaitez
+                      height: 205, // Ajustez la hauteur comme vous le souhaitez
                     ),
                   ),
-                  SizedBox(width: 8),
-                  Text(
-                    '',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  SizedBox(width: 10), // Vous pouvez ajuster l'espace si nécessaire
+                  // Le texte a été supprimé pour mettre en évidence le logo
                 ],
               ),
             ),
+
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {

@@ -75,14 +75,14 @@ flutter:
         - asset: fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf
         - asset: fonts/OpenSans-VariableFont_wdth,wght.ttf
   assets:
-    - assets/desc_etapes.jpg
+    - assets/desc_etapes.png
     - assets/kitesurf.jpg
     - assets/surf.jpg
     - assets/wingfoil1.png
     - assets/surf1.jpg
     - assets/logoIONCLUB.png
     - assets/logoOcean.png
-    - assets/form2.jpg
+    - assets/form2.png
     - assets/surf2.png
     - assets/kite.png
     - assets/wing.jpg
