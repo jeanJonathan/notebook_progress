@@ -49,7 +49,7 @@ class Wingfoil extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      const url = 'https://www.ion-club.net/fr/home/'; // URL de votre choix
+                      const url = 'https://oceanadventure.surf/'; // URL de votre choix
                       if (await canLaunch(url)) {
                         await launch(url);
                       } else {
