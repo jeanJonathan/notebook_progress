@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
+import 'authentification.dart';
+
 void main() => runApp(OceanAdventureApp());
 
 class OceanAdventureApp extends StatelessWidget {
@@ -45,19 +47,20 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                'YOUR WORLD. OCEAN ADVENTURE',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28,
-                  color: Colors.white,
-                ),
+              Image.asset(
+                'assets/logoOcean.png', // Remplacez par le chemin de votre image/logo
+                width: 300,
+                height: 100,
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {},
-                child: Text('S\'authentifier ou S\'inscrire'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AuthScreen()),
+                  );
+                },
+                child: Text('S\'AUTHENTIFIER OU S\'INSCRIRE'),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white,
                   onPrimary: Colors.blue,
@@ -66,7 +69,7 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
               SizedBox(height: 12),
               OutlinedButton(
                 onPressed: () {},
-                child: Text('Découvrir les avantages de l\'application'),
+                child: Text('DECOUVRIR LES AVANTAGES DE L\'APPLICATION'),
                 style: OutlinedButton.styleFrom(
                   primary: Colors.white,
                 ),
