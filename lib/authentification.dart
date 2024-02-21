@@ -89,7 +89,20 @@ class _AuthScreenState extends State<AuthScreen> {
                     child: Text('SE CONNECTER'),
                   ),
                   SizedBox(height: 10),
-
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Divider(thickness: 1),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text('OU'),
+                      ),
+                      Expanded(
+                        child: Divider(thickness: 1),
+                      ),
+                    ],
+                  ),
                   SizedBox(height: 8),
                   TextButton(
                     onPressed: _signInWithGoogle,
