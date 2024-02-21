@@ -95,6 +95,7 @@ flutter:
     - assets/surf3.png
     - assets/wingfoil.png
     - assets/kitesurf3.png
+    - assets/connexion.jpg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

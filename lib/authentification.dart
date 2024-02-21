@@ -51,39 +51,62 @@ class _AuthScreenState extends State<AuthScreen> {
         title: Text('Créer un compte'),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              TextField(
-                controller: _emailController,
-                decoration: InputDecoration(labelText: 'E-mail'),
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height / 4, // 1/4 de la longueur de l'écran
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/connexion.jpg'), // Votre image
+                  fit: BoxFit.cover, // Couvre la largeur de l'écran
+                ),
               ),
-              TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Mot de passe'),
-                obscureText: true,
+            ),
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Vous n\'avez pas de compte ? Inscrivez-vous ici',
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(labelText: 'E-mail'),
+                  ),
+                  SizedBox(height: 8),
+                  TextField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(labelText: 'Mot de passe'),
+                    obscureText: true,
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _signUpWithEmailPassword,
+                    child: Text('SE CONNECTER'),
+                  ),
+                  SizedBox(height: 10),
+
+                  SizedBox(height: 8),
+                  TextButton(
+                    onPressed: _signInWithGoogle,
+                    child: Text('Continuer avec Google'),
+                  ),
+                  TextButton(
+                    onPressed: _signInWithFacebook,
+                    child: Text('Continuer avec Facebook'),
+                  ),
+                  TextButton(
+                    onPressed: _signInWithApple,
+                    child: Text('Continuer avec Apple'),
+                  ),
+                ],
               ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _signUpWithEmailPassword,
-                child: Text('SE CONNNECTER'),
-              ),
-              TextButton(
-                onPressed: _signInWithGoogle,
-                child: Text('Continuer avec Google'),
-              ),
-              TextButton(
-                onPressed: _signInWithFacebook,
-                child: Text('Continuer avec Facebook'),
-              ),
-              TextButton(
-                onPressed: _signInWithApple,
-                child: Text('Continuer avec Apple'),
-              ),
-              // Ajoutez des liens vers votre politique de confidentialité et vos CGU ici
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
