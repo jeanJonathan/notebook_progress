@@ -104,45 +104,88 @@ class _AuthScreenState extends State<AuthScreen> {
                     ],
                   ),
                   SizedBox(height: 8),
-                  // Bouton pour la connexion Google
-                  ElevatedButton.icon(
-                    icon: Image.asset('assets/icones/facebook.png', height: 24.0), // Mettez le logo de Google
-                    label: Text('Continuer avec Google'),
-                    onPressed: _signInWithGoogle,
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      onPrimary: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0), // Bords arrondis
+                  Column(
+                    children: [
+                      // Bouton pour la connexion Google
+                      ElevatedButton(
+                        onPressed: _signInWithGoogle,
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          onPrimary: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                          side: BorderSide(color: Colors.grey[300]!, width: 1),
+                          alignment: Alignment.centerLeft, // Aligner le contenu à gauche
+                        ),
+                        child: Row(
+                          children: [
+                            Image.asset('assets/icones/google.png', height: 24.0), // Le logo de Google
+                            SizedBox(width: 8.0),
+                            Expanded(
+                              child: Text(
+                                'Continuer avec Google',
+                                textAlign: TextAlign.center, // Centrer le texte dans l'espace disponible
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 12.0), // Ajustez le padding si nécessaire
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                    icon: Image.asset('assets/icones/google.png', height: 24.0), // Mettez le logo de Facebook
-                    label: Text('Continuer avec Facebook'),
-                    onPressed: _signInWithFacebook,
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      onPrimary: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0), // Bords arrondis
+                      SizedBox(height: 15),
+                      // Répétez le même pattern pour les autres boutons
+                      ElevatedButton(
+                        onPressed: _signInWithGoogle,
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          onPrimary: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                          side: BorderSide(color: Colors.grey[300]!, width: 1),
+                          alignment: Alignment.centerLeft, // Aligner le contenu à gauche
+                        ),
+                        child: Row(
+                          children: [
+                            Image.asset('assets/icones/facebook.png', height: 24.0), // Le logo de Facebook
+                            SizedBox(width: 8.0),
+                            Expanded(
+                              child: Text(
+                                'Continuer avec Facebook',
+                                textAlign: TextAlign.center, // Centrer le texte
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 12.0), // Ajustez le padding si nécessaire
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                    icon: Image.asset('assets/icones/logo-apple.png', height: 24.0), // Mettez le logo d'Apple
-                    label: Text('Continuer avec Apple'),
-                    onPressed: _signInWithApple,
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      onPrimary: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0), // Bords arrondis
+                      SizedBox(height: 15),
+                      ElevatedButton(
+                        onPressed: _signInWithGoogle,
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          onPrimary: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                          side: BorderSide(color: Colors.grey[300]!, width: 1),
+                          alignment: Alignment.centerLeft, // Aligner le contenu à gauche
+                        ),
+                        child: Row(
+                          children: [
+                            Image.asset('assets/icones/logo-apple.png', height: 24.0), // Le logo d'Apple
+                            SizedBox(width: 8.0),
+                            Expanded(
+                              child: Text(
+                                'Continuer avec Apple',
+                                textAlign: TextAlign.center, // Centrer le texte
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 12.0), // Ajustez le padding si nécessaire
-                    ),
+                    ],
                   ),
                 ],
               ),
