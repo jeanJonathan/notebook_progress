@@ -104,17 +104,45 @@ class _AuthScreenState extends State<AuthScreen> {
                     ],
                   ),
                   SizedBox(height: 8),
-                  TextButton(
+                  // Bouton pour la connexion Google
+                  ElevatedButton.icon(
+                    icon: Image.asset('assets/icones/facebook.png', height: 24.0), // Mettez le logo de Google
+                    label: Text('Continuer avec Google'),
                     onPressed: _signInWithGoogle,
-                    child: Text('Continuer avec Google'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      onPrimary: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0), // Bords arrondis
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 12.0), // Ajustez le padding si nécessaire
+                    ),
                   ),
-                  TextButton(
+                  ElevatedButton.icon(
+                    icon: Image.asset('assets/icones/google.png', height: 24.0), // Mettez le logo de Facebook
+                    label: Text('Continuer avec Facebook'),
                     onPressed: _signInWithFacebook,
-                    child: Text('Continuer avec Facebook'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      onPrimary: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0), // Bords arrondis
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 12.0), // Ajustez le padding si nécessaire
+                    ),
                   ),
-                  TextButton(
+                  ElevatedButton.icon(
+                    icon: Image.asset('assets/icones/logo-apple.png', height: 24.0), // Mettez le logo d'Apple
+                    label: Text('Continuer avec Apple'),
                     onPressed: _signInWithApple,
-                    child: Text('Continuer avec Apple'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      onPrimary: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0), // Bords arrondis
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 12.0), // Ajustez le padding si nécessaire
+                    ),
                   ),
                 ],
               ),
