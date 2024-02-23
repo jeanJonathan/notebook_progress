@@ -23,15 +23,22 @@ class _AuthScreenState extends State<AuthScreen> {
     super.dispose();
   }
 
-  Future<void> _signUpWithEmailPassword() async {
+  Future<void> _signInWithEmailPassword() async {
     try {
-      final UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
-      // Handle successful signup, such as navigating to the home screen
+      // Connexion réussie - Naviguer vers la page d'accueil
+      Navigator.of(context).pushReplacementNamed('/wingfoil');
     } on FirebaseAuthException catch (e) {
-      // Handle errors, such as displaying a snackbar
+      // Affichage d'un message d'erreur à l'utilisateur
+      // Par exemple, en utilisant un SnackBar
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erreur de connexion: ${e.message}'),
+        ),
+      );
     }
   }
 
@@ -98,7 +105,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                   SizedBox(height: 30),
                   ElevatedButton(
-                    onPressed: _signUpWithEmailPassword,
+                    onPressed: _signInWithEmailPassword,
                     child: Text('SE CONNECTER'),
                   ),
                   SizedBox(height: 35),
