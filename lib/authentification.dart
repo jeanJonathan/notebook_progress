@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:notebook_progress/singUp_screen.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+
+import 'package:flutter/gestures.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -47,9 +50,6 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Créer un compte'),
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -67,28 +67,41 @@ class _AuthScreenState extends State<AuthScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    'Vous n\'avez pas de compte ? Inscrivez-vous ici',
-                    style: TextStyle(fontSize: 16),
+                  RichText(
                     textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                      children: <TextSpan>[
+                        TextSpan(text: 'Vous n\'avez pas de compte ? '),
+                        TextSpan(
+                          text: 'Inscrivez-vous ici',
+                          style: TextStyle(color: Colors.blue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              // Insérez ici la logique pour naviguer vers l'écran d'inscription
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpScreen()));
+                            },
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 26),
                   TextField(
                     controller: _emailController,
                     decoration: InputDecoration(labelText: 'E-mail'),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 15),
                   TextField(
                     controller: _passwordController,
                     decoration: InputDecoration(labelText: 'Mot de passe'),
                     obscureText: true,
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: _signUpWithEmailPassword,
                     child: Text('SE CONNECTER'),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 35),
                   Row(
                     children: <Widget>[
                       Expanded(
@@ -103,7 +116,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 35),
                   Column(
                     children: [
                       // Bouton pour la connexion Google
@@ -132,7 +145,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: 20),
                       // Répétez le même pattern pour les autres boutons
                       ElevatedButton(
                         onPressed: _signInWithGoogle,
@@ -159,7 +172,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: _signInWithGoogle,
                         style: ElevatedButton.styleFrom(
