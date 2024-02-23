@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/etapes_screen.dart';
+import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/parametre_screen.dart';
 import 'Surf.dart';
 import 'kitesurf.dart';
@@ -40,7 +41,9 @@ class Wingfoil extends StatelessWidget {
           leading: IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {
-              Navigator.pushNamed(context, '/menu');
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => MenuScreen()),
+              );
             },
           ),
           actions: [
