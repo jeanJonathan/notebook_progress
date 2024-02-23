@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
       home: OceanAdventureApp(),//Ecran de demarrage de l'application
       routes: {
         '/authentification': (context) => AuthScreen(),
-        '/wingfoil': (context) => Wingfoil(), // Ajout de la route nommee pour l'ecran wingfoil
+        '/wingfoil': (context) => Wingfoil(), //wingfoil etant l'ecran d'acceuil
         '/menu': (context) => MenuScreen(),
         '/parametres': (context) => ParametresScreen(),
         '/etapesW': (context) => EtapesScreenWingfoil(),

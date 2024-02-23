@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:notebook_progress/Wingfoil.dart';
 import 'package:notebook_progress/singUp_screen.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -30,7 +31,9 @@ class _AuthScreenState extends State<AuthScreen> {
         password: _passwordController.text,
       );
       // Connexion réussie - Naviguer vers la page d'accueil
-      Navigator.of(context).pushReplacementNamed('/wingfoil');
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => Wingfoil()),
+      );
     } on FirebaseAuthException catch (e) {
       // Affichage d'un message d'erreur à l'utilisateur
       // Par exemple, en utilisant un SnackBar
