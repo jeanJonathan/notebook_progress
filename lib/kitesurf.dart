@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notebook_progress/etapes_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/parametre_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -138,7 +139,9 @@ class Kitesurf extends StatelessWidget {
                   SizedBox(height: 46),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/etapesK');
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => EtapesScreenKitesurf()),
+                      );
                     },
                     child: Text(
                       'VOIR LES ÉTAPES',
