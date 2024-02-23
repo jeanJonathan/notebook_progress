@@ -59,7 +59,17 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GestureDetector(
+        onHorizontalDragEnd: (DragEndDetails details) {
+      if (details.primaryVelocity! > 0) {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => AuthScreen()),
+        );
+      } else {
+        Navigator.of(context).pop();
+      }
+    },
+    child: Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -216,6 +226,7 @@ class _AuthScreenState extends State<AuthScreen> {
           ],
         ),
       ),
+    ),
     );
   }
 }
