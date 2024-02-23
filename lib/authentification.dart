@@ -4,8 +4,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:notebook_progress/Wingfoil.dart';
 import 'package:notebook_progress/singUp_screen.dart';
+import 'package:notebook_progress/splash_screen.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-
 import 'package:flutter/gestures.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -63,7 +63,7 @@ class _AuthScreenState extends State<AuthScreen> {
         onHorizontalDragEnd: (DragEndDetails details) {
       if (details.primaryVelocity! > 0) {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => AuthScreen()),
+          MaterialPageRoute(builder: (context) => OceanAdventureApp()),
         );
       } else {
         Navigator.of(context).pop();
