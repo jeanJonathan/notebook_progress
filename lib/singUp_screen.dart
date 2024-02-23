@@ -15,6 +15,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  bool _agreedToTOS = false;
+
+  void _setAgreedToTOS(bool? newValue) {
+    setState(() {
+      _agreedToTOS = newValue ?? _agreedToTOS;
+    });
+  }
+
 
   @override
   void dispose() {
@@ -120,8 +128,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                     ),
                     SizedBox(height: 10),
+                    ListTile(
+                      leading: Checkbox(
+                        value: _agreedToTOS,
+                        onChanged: _setAgreedToTOS,
+                      ),
+                      title: GestureDetector(
+                        onTap: () => _setAgreedToTOS(!_agreedToTOS),
+                        child: const Text(
+                          'Accepte conditions & confidentialité',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
                     ElevatedButton(
-                      onPressed: _registerAccount,
+                      onPressed: _agreedToTOS ? _registerAccount : null,
                       child: Text('S\'inscrire'),
                     ),
                   ],
