@@ -24,6 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
   }
 
+
   @override
   void dispose() {
     _firstNameController.dispose();
@@ -72,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ClipPath(
               clipper: WaveClipper(),
               child: Container(
-                color: Colors.blue,
+                color: Color(0xFF074868),
                 height: 200,
                 width: double.infinity,
               ),
@@ -99,17 +100,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       TextFormField(
                         controller: _lastNameController,
+                        cursorColor: Color(0xFF64C8C8), // Définit la couleur du curseur
                         decoration: InputDecoration(
                           labelText: 'Nom*',
+                          labelStyle: TextStyle(color: Colors.black),
+                          focusedBorder: UnderlineInputBorder( // Définit la couleur de la bordure lors de la sélection du champ
+                            borderSide: BorderSide(color: Color(0xFF64C8C8)),
+                          ),
+                          // Ajoutez également enabledBorder si vous souhaitez changer la couleur de la bordure quand le champ n'est pas sélectionné
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFF64C8C8)),
+                          ),
                         ),
                         validator: (value) {
-                          return value!.isEmpty ? 'Veuillez renseigner votre nom.' : null;
+                          return value!.isEmpty ? 'Veuillez renseigner votre adresse e-mail.' : null;
                         },
                       ),
                       TextFormField(
                         controller: _emailController,
+                        cursorColor: Color(0xFF64C8C8), // Définit la couleur du curseur
                         decoration: InputDecoration(
                           labelText: 'Adresse e-mail*',
+                          labelStyle: TextStyle(color: Colors.black),
+                          focusedBorder: UnderlineInputBorder( // Définit la couleur de la bordure lors de la sélection du champ
+                            borderSide: BorderSide(color: Color(0xFF64C8C8)),
+                          ),
+                          // Ajoutez également enabledBorder si vous souhaitez changer la couleur de la bordure quand le champ n'est pas sélectionné
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFF64C8C8)),
+                          ),
                         ),
                         validator: (value) {
                           return value!.isEmpty ? 'Veuillez renseigner votre adresse e-mail.' : null;
