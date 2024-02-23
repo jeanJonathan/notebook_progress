@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/etapes_screen.dart';
+import 'package:notebook_progress/parametre_screen.dart';
 import 'Surf.dart';
 import 'kitesurf.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -71,7 +72,9 @@ class Wingfoil extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {
-                Navigator.pushNamed(context, '/parametres');
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ParametresScreen()),
+                );
               },
             ),
           ],
