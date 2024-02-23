@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notebook_progress/etapes_screen.dart';
 import 'Surf.dart';
 import 'kitesurf.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -138,7 +139,9 @@ class Wingfoil extends StatelessWidget {
                   SizedBox(height: 46),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/etapesW');
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => EtapesScreenWingfoil()),
+                      );
                     },
                     child: Text(
                       'VOIR LES ÉTAPES',
