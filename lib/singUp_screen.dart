@@ -49,7 +49,88 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      body: Stack(
+        children: <Widget>[
+          ClipPath(
+            clipper: WaveClipper(),
+            child: Container(
+              color: Colors.blue,
+              height: 200,
+              width: double.infinity,
+            ),
+          ),
+          SingleChildScrollView(
+            physics: NeverScrollableScrollPhysics(), // pour empêcher le défilement de la vue
+            child: Padding(
+              padding: EdgeInsets.all(24.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end, // Aligner les champs vers le bas
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.17), // Ajustez cette valeur pour déplacer les champs sous la vague
+                    TextFormField(
+                      controller: _firstNameController,
+                      decoration: InputDecoration(
+                        labelText: 'Prénom*',
+                      ),
+                      validator: (value) {
+                        return value!.isEmpty ? 'Veuillez renseigner votre prénom.' : null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _lastNameController,
+                      decoration: InputDecoration(
+                        labelText: 'Nom*',
+                      ),
+                      validator: (value) {
+                        return value!.isEmpty ? 'Veuillez renseigner votre nom.' : null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Adresse e-mail*',
+                      ),
+                      validator: (value) {
+                        return value!.isEmpty ? 'Veuillez renseigner votre adresse e-mail.' : null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                        labelText: 'Mot de passe*',
+                      ),
+                      obscureText: true,
+                      validator: (value) {
+                        return value!.isEmpty || value.length < 8 ? 'Le mot de passe doit contenir au moins 8 caractères.' : null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _confirmPasswordController,
+                      decoration: InputDecoration(
+                        labelText: 'Confirmer le mot de passe*',
+                      ),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value!.isEmpty) return 'Veuillez confirmer votre mot de passe.';
+                        if (value != _passwordController.text) return 'Les mots de passe ne correspondent pas.';
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _registerAccount,
+                      child: Text('S\'inscrire'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
