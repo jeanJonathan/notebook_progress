@@ -26,7 +26,7 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset('assets/Canaries.mp4')
+    _controller = VideoPlayerController.asset('assets/demarrage.mp4')
       ..initialize().then((_) {
         setState(() {});
       })..setLooping(true)..play();
