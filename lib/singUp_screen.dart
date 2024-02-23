@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'authentification.dart';
 import 'wave_cliper.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -42,10 +43,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
             email: _emailController.text,
             password: _passwordController.text,
           );
-          // Enregistrement réussi - Naviguer vers la page suivante
-          Navigator.of(context).pushReplacementNamed('/authentification');
+          // Enregistrement réussi - Naviguer vers la page de connexion
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => AuthScreen()),
+          );
         } on FirebaseAuthException catch (e) {
-          // Gérer les erreurs d'enregistrement, par exemple en affichant un message d'erreur
+          // Gestion des erreurs d'enregistrement, par exemple en affichant un message d'erreur
         }
       } else {
         // Gérer le cas où les mots de passe ne correspondent pas
