@@ -6,6 +6,7 @@ import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/splash_screen.dart';
 import 'Wingfoil.dart';
+import 'authentification.dart';
 import 'etapes_screen.dart';
 import 'firebase_options.dart';
 import 'data_firestore.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: OceanAdventureApp(),//Ecran de demarrage de l'application
       routes: {
+        '/authentification': (context) => AuthScreen(),
         '/wingfoil': (context) => Wingfoil(), // Ajout de la route nommee pour l'ecran wingfoil
         '/menu': (context) => MenuScreen(),
         '/parametres': (context) => ParametresScreen(),

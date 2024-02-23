@@ -36,14 +36,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future<void> _registerAccount() async {
     if (_formKey.currentState!.validate()) {
-      // Assurez-vous que les mots de passe correspondent avant d'essayer de créer un compte
       if (_passwordController.text == _confirmPasswordController.text) {
         try {
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: _emailController.text,
             password: _passwordController.text,
           );
-          // Enregistrement réussi - Naviguer vers la page suivante ou afficher un message de succès
+          // Enregistrement réussi - Naviguer vers la page suivante
+          Navigator.of(context).pushReplacementNamed('/authentification');
         } on FirebaseAuthException catch (e) {
           // Gérer les erreurs d'enregistrement, par exemple en affichant un message d'erreur
         }
