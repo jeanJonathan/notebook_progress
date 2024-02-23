@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notebook_progress/menu_screen.dart';
+import 'package:notebook_progress/parametre_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'Wingfoil.dart';
@@ -37,7 +39,9 @@ class Kitesurf extends StatelessWidget {
           leading: IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {
-              Navigator.pushNamed(context, '/menu');
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => MenuScreen()),
+              );
             },
           ),
           actions: [
@@ -70,7 +74,9 @@ class Kitesurf extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {
-                Navigator.pushNamed(context, '/parametres');
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ParametresScreen()),
+                );
               },
             ),
           ],

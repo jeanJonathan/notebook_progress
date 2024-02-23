@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notebook_progress/menu_screen.dart';
+import 'package:notebook_progress/parametre_screen.dart';
 import 'Wingfoil.dart';
 import 'package:url_launcher/url_launcher.dart';
 class Surf extends StatelessWidget {
@@ -19,7 +21,9 @@ class Surf extends StatelessWidget {
           leading: IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {
-              Navigator.pushNamed(context, '/menu');
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => MenuScreen()),
+              );
             },
           ),
           actions: [
@@ -51,7 +55,9 @@ class Surf extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {
-                Navigator.pushNamed(context, '/parametres');
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ParametresScreen()),
+                );
               },
             ),
           ],
