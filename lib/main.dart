@@ -4,6 +4,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
+import 'package:notebook_progress/splash_screen.dart';
+import 'Wingfoil.dart';
+import 'authentification.dart';
 import 'etapes_screen.dart';
 import 'firebase_options.dart';
 import 'data_firestore.dart';
@@ -47,8 +50,10 @@ class MyApp extends StatelessWidget {
     ),
       //Pour enlever l'icone debug
       debugShowCheckedModeBanner: false,
-      home: Kitesurf(),
+      home: OceanAdventureApp(),//Ecran de demarrage de l'application
       routes: {
+        '/authentification': (context) => AuthScreen(),
+        '/wingfoil': (context) => Wingfoil(), //wingfoil etant l'ecran d'acceuil
         '/menu': (context) => MenuScreen(),
         '/parametres': (context) => ParametresScreen(),
         '/etapesW': (context) => EtapesScreenWingfoil(),

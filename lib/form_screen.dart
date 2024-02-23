@@ -157,7 +157,7 @@ class _FormScreenState extends State<FormScreen> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/form2.jpg'), // Insérez le chemin de votre image de fond
+                image: AssetImage('assets/form2.png'), // Insérez le chemin de votre image de fond
                 fit: BoxFit.cover,
               ),
             ),
@@ -175,7 +175,7 @@ class _FormScreenState extends State<FormScreen> {
                     Text(
                       'PROGRESSION',
                       style: TextStyle(
-                        fontSize: 50,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                         shadows: [

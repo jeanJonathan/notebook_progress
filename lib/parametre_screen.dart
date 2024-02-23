@@ -18,7 +18,7 @@ class _ParametresScreenState extends State<ParametresScreen> {
       ),
       body: ListView(
         children: [
-          ListTile(
+          /*ListTile(
             leading: Text('⭐',
               style: TextStyle(
                 fontSize: 26,),
@@ -77,7 +77,7 @@ class _ParametresScreenState extends State<ParametresScreen> {
             onTap: () {
               // Action lorsque l'utilisateur clique sur "Aide"
             },
-          ),
+          ),  */
           ListTile(
             leading: Text('🚪',
               style: TextStyle(

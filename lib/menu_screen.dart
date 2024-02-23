@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MenuScreen extends StatefulWidget {
   @override
@@ -14,6 +15,7 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
       body: ListView(
         children: [
+          /*
           ListTile(
             leading: Text('👥',
               style: TextStyle(
@@ -43,15 +45,20 @@ class _MenuScreenState extends State<MenuScreen> {
             onTap: () {
               // Action lorsque l'utilisateur clique sur "Connexion"
             },
-          ),
+          ),*/
           ListTile(
             leading: Text('🌐',
               style: TextStyle(
                 fontSize: 26,),
             ),
             title: Text('Accéder au site'),
-            onTap: () {
-              // Action lorsque l'utilisateur clique sur "Accéder au site"
+            onTap: () async {
+              const url = 'https://oceanadventure.surf/';
+              if (await canLaunch(url)) {
+                await launch(url);
+              } else {
+                // Afficher une erreur ou gérer l'incapacité à lancer l'URL
+              }
             },
           ),
         ],

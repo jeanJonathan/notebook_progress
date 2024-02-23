@@ -2,6 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notebook_progress/etapes_screen.dart';
+import 'package:notebook_progress/menu_screen.dart';
+import 'package:notebook_progress/parametre_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'Wingfoil.dart';
 
@@ -36,7 +40,9 @@ class Kitesurf extends StatelessWidget {
           leading: IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {
-              Navigator.pushNamed(context, '/menu');
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => MenuScreen()),
+              );
             },
           ),
           actions: [
@@ -45,32 +51,33 @@ class Kitesurf extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/logoIONCLUB.png',
-                    width: 130,
-                    height: 135,
-                  ),
-                  SizedBox(width: 10),
-                  Image.asset(
-                    'assets/logoOcean.png',
-                    width: 145,
-                    height: 140,
-                  ),
-                  SizedBox(width: 8),
-                  Text(
-                    '',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  GestureDetector(
+                    onTap: () async {
+                      const url = 'https://oceanadventure.surf/'; // URL de votre choix
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    },
+                    child: Image.asset(
+                      'assets/logoOcean.png',
+                      width: 200, // Ajustez la largeur comme vous le souhaitez
+                      height: 205, // Ajustez la hauteur comme vous le souhaitez
                     ),
                   ),
+                  SizedBox(width: 10), // Vous pouvez ajuster l'espace si nécessaire
+                  // Le texte a été supprimé pour mettre en évidence le logo
                 ],
               ),
             ),
+
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {
-                Navigator.pushNamed(context, '/parametres');
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ParametresScreen()),
+                );
               },
             ),
           ],
@@ -132,12 +139,15 @@ class Kitesurf extends StatelessWidget {
                   SizedBox(height: 46),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/etapesK');
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => EtapesScreenKitesurf()),
+                      );
                     },
                     child: Text(
                       'VOIR LES ÉTAPES',
                       style: TextStyle(
                         fontSize: 20,
+                        color: Color(0xFF074868),
                         fontFamily: 'Open Sans',
                       ),
                     ),
