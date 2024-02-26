@@ -95,7 +95,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         TextSpan(text: 'Vous n\'avez pas de compte ? '),
                         TextSpan(
                           text: 'Inscrivez-vous ici',
-                          style: TextStyle(color: Colors.blue),
+                          style: TextStyle(color: Color(0xFF64C8C8)),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               // Insérez ici la logique pour naviguer vers l'écran d'inscription
@@ -119,7 +119,11 @@ class _AuthScreenState extends State<AuthScreen> {
                   SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: _signInWithEmailPassword,
-                    child: Text('SE CONNECTER'),
+                    child: Text('SE CONNECTER',
+                      style: TextStyle(
+                        color: Color(0xFF64C8C8), // Ici, nous définissons la couleur du texte.
+                  ),
+                    ),
                   ),
                   SizedBox(height: 35),
                   Row(
@@ -143,8 +147,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       ElevatedButton(
                         onPressed: _signInWithGoogle,
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: Colors.black,
+                          foregroundColor: Colors.black, backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
@@ -170,8 +173,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       ElevatedButton(
                         onPressed: _signInWithGoogle,
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: Colors.black,
+                          foregroundColor: Colors.black, backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
@@ -196,8 +198,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       ElevatedButton(
                         onPressed: _signInWithGoogle,
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: Colors.black,
+                          foregroundColor: Colors.black, backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),

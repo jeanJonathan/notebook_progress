@@ -440,8 +440,7 @@ class _FormScreenState extends State<FormScreen> {
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
-                        ),
-                        primary: Color(0xFF64C8C8),
+                        ), backgroundColor: Color(0xFF64C8C8),
                         minimumSize: Size(200, 50),
                       ),
                     ),

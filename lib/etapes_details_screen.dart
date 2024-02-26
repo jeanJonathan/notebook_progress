@@ -90,8 +90,7 @@ class EtapeDetailScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    primary: Colors.white, // Changer la couleur du bouton selon vos besoins
+                    ), backgroundColor: Colors.white, // Changer la couleur du bouton selon vos besoins
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,

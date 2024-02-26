@@ -155,11 +155,10 @@ class Kitesurf extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                         horizontal: 25,
                         vertical: 10,
-                      ),
+                      ), backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      primary: Colors.white,
                     ),
                   ),
                 ],
