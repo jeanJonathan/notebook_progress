@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/etapes_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
@@ -12,77 +13,73 @@ class Wingfoil extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onHorizontalDragStart: (DragStartDetails details) {
-        _initialPosition = details.globalPosition;
-        _showSwipeIndicator = true;
-      },
-      onHorizontalDragUpdate: (DragUpdateDetails details) {
-        if (_initialPosition != null) {
-          final offset = details.globalPosition;
-          final difference = offset.dx - _initialPosition!.dx;
-
-          // Si le mouvement est vers la gauche
-          if (difference < -10) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Surf()));
-          }
-          // Si le mouvement est vers la droite
-          else if (difference > 10) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Kitesurf()));
-          }
-        }
-      },
-      onHorizontalDragEnd: (DragEndDetails details) {
-        _initialPosition = null;
-        _showSwipeIndicator = false;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => MenuScreen()),
-              );
-            },
-          ),
-          actions: [
-            const SizedBox(width: kToolbarHeight),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      const url = 'https://oceanadventure.surf/'; // URL de votre choix
-                      if (await canLaunch(url)) {
-                        await launch(url);
-                      } else {
-                        throw 'Could not launch $url';
-                      }
-                    },
-                    child: Image.asset(
-                      'assets/logoOcean.png',
-                      width: 200, // Ajustez la largeur comme vous le souhaitez
-                      height: 205, // Ajustez la hauteur comme vous le souhaitez
-                    ),
-                  ),
-                  SizedBox(width: 10), // Vous pouvez ajuster l'espace si nécessaire
-                  // Le texte a été supprimé pour mettre en évidence le logo
-                ],
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => MenuScreen()),
+            );
+          },
+        ),
+        title: Row(
+          mainAxisSize: MainAxisSize.min, // Utilisez l'espace minimum nécessaire
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: () async {
+                const url = 'https://oceanadventure.surf/'; // URL de votre choix
+                if (await canLaunch(url)) {
+                  await launch(url);
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
+              child: Image.asset(
+                'assets/logoOcean.png',
+                width: 250, // Ajustez la largeur comme vous le souhaitez
+                height: 205, // Ajustez la hauteur comme vous le souhaitez
               ),
             ),
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ParametresScreen()),
-                );
-              },
-            ),
           ],
-          title: const Text(''),
-        ),
+        ), // Titre vide pour cet exemple
+        actions: [
+          StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.active && snapshot.data != null) {
+                User user = snapshot.data!;
+                String initials = '';
+                if (user.email != null) {
+                  initials = user.email!.split('@').first[0].toUpperCase();
+                  if (user.email!.split('@').first.length > 1) {
+                    initials += user.email!.split('@').first[1].toUpperCase();
+                  }
+                }
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min, // Utilisez l'espace minimum nécessaire
+                    children: [
+                      Text(initials, style: TextStyle(fontSize: 16)), // Les initiales de l'utilisateur
+                      SizedBox(width: 4), // Espacement entre le texte et l'icône
+                      Icon(Icons.person),
+                    ],
+                  ),
+                );
+              } else {
+                return IconButton(
+                  icon: const Icon(Icons.login),
+                  onPressed: () {
+                    // Rediriger vers l'écran de connexion
+                  },
+                );
+              }
+            },
+          ),
+        ],
+      ),
         body:
         Stack(
           children: [
@@ -177,7 +174,6 @@ class Wingfoil extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }

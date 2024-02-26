@@ -62,7 +62,7 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
                 },
                 child: Text('S\'AUTHENTIFIER OU S\'INSCRIRE'),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.blue, backgroundColor: Colors.white,
+                  foregroundColor: Color(0xFF64C8C8), backgroundColor: Colors.white,
                 ),
               ),
               SizedBox(height: 12),
