@@ -105,11 +105,10 @@ class _SignInScreenState extends State<SignInScreen> {
               onPressed: _signInWithEmailAndPassword,
               child: Text('Se connecter'),
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), backgroundColor: Color(0xFF64C8C8),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                primary: Color(0xFF64C8C8),
               ),
             ),
             SizedBox(height: 6),

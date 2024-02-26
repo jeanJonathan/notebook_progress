@@ -62,8 +62,7 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
                 },
                 child: Text('S\'AUTHENTIFIER OU S\'INSCRIRE'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  onPrimary: Colors.blue,
+                  foregroundColor: Colors.blue, backgroundColor: Colors.white,
                 ),
               ),
               SizedBox(height: 12),
@@ -71,7 +70,7 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
                 onPressed: () {},
                 child: Text('DECOUVRIR LES AVANTAGES DE L\'APPLICATION'),
                 style: OutlinedButton.styleFrom(
-                  primary: Colors.white,
+                  foregroundColor: Colors.white,
                 ),
               ),
             ],
