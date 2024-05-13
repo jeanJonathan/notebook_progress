@@ -8,6 +8,8 @@ import 'package:notebook_progress/splash_screen.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter/gestures.dart';
 
+import 'create_profile_start.dart';
+
 class AuthScreen extends StatefulWidget {
   @override
   _AuthScreenState createState() => _AuthScreenState();
@@ -32,7 +34,7 @@ class _AuthScreenState extends State<AuthScreen> {
       );
       // Connexion réussie - Naviguer vers l'ecran d'accueil -> gestion de profilt
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => Wingfoil()),
+        MaterialPageRoute(builder: (context) => CreateProfileStart()),
       );
     } on FirebaseAuthException catch (e) {
       // Affichage d'un message d'erreur à l'utilisateur
