@@ -60,7 +60,7 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
                     MaterialPageRoute(builder: (context) => AuthScreen()),
                   );
                 },
-                child: Text('S\'AUTHENTIFIER'),
+                child: Text('S\'AUTHENTIFIER OU S\'INSCRIRE'),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Color(0xFF64C8C8), backgroundColor: Colors.white,
                 ),
@@ -68,7 +68,7 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
               SizedBox(height: 12),
               OutlinedButton(
                 onPressed: () {},
-                child: Text('CREER UN COMPTE'),
+                child: Text('DECOUVRIR LES AVANTAGES DE L\'APPLICATION'),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.white,
                 ),

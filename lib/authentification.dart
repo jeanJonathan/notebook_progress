@@ -30,7 +30,7 @@ class _AuthScreenState extends State<AuthScreen> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      // Connexion réussie - Naviguer vers la page d'accueil
+      // Connexion réussie - Naviguer vers l'ecran d'accueil -> gestion de profilt
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => Wingfoil()),
       );
