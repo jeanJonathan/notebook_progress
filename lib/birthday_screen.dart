@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:notebook_progress/preferred_staytype_screen.dart';
 
 class BirthdateScreen extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Quelle est votre date de naissance ?"),
+        title: Text("Date de naissance ?"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
@@ -24,7 +25,7 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              "Choisissez votre date de naissance",
+              "Quelle est votre date de naissance ?",
               style: TextStyle(fontSize: 16),
               textAlign: TextAlign.center,
             ),
@@ -43,9 +44,9 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: _selectedDate == null ? null : _saveBirthdate,
-            child: Text('Suivant'),
+            child: Text('Suivant',style: TextStyle(fontSize: 18, color: Colors.white),),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue, disabledForegroundColor: Colors.grey.withOpacity(0.38), disabledBackgroundColor: Colors.grey.withOpacity(0.12), // Color when disabled
+              backgroundColor: Color(0xFF64C8C8), disabledForegroundColor: Colors.grey.withOpacity(0.38), disabledBackgroundColor: Colors.grey.withOpacity(0.12), // Color when disabled
             ),
           ),
         ],
@@ -73,7 +74,10 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
         'birthdate': _selectedDate,
       });
-      Navigator.of(context).pushNamed('/nextScreen'); // Adjust the route as necessary
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => PreferredStayTypeScreen()),
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Please log in to save your birthdate.'))

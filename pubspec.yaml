@@ -101,7 +101,9 @@ flutter:
     - assets/icones/logo-apple.png
     - assets/inscription.jpg
     - assets/welcome_image.jpg
-
+    - assets/debutant.jpg
+    - assets/intermediaire.jpg
+    - assets/avance.jpg
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
