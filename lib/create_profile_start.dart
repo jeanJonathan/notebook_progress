@@ -33,9 +33,12 @@ class CreateProfileStart extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 30),
-                  Image.asset(
-                    'assets/welcome_image.jpg',
-                    width: MediaQuery.of(context).size.width * 0.8, // Utilise 80% de la largeur de l'écran
+                  ClipRRect( // Utilisation de ClipRRect pour arrondir les coins de l'image
+                    borderRadius: BorderRadius.circular(20.0), // Rayon de 20.0 pour les coins arrondis
+                    child: Image.asset(
+                      'assets/welcome_image.jpg', // Assurez-vous que l'image est visuellement attrayante
+                      width: MediaQuery.of(context).size.width * 0.8, // Utilise 80% de la largeur de l'écran
+                    ),
                   ),
                   SizedBox(height: 40),
                   ElevatedButton(
