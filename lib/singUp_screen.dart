@@ -16,11 +16,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  bool? _selectedValue;
   bool _agreedToTOS = false;
-
-  void _setAgreedToTOS(bool? newValue) {
+  void _handleRadioValueChange(bool? value) {
     setState(() {
-      _agreedToTOS = newValue ?? _agreedToTOS;
+      _selectedValue = value;
+      _agreedToTOS = value ?? false; // _agreedToTOS sera vrai si value est vrai, sinon faux
     });
   }
 
@@ -93,8 +94,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _firstNameController,
                         cursorColor: Color(0xFF64C8C8), // Définit la couleur du curseur
                         decoration: InputDecoration(
-                          labelText: 'Prénom*',
-                          labelStyle: TextStyle(color: Colors.black),
+                          labelText: 'Prénom *',
+                          labelStyle: TextStyle(color: Color(0xFF074868)),
                           focusedBorder: UnderlineInputBorder( // Définit la couleur de la bordure lors de la sélection du champ
                             borderSide: BorderSide(color: Color(0xFF64C8C8)),
                           ),
@@ -112,7 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           cursorColor: Color(0xFF64C8C8), // Définit la couleur du curseur
                           decoration: InputDecoration(
                             labelText: 'Nom *',
-                            labelStyle: TextStyle(color: Colors.black),
+                            labelStyle: TextStyle(color: Color(0xFF074868)),
                             focusedBorder: UnderlineInputBorder( // Définit la couleur de la bordure lors de la sélection du champ
                               borderSide: BorderSide(color: Color(0xFF64C8C8)),
                             ),
@@ -129,8 +130,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _emailController,
                         cursorColor: Color(0xFF64C8C8), // Définit la couleur du curseur
                         decoration: InputDecoration(
-                          labelText: 'Adresse e-mail*',
-                          labelStyle: TextStyle(color: Colors.black),
+                          labelText: 'Adresse e-mail *',
+                          labelStyle: TextStyle(color: Color(0xFF074868)),
                           focusedBorder: UnderlineInputBorder( // Définit la couleur de la bordure lors de la sélection du champ
                             borderSide: BorderSide(color: Color(0xFF64C8C8)),
                           ),
@@ -147,8 +148,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _passwordController,
                         cursorColor: Color(0xFF64C8C8), // Définit la couleur du curseur
                         decoration: InputDecoration(
-                          labelText: 'Mot de passe*',
-                          labelStyle: TextStyle(color: Colors.black),
+                          labelText: 'Mot de passe *',
+                          labelStyle: TextStyle(color: Color(0xFF074868)),
                           focusedBorder: UnderlineInputBorder( // Définit la couleur de la bordure lors de la sélection du champ
                             borderSide: BorderSide(color: Color(0xFF64C8C8)),
                           ),
@@ -166,8 +167,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _confirmPasswordController,
                         cursorColor: Color(0xFF64C8C8), // Définit la couleur du curseur
                         decoration: InputDecoration(
-                          labelText: 'Confirmer le mot de passe*',
-                          labelStyle: TextStyle(color: Colors.black),
+                          labelText: 'Confirmer le mot de passe *',
+                          labelStyle: TextStyle(color: Color(0xFF074868)),
                           focusedBorder: UnderlineInputBorder( // Définit la couleur de la bordure lors de la sélection du champ
                             borderSide: BorderSide(color: Color(0xFF64C8C8)),
                           ),
@@ -185,22 +186,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: 10),
                       ListTile(
-                        leading: Checkbox(
-                          value: _agreedToTOS,
-                          onChanged: _setAgreedToTOS,
+                        leading: Radio<bool>(
+                          value: true, // La valeur que ce bouton représente
+                          groupValue: _selectedValue, // La valeur actuellement sélectionnée dans le groupe
+                          onChanged: _handleRadioValueChange,
+                          activeColor: Color(0xFF64C8C8),
                         ),
                         title: GestureDetector(
-                          onTap: () => _setAgreedToTOS(!_agreedToTOS),
-                          child: const Text(
+                          onTap: () => _handleRadioValueChange(!_agreedToTOS),
+                          child: Text(
                             'Accepte conditions & confidentialité',
-                            style: TextStyle(fontSize: 15),
+                            style: TextStyle(fontSize: 15, color: Color(0xFF074868)),
                           ),
                         ),
                       ),
                       SizedBox(height: 10),
                       ElevatedButton(
                         onPressed: _agreedToTOS ? _registerAccount : null,
-                        child: Text('S\'inscrire'),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                          foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return Colors.grey; // Couleur si le bouton est désactivé
+                              }
+                              return Color(0xFF64C8C8); // Couleur par défaut
+                            },
+                          ),
+                        ),
+                        child: Text(
+                          'S\'inscrire',
+                          style: TextStyle(
+                            color: _agreedToTOS ? Color(0xFF64C8C8) : Colors.grey,
+                          ),
+                        ),
                       ),
                     ],
                   ),

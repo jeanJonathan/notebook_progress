@@ -59,13 +59,20 @@ class Wingfoil extends StatelessWidget {
                 }
                 return Padding(
                   padding: const EdgeInsets.only(right: 12.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min, // Utilisez l'espace minimum nécessaire
-                    children: [
-                      Text(initials, style: TextStyle(fontSize: 16)), // Les initiales de l'utilisateur
-                      SizedBox(width: 4), // Espacement entre le texte et l'icône
-                      Icon(Icons.person),
-                    ],
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => ParametresScreen()),
+                      );
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min, // Utilisez l'espace minimum nécessaire
+                      children: [
+                        Text(initials, style: TextStyle(fontSize: 16, color: Color(0xFF64C8C8),fontFamily: 'Open Sans')), // Les initiales de l'utilisateur
+                        SizedBox(width: 4), // Espacement entre le texte et l'icône
+                        Icon(Icons.person, color: Color(0xFF64C8C8)), // Icône avec la couleur modifiée
+                      ],
+                    ),
                   ),
                 );
               } else {
@@ -135,7 +142,7 @@ class Wingfoil extends StatelessWidget {
                     "Let's while",
                     style: TextStyle(
                       fontSize: 24,
-                      color: Colors.white,
+                      color: Color(0xFF074868),
                       fontFamily: 'Concert One',
                     ),
                   ),
