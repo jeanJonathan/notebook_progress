@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:notebook_progress/basic_info_screen.dart';
 import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/splash_screen.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
         '/etapesW': (context) => EtapesScreenWingfoil(),
         '/etapesK': (context) => EtapesScreenKitesurf(),
         '/etapesS': (context) => EtapesScreenSurf(),
+        '/createProfileForm': (context) => BasicInfoScreen(), // L'écran du formulaire de création de profil
       },
     );
   }

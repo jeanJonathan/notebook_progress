@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notebook_progress/basic_info_screen.dart';
 
 class CreateProfileStart extends StatelessWidget {
   @override
@@ -43,12 +44,15 @@ class CreateProfileStart extends StatelessWidget {
                   SizedBox(height: 40),
                   ElevatedButton(
                     onPressed: () {
-                      // Logique pour naviguer vers le formulaire de création de compte
-                      Navigator.of(context).pushNamed('/createProfileForm');
+                      // Utilisation de Navigator pour pousser la nouvelle route nommée
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => BasicInfoScreen()),
+                      );
                     },
                     child: Text(
                       'Démarrer',
-                      style: TextStyle(fontSize: 18,color: Colors.white),
+                      style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF64C8C8), // Couleur de bouton qui se distingue
