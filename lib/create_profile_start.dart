@@ -9,10 +9,10 @@ class CreateProfileStart extends StatelessWidget {
         child: SingleChildScrollView(
           child: Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.0), // Ajusté pour un meilleur espace latéral
+              padding: EdgeInsets.symmetric(horizontal: 24.0), // pour un meilleur espace latéral
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center, // Assure que tout est centré
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: 100),
                   Text(
@@ -37,7 +37,7 @@ class CreateProfileStart extends StatelessWidget {
                   ClipRRect( // Utilisation de ClipRRect pour arrondir les coins de l'image
                     borderRadius: BorderRadius.circular(20.0), // Rayon de 20.0 pour les coins arrondis
                     child: Image.asset(
-                      'assets/welcome_image.jpg', // Assurez-vous que l'image est visuellement attrayante
+                      'assets/welcome_image.jpg',
                       width: MediaQuery.of(context).size.width * 0.8, // Utilise 80% de la largeur de l'écran
                     ),
                   ),

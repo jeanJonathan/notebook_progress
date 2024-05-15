@@ -34,6 +34,7 @@ dependencies:
     sdk: flutter
 #Ajout<ya des dependances pour firebase
   firebase_core: ^2.15.0
+  google_maps_flutter: ^2.6.1
   cloud_firestore: ^4.8.3
   firebase_auth: ^4.7.1
   youtube_player_flutter: ^8.1.2
@@ -79,6 +80,7 @@ flutter:
         - asset: fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf
         - asset: fonts/OpenSans-VariableFont_wdth,wght.ttf
   assets:
+    - assets/countries.json
     - assets/desc_etapes.png
     - assets/kitesurf.jpg
     - assets/surf.jpg
@@ -104,6 +106,7 @@ flutter:
     - assets/debutant.jpg
     - assets/intermediaire.jpg
     - assets/avance.jpg
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
