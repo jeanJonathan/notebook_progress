@@ -87,7 +87,7 @@ class _ExperienceLevelScreenState extends State<ExperienceLevelScreen> {
         });
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => TravelPreferencesScreen()),
+          MaterialPageRoute(builder: (context) => TravelPreferences()),
         ); // Move to the next screen only if save succeeds
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
