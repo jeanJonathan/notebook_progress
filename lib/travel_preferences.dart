@@ -18,12 +18,14 @@ class _TravelPreferencesState extends State<TravelPreferences> {
   final LatLng _initialCenter = const LatLng(20.5937, 78.9629);
   Set<Marker> _markers = {};
   Map<String, LatLng> countryCoordinates = {};
+  Set<String> selectedCountries = {};  // Ajouté pour garder la trace des pays sélectionnés
 
   @override
   void initState() {
     super.initState();
     loadCountryData();
   }
+
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
@@ -46,45 +48,44 @@ class _TravelPreferencesState extends State<TravelPreferences> {
   }
 
   void _onSuggestionSelected(String suggestion) {
-    LatLng countryCoords = countryCoordinates[suggestion] ?? _initialCenter; // Fallback to initial center if country not found
+    LatLng countryCoords = countryCoordinates[suggestion] ?? _initialCenter;
     mapController?.animateCamera(CameraUpdate.newLatLng(countryCoords));
     setState(() {
-      _markers.add(
-        Marker(
-          markerId: MarkerId(suggestion),
-          position: countryCoords,
-          infoWindow: InfoWindow(title: suggestion),
-        ),
-      );
-      _addVisitedCountryToFirestore(suggestion);
+      if (selectedCountries.contains(suggestion)) {
+        selectedCountries.remove(suggestion);
+        _markers.removeWhere((m) => m.markerId.value == suggestion);
+        _removeVisitedCountryFromFirestore(suggestion);
+      } else {
+        selectedCountries.add(suggestion);
+        _markers.add(
+          Marker(
+            markerId: MarkerId(suggestion),
+            position: countryCoords,
+            infoWindow: InfoWindow(title: suggestion),
+          ),
+        );
+        _addVisitedCountryToFirestore(suggestion);
+      }
     });
   }
 
   void _addVisitedCountryToFirestore(String countryName) async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      try {
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-          'visitedCountries': FieldValue.arrayUnion([countryName])
-        }, SetOptions(merge: true));
-        // Affichez un message de succès ou effectuez une autre action
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Pays ajouté avec succès à votre liste de visites!'))
-        );
-      } catch (e) {
-        // Affichez une erreur si l'enregistrement échoue
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Erreur lors de l ajout du pays. Veuillez réessayer.'))
-        );
-      }
-    } else {
-      // Gérez le cas où l'utilisateur n'est pas connecté
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Aucun utilisateur connecté trouvé. Veuillez vous connecter et réessayer.'))
-      );
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        'visitedCountries': FieldValue.arrayUnion([countryName])
+      }, SetOptions(merge: true));
     }
   }
 
+  void _removeVisitedCountryFromFirestore(String countryName) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+        'visitedCountries': FieldValue.arrayRemove([countryName])
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,12 +101,14 @@ class _TravelPreferencesState extends State<TravelPreferences> {
               child: TypeAheadFormField(
                 textFieldConfiguration: TextFieldConfiguration(
                   controller: _typeAheadController,
-                  decoration: InputDecoration(labelText: 'Rehercher une destination'),
+                  decoration: InputDecoration(labelText: 'Rechercher une destination'),
                 ),
                 suggestionsCallback: _getCountrySuggestions,
                 itemBuilder: (context, String suggestion) {
+                  final isSelected = selectedCountries.contains(suggestion);
                   return ListTile(
                     title: Text(suggestion),
+                    tileColor: isSelected ? Color(0xFFF5F5F5) : null, // Change la couleur si sélectionné
                   );
                 },
                 onSuggestionSelected: _onSuggestionSelected,
@@ -128,3 +131,4 @@ class _TravelPreferencesState extends State<TravelPreferences> {
     );
   }
 }
+
