@@ -1,27 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Travel Preferences',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: TravelPreferences(),
-    );
-  }
-}
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class TravelPreferences extends StatefulWidget {
   @override
@@ -33,24 +16,36 @@ class _TravelPreferencesState extends State<TravelPreferences> {
   final TextEditingController _typeAheadController = TextEditingController();
   final LatLng _initialCenter = const LatLng(20.5937, 78.9629);
   Set<Marker> _markers = {};
+  Map<String, LatLng> countryCoordinates = {};
 
+  @override
+  void initState() {
+    super.initState();
+    loadCountryData();
+  }
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
-  Map<String, LatLng> countryCoordinates = {
-    'France': LatLng(48.8566, 2.3522),
-    'Germany': LatLng(52.5200, 13.4050),
-    'Spain': LatLng(40.4168, -3.7038),
-    'Italy': LatLng(41.9028, 12.4964),
-  };
+
+  Future<void> loadCountryData() async {
+    final String response = await rootBundle.loadString('assets/countries.json');
+    final List<dynamic> data = jsonDecode(response);
+    setState(() {
+      countryCoordinates = {
+        for (var item in data)
+          item['name']: LatLng(item['latitude'], item['longitude'])
+      };
+    });
+  }
 
   Future<List<String>> _getCountrySuggestions(String query) async {
-    // Suppose to fetch country data
-    return ['France', 'Germany', 'Spain', 'Italy'];
+    return countryCoordinates.keys
+        .where((country) => country.toLowerCase().contains(query.toLowerCase()))
+        .toList();
   }
 
   void _onSuggestionSelected(String suggestion) {
-    LatLng countryCoords = countryCoordinates[suggestion] ?? _initialCenter; // Fallback to initial center if country not found
+    LatLng countryCoords = countryCoordinates[suggestion] ?? _initialCenter;
     mapController?.animateCamera(CameraUpdate.newLatLng(countryCoords));
     setState(() {
       _markers.add(
@@ -72,7 +67,7 @@ class _TravelPreferencesState extends State<TravelPreferences> {
       appBar: AppBar(
         title: Text('Travel Preferences'),
       ),
-      body: SingleChildScrollView( // S'assurer que tout le contenu peut défiler
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
@@ -92,7 +87,7 @@ class _TravelPreferencesState extends State<TravelPreferences> {
               ),
             ),
             Container(
-              height: 500, // Une hauteur fixe pour la carte Google
+              height: 500,
               child: GoogleMap(
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
