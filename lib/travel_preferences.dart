@@ -96,22 +96,31 @@ class _TravelPreferencesState extends State<TravelPreferences> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TypeAheadFormField(
-                textFieldConfiguration: TextFieldConfiguration(
-                  controller: _typeAheadController,
-                  decoration: InputDecoration(labelText: 'Rechercher une destination'),
+            Container(
+              color: Color(0xFF8AB4F8),  // Couleur de fond pour le bloc de recherche
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TypeAheadFormField(
+                  textFieldConfiguration: TextFieldConfiguration(
+                    controller: _typeAheadController,
+                    decoration: InputDecoration(
+                      labelText: 'Rechercher une destination',
+                      labelStyle: TextStyle(color: Color(0xFF8AB4F8)),  // Couleur du texte du label
+                      filled: true,
+                      fillColor: Colors.white,  // Couleur de fond pour le champ de texte
+                    ),
+                    cursorColor: Color(0xFF64C8C8),  // Couleur du curseur
+                  ),
+                  suggestionsCallback: _getCountrySuggestions,
+                  itemBuilder: (context, String suggestion) {
+                    final isSelected = selectedCountries.contains(suggestion);
+                    return ListTile(
+                      title: Text(suggestion),
+                      tileColor: isSelected ? Color(0xFFF5F5F5) : null,  // Change la couleur si sélectionné
+                    );
+                  },
+                  onSuggestionSelected: _onSuggestionSelected,
                 ),
-                suggestionsCallback: _getCountrySuggestions,
-                itemBuilder: (context, String suggestion) {
-                  final isSelected = selectedCountries.contains(suggestion);
-                  return ListTile(
-                    title: Text(suggestion),
-                    tileColor: isSelected ? Color(0xFFF5F5F5) : null, // Change la couleur si sélectionné
-                  );
-                },
-                onSuggestionSelected: _onSuggestionSelected,
               ),
             ),
             Container(
