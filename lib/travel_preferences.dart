@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -45,7 +46,7 @@ class _TravelPreferencesState extends State<TravelPreferences> {
   }
 
   void _onSuggestionSelected(String suggestion) {
-    LatLng countryCoords = countryCoordinates[suggestion] ?? _initialCenter;
+    LatLng countryCoords = countryCoordinates[suggestion] ?? _initialCenter; // Fallback to initial center if country not found
     mapController?.animateCamera(CameraUpdate.newLatLng(countryCoords));
     setState(() {
       _markers.add(
@@ -55,17 +56,41 @@ class _TravelPreferencesState extends State<TravelPreferences> {
           infoWindow: InfoWindow(title: suggestion),
         ),
       );
-      FirebaseFirestore.instance.collection('users').doc('user_id').update({
-        'visitedCountries': FieldValue.arrayUnion([suggestion])
-      });
+      _addVisitedCountryToFirestore(suggestion);
     });
   }
+
+  void _addVisitedCountryToFirestore(String countryName) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      try {
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'visitedCountries': FieldValue.arrayUnion([countryName])
+        }, SetOptions(merge: true));
+        // Affichez un message de succès ou effectuez une autre action
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Pays ajouté avec succès à votre liste de visites!'))
+        );
+      } catch (e) {
+        // Affichez une erreur si l'enregistrement échoue
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erreur lors de l ajout du pays. Veuillez réessayer.'))
+        );
+      }
+    } else {
+      // Gérez le cas où l'utilisateur n'est pas connecté
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Aucun utilisateur connecté trouvé. Veuillez vous connecter et réessayer.'))
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Travel Preferences'),
+        title: Text('Vos Destinations'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -75,7 +100,7 @@ class _TravelPreferencesState extends State<TravelPreferences> {
               child: TypeAheadFormField(
                 textFieldConfiguration: TextFieldConfiguration(
                   controller: _typeAheadController,
-                  decoration: InputDecoration(labelText: 'Search Country'),
+                  decoration: InputDecoration(labelText: 'Rehercher une destination'),
                 ),
                 suggestionsCallback: _getCountrySuggestions,
                 itemBuilder: (context, String suggestion) {
