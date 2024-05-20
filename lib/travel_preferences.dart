@@ -36,7 +36,7 @@ class _TravelPreferencesState extends State<TravelPreferences> {
     setState(() {
       countryCoordinates = {
         for (var item in data)
-          item['name']: LatLng(item['latitude'], item['longitude'])
+          item['country']: LatLng(item['lat'], item['lng'])
       };
     });
   }
