@@ -54,6 +54,7 @@ class _TravelPreferencesState extends State<TravelPreferences> {
       if (selectedCountries.contains(suggestion)) {
         selectedCountries.remove(suggestion);
         _markers.removeWhere((m) => m.markerId.value == suggestion);
+        _removeVisitedCountryFromFirestore(suggestion);  // Ajouté pour retirer le pays de Firestore
       } else {
         selectedCountries.add(suggestion);
         _markers.add(
@@ -63,8 +64,27 @@ class _TravelPreferencesState extends State<TravelPreferences> {
             infoWindow: InfoWindow(title: suggestion),
           ),
         );
+        _addVisitedCountryToFirestore(suggestion);  // Ajouté pour ajouter le pays à Firestore
       }
     });
+  }
+
+  void _addVisitedCountryToFirestore(String countryName) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        'visitedCountries': FieldValue.arrayUnion([countryName])
+      }, SetOptions(merge: true));
+    }
+  }
+
+  void _removeVisitedCountryFromFirestore(String countryName) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+        'visitedCountries': FieldValue.arrayRemove([countryName])
+      });
+    }
   }
 
   void _savePreferencesToFirestore() async {
