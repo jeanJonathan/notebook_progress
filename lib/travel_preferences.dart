@@ -54,7 +54,6 @@ class _TravelPreferencesState extends State<TravelPreferences> {
       if (selectedCountries.contains(suggestion)) {
         selectedCountries.remove(suggestion);
         _markers.removeWhere((m) => m.markerId.value == suggestion);
-        _removeVisitedCountryFromFirestore(suggestion);
       } else {
         selectedCountries.add(suggestion);
         _markers.add(
@@ -64,26 +63,16 @@ class _TravelPreferencesState extends State<TravelPreferences> {
             infoWindow: InfoWindow(title: suggestion),
           ),
         );
-        _addVisitedCountryToFirestore(suggestion);
       }
     });
   }
 
-  void _addVisitedCountryToFirestore(String countryName) async {
+  void _savePreferencesToFirestore() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-        'visitedCountries': FieldValue.arrayUnion([countryName])
+        'visitedCountries': selectedCountries.toList()
       }, SetOptions(merge: true));
-    }
-  }
-
-  void _removeVisitedCountryFromFirestore(String countryName) async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-        'visitedCountries': FieldValue.arrayRemove([countryName])
-      });
     }
   }
 
@@ -92,13 +81,27 @@ class _TravelPreferencesState extends State<TravelPreferences> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Vos Destinations'),
+        backgroundColor: Color(0xFF8AB4F8),  // Couleur de fond pour l'AppBar
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              color: Color(0xFF8AB4F8),  // Couleur de fond pour le bloc de recherche
-              child: Padding(
+      body: Stack(
+        children: [
+          GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(
+              target: _initialCenter,
+              zoom: 2,
+            ),
+            markers: _markers,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+          ),
+          Positioned(
+            top: 16.0,
+            left: 16.0,
+            right: 16.0,
+            child: SingleChildScrollView(
+              child: Container(
+                color: Color(0xFF8AB4F8),  // Couleur de fond pour le bloc de recherche
                 padding: const EdgeInsets.all(8.0),
                 child: TypeAheadFormField(
                   textFieldConfiguration: TextFieldConfiguration(
@@ -123,21 +126,18 @@ class _TravelPreferencesState extends State<TravelPreferences> {
                 ),
               ),
             ),
-            Container(
-              height: 500,
-              child: GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: _initialCenter,
-                  zoom: 2,
-                ),
-                markers: _markers,
-              ),
+          ),
+          Positioned(
+            bottom: 16.0,
+            right: 16.0,
+            child: FloatingActionButton(
+              onPressed: _savePreferencesToFirestore,
+              child: Icon(Icons.check),
+              backgroundColor: Color(0xFF8AB4F8),  // Couleur du bouton
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
-
