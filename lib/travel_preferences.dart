@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:notebook_progress/recommandation_service.dart';
+import 'package:notebook_progress/welcome_screen.dart';
+import 'loading_screen.dart';
 
 class TravelPreferences extends StatefulWidget {
   @override
@@ -36,7 +39,7 @@ class _TravelPreferencesState extends State<TravelPreferences> {
     setState(() {
       countryCoordinates = {
         for (var item in data)
-          item['name']: LatLng(item['latitude'], item['longitude'])
+          item['country']: LatLng(item['lat'], item['lng'])
       };
     });
   }
@@ -54,7 +57,7 @@ class _TravelPreferencesState extends State<TravelPreferences> {
       if (selectedCountries.contains(suggestion)) {
         selectedCountries.remove(suggestion);
         _markers.removeWhere((m) => m.markerId.value == suggestion);
-        _removeVisitedCountryFromFirestore(suggestion);
+        _removeVisitedCountryFromFirestore(suggestion);  // Ajouté pour retirer le pays de Firestore
       } else {
         selectedCountries.add(suggestion);
         _markers.add(
@@ -64,7 +67,7 @@ class _TravelPreferencesState extends State<TravelPreferences> {
             infoWindow: InfoWindow(title: suggestion),
           ),
         );
-        _addVisitedCountryToFirestore(suggestion);
+        _addVisitedCountryToFirestore(suggestion);  // Ajouté pour ajouter le pays à Firestore
       }
     });
   }
@@ -87,18 +90,54 @@ class _TravelPreferencesState extends State<TravelPreferences> {
     }
   }
 
+  void _savePreferencesToFirestore() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        'visitedCountries': selectedCountries.toList()
+      }, SetOptions(merge: true));
+    }
+  }
+
+  void _navigateToLoadingScreen(BuildContext context) async {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => LoadingScreen()));
+
+    RecommendationService recommendationService = RecommendationService();
+    List<Map<String, dynamic>> recommendedCamps = await recommendationService.getRecommendedCamps();
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => WelcomeScreen(recommendedCamps: recommendedCamps),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Vos Destinations'),
+        backgroundColor: Color(0xFF8AB4F8),  // Couleur de fond pour l'AppBar
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              color: Color(0xFF8AB4F8),  // Couleur de fond pour le bloc de recherche
-              child: Padding(
+      body: Stack(
+        children: [
+          GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(
+              target: _initialCenter,
+              zoom: 2,
+            ),
+            markers: _markers,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+          ),
+          Positioned(
+            top: 16.0,
+            left: 16.0,
+            right: 16.0,
+            child: SingleChildScrollView(
+              child: Container(
+                color: Color(0xFF8AB4F8),  // Couleur de fond pour le bloc de recherche
                 padding: const EdgeInsets.all(8.0),
                 child: TypeAheadFormField(
                   textFieldConfiguration: TextFieldConfiguration(
@@ -123,21 +162,21 @@ class _TravelPreferencesState extends State<TravelPreferences> {
                 ),
               ),
             ),
-            Container(
-              height: 500,
-              child: GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: _initialCenter,
-                  zoom: 2,
-                ),
-                markers: _markers,
-              ),
+          ),
+          Positioned(
+            bottom: 16.0,
+            right: 50.0,
+            child: FloatingActionButton(
+              onPressed: () async {
+                await _savePreferencesToFirestore;
+                _navigateToLoadingScreen(context);
+              },
+              child: Icon(Icons.check),
+              backgroundColor:Color(0xFF64C8C8),  // Couleur du bouton
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
-
