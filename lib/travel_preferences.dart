@@ -129,11 +129,11 @@ class _TravelPreferencesState extends State<TravelPreferences> {
           ),
           Positioned(
             bottom: 16.0,
-            right: 16.0,
+            right: 50.0,
             child: FloatingActionButton(
               onPressed: _savePreferencesToFirestore,
               child: Icon(Icons.check),
-              backgroundColor: Color(0xFF8AB4F8),  // Couleur du bouton
+              backgroundColor:Color(0xFF64C8C8),  // Couleur du bouton
             ),
           ),
         ],
