@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:notebook_progress/recommandation_service.dart';
+import 'package:notebook_progress/welcome_screen.dart';
+import 'loading_screen.dart';
 
 class TravelPreferences extends StatefulWidget {
   @override
@@ -96,6 +99,19 @@ class _TravelPreferencesState extends State<TravelPreferences> {
     }
   }
 
+  void _navigateToLoadingScreen(BuildContext context) async {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => LoadingScreen()));
+
+    RecommendationService recommendationService = RecommendationService();
+    List<Map<String, dynamic>> recommendedCamps = await recommendationService.getRecommendedCamps();
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => WelcomeScreen(recommendedCamps: recommendedCamps),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,7 +167,10 @@ class _TravelPreferencesState extends State<TravelPreferences> {
             bottom: 16.0,
             right: 50.0,
             child: FloatingActionButton(
-              onPressed: _savePreferencesToFirestore,
+              onPressed: () async {
+                await _savePreferencesToFirestore;
+                _navigateToLoadingScreen(context);
+              },
               child: Icon(Icons.check),
               backgroundColor:Color(0xFF64C8C8),  // Couleur du bouton
             ),
