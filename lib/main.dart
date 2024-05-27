@@ -3,9 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/basic_info_screen.dart';
+import 'package:notebook_progress/camps.dart';
 import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/splash_screen.dart';
+import 'package:notebook_progress/welcome_screen.dart';
 import 'Wingfoil.dart';
 import 'authentification.dart';
 import 'etapes_screen.dart';
@@ -22,6 +24,7 @@ Future<void> main() async {
   //sendEtapesWingfoil(); //envoies des donnees dans firestore
   //sendEtapesKitesurf();
   //sendEtapesSurf();
+  sendCampsData();
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -54,13 +57,13 @@ class MyApp extends StatelessWidget {
       home: OceanAdventureApp(),//Ecran de demarrage de l'application
       routes: {
         '/authentification': (context) => AuthScreen(),
-        '/wingfoil': (context) => Wingfoil(), //wingfoil etant l'ecran d'acceuil
+        '/wingfoil': (context) => Wingfoil(),
         '/menu': (context) => MenuScreen(),
         '/parametres': (context) => ParametresScreen(),
         '/etapesW': (context) => EtapesScreenWingfoil(),
         '/etapesK': (context) => EtapesScreenKitesurf(),
         '/etapesS': (context) => EtapesScreenSurf(),
-        '/createProfileForm': (context) => BasicInfoScreen(), // L'écran du formulaire de création de profil
+        '/createProfileForm': (context) => BasicInfoScreen(),
       },
     );
   }
@@ -129,5 +132,22 @@ Future<UserCredential?> signInWithEmailAndPassword(String email, String password
   } catch (e) {
     print('Erreur lors de l\'authentification : $e');
     return null;
+  }
+}
+
+void sendCampsData() async {
+  try {
+    List<Map<String, dynamic>> campsData = simulateDataCamps();
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference campsCollection = firestore.collection('camps');
+
+    for (var data in campsData) {
+      DocumentReference document = campsCollection.doc();
+      await document.set(data);
+      print('Document créé: ${document.path}');
+    }
+  } catch (e) {
+    print('Erreur lors de la création des camps : $e');
   }
 }
