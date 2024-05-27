@@ -77,26 +77,43 @@ class WelcomeScreen extends StatelessWidget {
             label: '', // Removed label
           ),
         ],
-          onTap: (index) {
-            switch (index) {
-              case 0:
-              // Action pour l'icône placeholder (à définir)
-                break;
-              case 1:
-              // Naviguer vers la wishlist
-                break;
-              case 2:
-              // Naviguer vers la page de recherche
-                break;
-              case 3:
-              // Naviguer vers la page de tutoriel
-                break;
-              case 4:
-              // Naviguer vers la page de profil
-                break;
-            }
+        onTap: (index) {
+          switch (index) {
+            case 0:
+            // Action pour l'icône placeholder (à définir)
+              break;
+            case 1:
+            // Naviguer vers la wishlist
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => WishlistScreen()),
+              );
+              break;
+            case 2:
+            // Naviguer vers la page de recherche
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SearchScreen()),
+              );
+              break;
+            case 3:
+            // Naviguer vers la page de tutoriel
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TutorialScreen()),
+              );
+              break;
+            case 4:
+            // Naviguer vers la page de profil
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfileScreen()),
+              );
+              break;
           }
+        },
       ),
     );
   }
 }
+
