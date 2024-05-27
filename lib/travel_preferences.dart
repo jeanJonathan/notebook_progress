@@ -102,16 +102,20 @@ class _TravelPreferencesState extends State<TravelPreferences> {
   void _navigateToLoadingScreen(BuildContext context) async {
     Navigator.push(context, MaterialPageRoute(builder: (_) => LoadingScreen()));
 
+    // Utiliser Future.delayed pour simuler le chargement pendant 10 secondes
+    await Future.delayed(Duration(seconds: 10));
+
     RecommendationService recommendationService = RecommendationService();
     List<Map<String, dynamic>> recommendedCamps = await recommendationService.getRecommendedCamps();
 
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => WelcomeScreen(recommendedCamps: recommendedCamps),
+        builder: (context) => WelcomeScreen(recommendedCamps: recommendedCamps),
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
