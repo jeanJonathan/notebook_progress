@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:notebook_progress/etapes_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/parametre_screen.dart';
+import 'package:notebook_progress/profile_screen.dart';
+import 'package:notebook_progress/search_screen.dart';
+import 'package:notebook_progress/wishlist_screen.dart';
 import 'Surf.dart';
 import 'kitesurf.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -235,23 +238,34 @@ class Wingfoil extends StatelessWidget {
             switch (index) {
               case 0:
               // Action pour l'icône placeholder (à définir)
-                Navigator.pushNamed(context, '/placeholder');
                 break;
               case 1:
               // Naviguer vers la wishlist
-                Navigator.pushNamed(context, '/wishlist');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WishlistScreen()),
+                );
                 break;
               case 2:
               // Naviguer vers la page de recherche
-                Navigator.pushNamed(context, '/search');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SearchScreen()),
+                );
                 break;
               case 3:
               // Naviguer vers la page de tutoriel
-                Navigator.pushNamed(context, '/tutorial');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Kitesurf()),
+                );
                 break;
               case 4:
               // Naviguer vers la page de profil
-                Navigator.pushNamed(context, '/profile');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
                 break;
             }
           },
