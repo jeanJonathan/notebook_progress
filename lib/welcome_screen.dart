@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notebook_progress/profile_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   final List<Map<String, dynamic>> recommendedCamps;
