@@ -85,7 +85,11 @@ class WelcomeScreen extends StatelessWidget {
         onTap: (index) {
           switch (index) {
             case 0:
-            // Action pour l'icône placeholder (à définir)
+            // Naviguer vers la wishlist
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => WelcomeScreen(recommendedCamps: recommendedCamps)),
+              );
               break;
             case 1:
             // Naviguer vers la wishlist

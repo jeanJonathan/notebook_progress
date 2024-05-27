@@ -1,13 +1,12 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/etapes_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/parametre_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'Wingfoil.dart';
+import 'Surf.dart';
 
 class Kitesurf extends StatelessWidget {
   Offset? _initialPosition;
@@ -25,9 +24,13 @@ class Kitesurf extends StatelessWidget {
           final offset = details.globalPosition;
           final difference = offset.dx - _initialPosition!.dx;
 
+          // Si le mouvement est vers la gauche
+          if (difference < -10) {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Wingfoil()));
+          }
           // Si le mouvement est vers la droite
-          if (difference < 10) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Wingfoil()));
+          if (difference > 10) {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Surf()));
           }
         }
       },
@@ -71,7 +74,6 @@ class Kitesurf extends StatelessWidget {
                 ],
               ),
             ),
-
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {
@@ -170,6 +172,58 @@ class Kitesurf extends StatelessWidget {
               child: Icon(Icons.arrow_forward_ios, size: 50, color: Color(0xFFF5F5F5)),
             ),
           ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed, // Ensures all icons are shown
+          selectedItemColor: Colors.deepPurple, // Highlight the selected icon
+          unselectedItemColor: Colors.grey, // Color for unselected items
+          iconSize: 30, // Increased icon size for better visibility
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.more_horiz, color: Colors.red), // Placeholder icon
+              label: '', // Removed label
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite, color: Colors.purple), // Icon for wishlist
+              label: '', // Removed label
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search, color: Colors.blue), // Icon for search
+              label: '', // Removed label
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.school, color: Colors.amber), // Icon for tutorial
+              label: '', // Removed label
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle, color: Colors.green), // Icon for profile
+              label: '', // Removed label
+            ),
+          ],
+          onTap: (index) {
+            switch (index) {
+              case 0:
+              // Action pour l'icône placeholder (à définir)
+                Navigator.pushNamed(context, '/placeholder');
+                break;
+              case 1:
+              // Naviguer vers la wishlist
+                Navigator.pushNamed(context, '/wishlist');
+                break;
+              case 2:
+              // Naviguer vers la page de recherche
+                Navigator.pushNamed(context, '/search');
+                break;
+              case 3:
+              // Naviguer vers la page de tutoriel
+                Navigator.pushNamed(context, '/tutorial');
+                break;
+              case 4:
+              // Naviguer vers la page de profil
+                Navigator.pushNamed(context, '/profile');
+                break;
+            }
+          },
         ),
       ),
     );
