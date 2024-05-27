@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:notebook_progress/Wingfoil.dart';
 import 'package:notebook_progress/profile_screen.dart';
+import 'package:notebook_progress/search_screen.dart';
+import 'package:notebook_progress/wishlist_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   final List<Map<String, dynamic>> recommendedCamps;
@@ -101,7 +104,7 @@ class WelcomeScreen extends StatelessWidget {
             // Naviguer vers la page de tutoriel
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TutorialScreen()),
+                MaterialPageRoute(builder: (context) => Wingfoil()),
               );
               break;
             case 4:
