@@ -47,6 +47,7 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center, // Assure that all children align in center horizontally
           children: <Widget>[
             CustomPaint(
               painter: CirclePainter(_controller.value),
@@ -55,13 +56,16 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                 height: 150,
               ),
             ),
-            SizedBox(height: 30),
-            Text('LOADING...', style: TextStyle(color: Colors.white, letterSpacing: 3,fontFamily: 'Concert One')),
-            SizedBox(height: 10),
-            LinearProgressIndicator(
-              value: _animation.value / 100,
-              backgroundColor: Colors.white24,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            SizedBox(height: 20), // Adjust spacing as needed
+            Text('LOADING...', style: TextStyle(color: Colors.white, letterSpacing: 3, fontFamily: 'Concert One')),
+            SizedBox(height: 20), // Adjust spacing to place the progress bar in the middle
+            Container(
+              width: 200, // Set the width of the progress bar
+              child: LinearProgressIndicator(
+                value: _animation.value / 100,
+                backgroundColor: Colors.white24,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
             ),
           ],
         ),
