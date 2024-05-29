@@ -24,7 +24,7 @@ Future<void> main() async {
   //sendEtapesWingfoil(); //envoies des donnees dans firestore
   //sendEtapesKitesurf();
   //sendEtapesSurf();
-  sendCampsData();
+  //sendCampsData();
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {

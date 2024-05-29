@@ -18,39 +18,42 @@ class WelcomeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: ListView.builder(
+      body: PageView.builder(
         itemCount: recommendedCamps.length,
         itemBuilder: (context, index) {
           Map<String, dynamic> camp = recommendedCamps[index];
-          return Card(
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: ListTile(
-              contentPadding: EdgeInsets.all(15),
-              leading: Icon(Icons.nature, color: Colors.green), // Adjusted icon
-              title: Text(
-                camp['name'],
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 5),
-                  Text(camp['description']),
-                  SizedBox(height: 5),
-                  Text('Prix: ${camp['price']}€'),
-                  SizedBox(height: 5),
-                  Text('Note: ${camp['rating']}'),
-                  SizedBox(height: 5),
-                  Text('Activités: ${camp['activities'].join(', ')}'),
-                ],
-              ),
-              trailing: Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                // Naviguer vers les détails du camp ou ajouter à la wishlist
-              },
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      camp['image_url'],
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(camp['name'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                      SizedBox(height: 8),
+                      Text(camp['description']),
+                      SizedBox(height: 8),
+                      Text('Prix: ${camp['price']}€', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                      Text('Note: ${camp['rating']} / 5', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                      SizedBox(height: 8),
+                      Text('Activités: ${camp['activities'].join(', ')}'),
+                    ],
+                  ),
+                ),
+              ],
             ),
           );
         },
