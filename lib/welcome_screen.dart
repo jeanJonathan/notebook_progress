@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:notebook_progress/profile_screen.dart';
 import 'package:notebook_progress/search_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
-
 import 'kitesurf.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -13,10 +12,32 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Bienvenue', style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.white,
-        elevation: 0,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100.0), // Hauteur de l'en-tête ajustée
+        child: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          flexibleSpace: Padding(
+            padding: const EdgeInsets.only(top: 40.0), // Ajustez le padding pour le positionnement
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.black),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                Image.asset(
+                  'assets/logoOcean.png',
+                  width: 250, // Ajustez la largeur comme vous le souhaitez
+                  height: 100, // Ajustez la hauteur comme vous le souhaitez
+                ),
+                SizedBox(width: 48), // Espace réservé pour équilibrer le logo
+              ],
+            ),
+          ),
+        ),
       ),
       body: PageView.builder(
         itemCount: recommendedCamps.length,
@@ -51,8 +72,6 @@ class WelcomeScreen extends StatelessWidget {
                   children: [
                     Text(camp['name'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
                     Text(camp['description'], style: TextStyle(fontSize: 16, color: Colors.white)),
-                    Text('Prix: ${camp['price']}€', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white)),
-                    Text('Note: ${camp['rating']} / 5', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white)),
                     Text('Activités: ${camp['activities'].join(', ')}', style: TextStyle(fontSize: 16, color: Colors.white)),
                   ],
                 ),
@@ -116,4 +135,3 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 }
-
