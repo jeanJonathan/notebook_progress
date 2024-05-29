@@ -17,6 +17,7 @@ class WelcomeScreen extends StatelessWidget {
         child: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
+          automaticallyImplyLeading: false, // Désactiver le bouton de retour automatique
           flexibleSpace: Padding(
             padding: const EdgeInsets.only(top: 40.0), // Ajustez le padding pour le positionnement
             child: Row(
