@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:notebook_progress/Wingfoil.dart';
-import 'package:notebook_progress/kitesurf.dart';
 import 'package:notebook_progress/profile_screen.dart';
 import 'package:notebook_progress/search_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
+
+import 'kitesurf.dart';
 
 class WelcomeScreen extends StatelessWidget {
   final List<Map<String, dynamic>> recommendedCamps;
@@ -22,68 +22,56 @@ class WelcomeScreen extends StatelessWidget {
         itemCount: recommendedCamps.length,
         itemBuilder: (context, index) {
           Map<String, dynamic> camp = recommendedCamps[index];
-          return Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      camp['image_url'],
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: double.infinity,
-                    ),
+          return Stack(
+            children: [
+              // Image en arrière-plan
+              Positioned.fill(
+                child: Image.network(
+                  camp['image_url'],
+                  fit: BoxFit.cover,
+                ),
+              ),
+              // Gradient pour améliorer la lisibilité du texte
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [Colors.black.withOpacity(0.7), Colors.transparent],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(camp['name'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 8),
-                      Text(camp['description']),
-                      SizedBox(height: 8),
-                      Text('Prix: ${camp['price']}€', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                      Text('Note: ${camp['rating']} / 5', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                      SizedBox(height: 8),
-                      Text('Activités: ${camp['activities'].join(', ')}'),
-                    ],
-                  ),
+              ),
+              // Textes et boutons
+              Positioned(
+                bottom: 50,
+                left: 20,
+                right: 20,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(camp['name'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                    Text(camp['description'], style: TextStyle(fontSize: 16, color: Colors.white)),
+                    Text('Prix: ${camp['price']}€', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white)),
+                    Text('Note: ${camp['rating']} / 5', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white)),
+                    Text('Activités: ${camp['activities'].join(', ')}', style: TextStyle(fontSize: 16, color: Colors.white)),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed, // Ensures all icons are shown
-        selectedItemColor: Colors.deepPurple, // Highlight the selected icon
-        unselectedItemColor: Colors.grey, // Color for unselected items
-        iconSize: 30, // Increased icon size for better visibility
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.deepPurple,
+        unselectedItemColor: Colors.grey,
+        iconSize: 30,
         items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.more_horiz, color: Colors.red), // Placeholder icon
-            label: '', // Removed label
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite, color: Colors.purple), // Icon for wishlist
-            label: '', // Removed label
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search, color: Colors.blue), // Icon for search
-            label: '', // Removed label
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school, color: Colors.amber), // Icon for tutorial
-            label: '', // Removed label
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle, color: Colors.green), // Icon for profile
-            label: '', // Removed label
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.more_horiz, color: Colors.red), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite, color: Colors.purple), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.search, color: Colors.blue), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.school, color: Colors.amber), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.green), label: ''),
         ],
         onTap: (index) {
           switch (index) {
