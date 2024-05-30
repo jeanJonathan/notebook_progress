@@ -14,7 +14,7 @@ List<Map<String, dynamic>> simulateDataCamps() {
       "rating": 4.5,
       "image_urls": [ //pour stocker plusieurs images
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
-        "https:https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG"
@@ -36,7 +36,7 @@ List<Map<String, dynamic>> simulateDataCamps() {
       "rating": 4.7,
       "image_urls": [ //pour stocker plusieurs images
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
-        "https:https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG"
@@ -58,7 +58,7 @@ List<Map<String, dynamic>> simulateDataCamps() {
       "rating": 4.7,
       "image_urls": [ //pour stocker plusieurs images
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
-        "https:https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG"
@@ -80,7 +80,7 @@ List<Map<String, dynamic>> simulateDataCamps() {
       "rating": 4.4,
       "image_urls": [ //pour stocker plusieurs images
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
-        "https:https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG"
@@ -102,7 +102,7 @@ List<Map<String, dynamic>> simulateDataCamps() {
       "rating": 4.9,
       "image_urls": [ //pour stocker plusieurs images
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
-        "https:https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG"
@@ -124,7 +124,7 @@ List<Map<String, dynamic>> simulateDataCamps() {
       "rating": 4.8,
       "image_urls": [ //pour stocker plusieurs images
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
-        "https:https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
         "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG"
