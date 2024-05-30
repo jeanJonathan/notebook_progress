@@ -33,6 +33,7 @@ dependencies:
   carousel_slider: ^4.0.0
   flutter:
     sdk: flutter
+  smooth_page_indicator: ^1.1.0
 
 #Ajout<ya des dependances pour firebase
   firebase_core: ^2.15.0

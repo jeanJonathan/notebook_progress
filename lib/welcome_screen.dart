@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:notebook_progress/profile_screen.dart';
 import 'package:notebook_progress/search_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
@@ -15,16 +16,19 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   late PageController _pageController;
+  late PageController _imagePageController;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+    _imagePageController = PageController();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    _imagePageController.dispose();
     super.dispose();
   }
 
@@ -58,22 +62,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         ),
       ),
       body: PageView.builder(
+        controller: _pageController,
         itemCount: widget.recommendedCamps.length,
         itemBuilder: (context, index) {
           Map<String, dynamic> camp = widget.recommendedCamps[index];
           return GestureDetector(
             onTap: () {
-              if (_pageController.page!.toInt() < camp['image_urls'].length - 1) {
-                _pageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+              if (_imagePageController.page!.toInt() < camp['image_urls'].length - 1) {
+                _imagePageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
               } else {
-                _pageController.jumpToPage(0); // Retour au début si on est à la dernière image
+                _imagePageController.jumpToPage(0); // Retour au début si on est à la dernière image
               }
             },
             child: Stack(
               children: [
                 Positioned.fill(
                   child: PageView.builder(
-                    controller: _pageController,
+                    controller: _imagePageController,
                     itemCount: camp['image_urls'].length,
                     itemBuilder: (context, imageIndex) {
                       return Image.network(
@@ -83,8 +88,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     },
                   ),
                 ),
-
-                // Gradient pour améliorer la lisibilité du texte
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -94,7 +97,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                 ),
-                // Textes et boutons
+                Positioned(
+                  bottom: 10,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: SmoothPageIndicator(
+                      controller: _imagePageController,
+                      count: camp['image_urls'].length,
+                      effect: WormEffect(activeDotColor: Colors.white),
+                    ),
+                  ),
+                ),
                 Positioned(
                   bottom: 50,
                   left: 20,
@@ -113,57 +127,57 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           );
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.deepPurple,
-        unselectedItemColor: Colors.grey,
-        iconSize: 30,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.more_horiz, color: Colors.red), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite, color: Colors.purple), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.search, color: Colors.blue), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.school, color: Colors.amber), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.green), label: ''),
-        ],
-        onTap: (index) {
-          switch (index) {
-            case 0:
-            // Naviguer vers la wishlist
-              break;
-            case 1:
-            // Naviguer vers la wishlist
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => WishlistScreen()),
-              );
-              break;
-            case 2:
-            // Naviguer vers la page de recherche
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SearchScreen()),
-              );
-              break;
-            case 3:
-            // Naviguer vers la page de tutoriel
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Kitesurf()),
-              );
-              break;
-            case 4:
-            // Naviguer vers la page de profil
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfileScreen()),
-              );
-              break;
-          }
-        },
-      ),
+      bottomNavigationBar: buildBottomNavigationBar(),
+    );
+  }
+  BottomNavigationBar buildBottomNavigationBar() {
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: Colors.deepPurple,
+      unselectedItemColor: Colors.grey,
+      iconSize: 30,
+      items: [
+        BottomNavigationBarItem(icon: Icon(Icons.more_horiz, color: Colors.red), label: ''),
+        BottomNavigationBarItem(icon: Icon(Icons.favorite, color: Colors.purple), label: ''),
+        BottomNavigationBarItem(icon: Icon(Icons.search, color: Colors.blue), label: ''),
+        BottomNavigationBarItem(icon: Icon(Icons.school, color: Colors.amber), label: ''),
+        BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.green), label: ''),
+      ],
+      onTap: (index) {
+        switch (index) {
+          case 0:
+          // Naviguer vers la wishlist
+            break;
+          case 1:
+          // Naviguer vers la wishlist
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => WishlistScreen()),
+            );
+            break;
+          case 2:
+          // Naviguer vers la page de recherche
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SearchScreen()),
+            );
+            break;
+          case 3:
+          // Naviguer vers la page de tutoriel
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Kitesurf()),
+            );
+            break;
+          case 4:
+          // Naviguer vers la page de profil
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfileScreen()),
+            );
+            break;
+        }
+      },
     );
   }
 }
-
-
-
