@@ -13,11 +13,11 @@ List<Map<String, dynamic>> simulateDataCamps() {
       "amenities": ["Piscine", "Bar sur la Terrasse"],
       "rating": 4.5,
       "image_urls": [ //pour stocker plusieurs images
-        "https://example.com/image-camp-surf1.jpg",
-        "https://example.com/image-camp-surf2.jpg",
-        "https://example.com/image-camp-surf3.jpg",
-        "https://example.com/image-camp-surf4.jpg",
-        "https://example.com/image-camp-surf5.jpg"
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https:https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG"
       ],
       "reviews": [
         {"user": "John", "comment": "Excellent camp pour les surfeurs expérimentés!", "rating": 5},
@@ -34,12 +34,12 @@ List<Map<String, dynamic>> simulateDataCamps() {
       "activities": ["Yoga", "Méditation"],
       "amenities": ["Spa", "Jardin"],
       "rating": 4.7,
-      "image_urls": [
-        "https://example.com/image-camp-surf1.jpg",
-        "https://example.com/image-camp-surf2.jpg",
-        "https://example.com/image-camp-surf3.jpg",
-        "https://example.com/image-camp-surf4.jpg",
-        "https://example.com/image-camp-surf5.jpg"
+      "image_urls": [ //pour stocker plusieurs images
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https:https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG"
       ],
       "reviews": [
         {"user": "Alice", "comment": "Parfait pour se détendre et se ressourcer.", "rating": 5},
@@ -56,12 +56,12 @@ List<Map<String, dynamic>> simulateDataCamps() {
       "activities": ["Danse", "Fêtes sur la plage", "Cours de samba"],
       "amenities": ["Club de plage", "Buffet"],
       "rating": 4.7,
-      "image_urls": [
-        "https://example.com/image-camp-surf1.jpg",
-        "https://example.com/image-camp-surf2.jpg",
-        "https://example.com/image-camp-surf3.jpg",
-        "https://example.com/image-camp-surf4.jpg",
-        "https://example.com/image-camp-surf5.jpg"
+      "image_urls": [ //pour stocker plusieurs images
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https:https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG"
       ],
       "reviews": [
         {"user": "Carlos", "comment": "Une expérience festive mémorable!", "rating": 5},
@@ -78,12 +78,12 @@ List<Map<String, dynamic>> simulateDataCamps() {
       "activities": ["Visites de clubs", "Ateliers de DJ", "Performances en direct"],
       "amenities": ["Lounge VIP", "Transports nocturnes"],
       "rating": 4.4,
-      "image_urls": [
-        "https://example.com/image-camp-surf1.jpg",
-        "https://example.com/image-camp-surf2.jpg",
-        "https://example.com/image-camp-surf3.jpg",
-        "https://example.com/image-camp-surf4.jpg",
-        "https://example.com/image-camp-surf5.jpg"
+      "image_urls": [ //pour stocker plusieurs images
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https:https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG"
       ],
       "reviews": [
         {"user": "Max", "comment": "Super pour les amateurs de musique électronique.", "rating": 5},
@@ -100,13 +100,13 @@ List<Map<String, dynamic>> simulateDataCamps() {
       "activities": ["Méditation", "Cérémonie du thé", "Jardinage zen"],
       "amenities": ["Jardins zen", "Salles de méditation"],
       "rating": 4.9,
-      "image_urls": [
-      "https://example.com/image-camp-surf1.jpg",
-      "https://example.com/image-camp-surf2.jpg",
-      "https://example.com/image-camp-surf3.jpg",
-      "https://example.com/image-camp-surf4.jpg",
-      "https://example.com/image-camp-surf5.jpg"
-    ],
+      "image_urls": [ //pour stocker plusieurs images
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https:https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG"
+      ],
       "reviews": [
         {"user": "Sara", "comment": "Parfait pour une déconnexion totale.", "rating": 5},
         {"user": "Tom", "comment": "Très calme, mais on aurait aimé plus d'interactions.", "rating": 4}
@@ -122,13 +122,13 @@ List<Map<String, dynamic>> simulateDataCamps() {
       "activities": ["Randonnées guidées", "Yoga au lever du soleil", "Bains de forêt"],
       "amenities": ["Spa en plein air", "Hébergement écologique"],
       "rating": 4.8,
-      "image_urls": [
-      "https://example.com/image-camp-surf1.jpg",
-      "https://example.com/image-camp-surf2.jpg",
-      "https://example.com/image-camp-surf3.jpg",
-      "https://example.com/image-camp-surf4.jpg",
-      "https://example.com/image-camp-surf5.jpg"
-    ],
+      "image_urls": [ //pour stocker plusieurs images
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https:https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5321_82a0e9fcfb.jpeg",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG",
+        "https://clairexplore.s3.eu-west-3.amazonaws.com/large_IMG_5641_b6d0f03c5c.JPEG"
+      ],
       "reviews": [
         {"user": "Anne", "comment": "La nature à son meilleur, très ressourçant.", "rating": 5},
         {"user": "Philippe", "comment": "Paisible, mais prévoyez vos propres activités en cas de pluie.", "rating": 4}
