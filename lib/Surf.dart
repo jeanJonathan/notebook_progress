@@ -2,20 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:notebook_progress/etapes_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/parametre_screen.dart';
+import 'package:notebook_progress/profile_screen.dart';
+import 'package:notebook_progress/search_screen.dart';
+import 'package:notebook_progress/wishlist_screen.dart';
 import 'Wingfoil.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'kitesurf.dart';
+
 class Surf extends StatelessWidget {
+  Offset? _initialPosition;
+  bool _showSwipeIndicator = false;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onHorizontalDragEnd: (DragEndDetails details) {
-        if (details.primaryVelocity! > 0) {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => Wingfoil()),
-          );
-        } else {
-          Navigator.of(context).pop();
+      onHorizontalDragStart: (DragStartDetails details) {
+        _initialPosition = details.globalPosition;
+        _showSwipeIndicator = true;
+      },
+      onHorizontalDragUpdate: (DragUpdateDetails details) {
+        if (_initialPosition != null) {
+          final offset = details.globalPosition;
+          final difference = offset.dx - _initialPosition!.dx;
+
+          // Si le mouvement est vers la gauche
+          if (difference < -10) {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Kitesurf()));
+          }
+          // Si le mouvement est vers la droite
+          if (difference > 10) {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Wingfoil()));
+          }
         }
+      },
+      onHorizontalDragEnd: (DragEndDetails details) {
+        _initialPosition = null;
+        _showSwipeIndicator = false;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -71,13 +93,24 @@ class Surf extends StatelessWidget {
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
-              //color: Color.fromRGBO(0, 0, 0, 0.4), // Pour rendre la couleur foncée avec une opacité de 0.4
-              //colorBlendMode: BlendMode.darken, // Pour rendre l'image plus sombre
             ),
+            if (_showSwipeIndicator)
+              Positioned(
+                top: MediaQuery.of(context).size.height * 0.4,
+                left: 16,
+                right: 16,
+                child: Text(
+                  'Faites glisser vers la gauche pour Kitesurf, et vers la droite pour Wingfoil',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             Positioned(
               top: 250,
               left: 5,
-              child: Icon(Icons.arrow_back_ios, size: 50,color: Color(0xFFF5F5F5),),
+              child: Icon(Icons.arrow_back_ios, size: 50, color: Color(0xFFF5F5F5)),
             ),
             Positioned(
               top: MediaQuery.of(context).size.height * 0.35,
@@ -140,6 +173,69 @@ class Surf extends StatelessWidget {
               ),
             ),
           ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed, // Ensures all icons are shown
+          selectedItemColor: Colors.deepPurple, // Highlight the selected icon
+          unselectedItemColor: Colors.grey, // Color for unselected items
+          iconSize: 30, // Increased icon size for better visibility
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.more_horiz, color: Colors.red), // Placeholder icon
+              label: '', // Removed label
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite, color: Colors.purple), // Icon for wishlist
+              label: '', // Removed label
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search, color: Colors.blue), // Icon for search
+              label: '', // Removed label
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.school, color: Colors.amber), // Icon for tutorial
+              label: '', // Removed label
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle, color: Colors.green), // Icon for profile
+              label: '', // Removed label
+            ),
+          ],
+          onTap: (index) {
+            switch (index) {
+              case 0:
+              // Action pour l'icône placeholder (à définir)
+                break;
+              case 1:
+              // Naviguer vers la wishlist
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WishlistScreen()),
+                );
+                break;
+              case 2:
+              // Naviguer vers la page de recherche
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SearchScreen()),
+                );
+                break;
+              case 3:
+              // Naviguer vers la page de tutoriel
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Kitesurf()),
+                );
+                break;
+              case 4:
+              // Naviguer vers la page de profil
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
+                break;
+            }
+          },
         ),
       ),
     );

@@ -16,24 +16,23 @@ class RecommendationService {
     String preferredStayType = userProfile['preferredStayType'];
     String experienceLevel = userProfile['experienceLevel'];
 
-    // Récupérer les camps depuis Firestore
-    QuerySnapshot campSnapshot = await _firestore.collection('camps').get();
+    // Récupération les camps depuis Firestore
+    QuerySnapshot campSnapshot = await _firestore.collection('camps').where('type', isEqualTo: preferredStayType).where('level_required', isEqualTo: experienceLevel).get();
 
-    // Filtrer les camps en fonction des préférences utilisateur
+    // On filtre les camps en fonction des préférences utilisateur
     List<Map<String, dynamic>> recommendedCamps = [];
     for (var camp in campSnapshot.docs) {
       Map<String, dynamic> campData = camp.data() as Map<String, dynamic>;
-      if (campData['type'] == preferredStayType && campData['level_required'] == experienceLevel) {
+      // maintenant l'image est une liste
+      if (campData['image_urls'] is List) {
         recommendedCamps.add(campData);
       }
     }
 
-    // Trier les camps recommandés par note et prix
+    // Tri les camps recommandés par note et prix
     recommendedCamps.sort((a, b) {
       int ratingComparison = b['rating'].compareTo(a['rating']);
-      if (ratingComparison != 0) {
-        return ratingComparison;
-      }
+      if (ratingComparison != 0) return ratingComparison;
       return a['price'].compareTo(b['price']);
     });
 

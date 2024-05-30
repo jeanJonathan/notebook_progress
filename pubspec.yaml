@@ -30,8 +30,11 @@ environment:
 dependencies:
   webview_flutter: ^2.8.0
   flutter_typeahead: ^3.0.1
+  carousel_slider: ^4.0.0
   flutter:
     sdk: flutter
+  smooth_page_indicator: ^1.1.0
+
 #Ajout<ya des dependances pour firebase
   firebase_core: ^2.15.0
   google_maps_flutter: ^2.6.1

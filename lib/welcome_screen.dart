@@ -1,123 +1,190 @@
 import 'package:flutter/material.dart';
-import 'package:notebook_progress/Wingfoil.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:notebook_progress/profile_screen.dart';
 import 'package:notebook_progress/search_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
+import 'kitesurf.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   final List<Map<String, dynamic>> recommendedCamps;
 
   WelcomeScreen({required this.recommendedCamps});
 
   @override
+  _WelcomeScreenState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  late PageController _pageController;
+  late PageController _imagePageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    _imagePageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _imagePageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Bienvenue', style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: ListView.builder(
-        itemCount: recommendedCamps.length,
-        itemBuilder: (context, index) {
-          Map<String, dynamic> camp = recommendedCamps[index];
-          return Card(
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100.0),
+        child: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          flexibleSpace: Padding(
+            padding: const EdgeInsets.only(top: 40.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.black),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                Image.asset(
+                  'assets/logoOcean.png',
+                  width: 250,
+                  height: 100,
+                ),
+                SizedBox(width: 48),
+              ],
             ),
-            child: ListTile(
-              contentPadding: EdgeInsets.all(15),
-              leading: Icon(Icons.nature, color: Colors.green), // Adjusted icon
-              title: Text(
-                camp['name'],
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 5),
-                  Text(camp['description']),
-                  SizedBox(height: 5),
-                  Text('Prix: ${camp['price']}€'),
-                  SizedBox(height: 5),
-                  Text('Note: ${camp['rating']}'),
-                  SizedBox(height: 5),
-                  Text('Activités: ${camp['activities'].join(', ')}'),
-                ],
-              ),
-              trailing: Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                // Naviguer vers les détails du camp ou ajouter à la wishlist
-              },
+          ),
+        ),
+      ),
+      body: PageView.builder(
+        controller: _pageController,
+        itemCount: widget.recommendedCamps.length,
+        itemBuilder: (context, index) {
+          Map<String, dynamic> camp = widget.recommendedCamps[index];
+          return GestureDetector(
+            onTapDown: (TapDownDetails details) {
+              double screenWidth = MediaQuery.of(context).size.width;
+              if (details.localPosition.dx < screenWidth / 2) {
+                // User tapped on the left side
+                if (_imagePageController.page!.toInt() > 0) {
+                  _imagePageController.previousPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                }
+              } else {
+                // User tapped on the right side
+                if (_imagePageController.page!.toInt() < camp['image_urls'].length - 1) {
+                  _imagePageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                }
+              }
+            },
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: PageView.builder(
+                    controller: _imagePageController,
+                    itemCount: camp['image_urls'].length,
+                    itemBuilder: (context, imageIndex) {
+                      return Image.network(
+                        camp['image_urls'][imageIndex],
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [Colors.black.withOpacity(0.7), Colors.transparent],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 10,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: SmoothPageIndicator(
+                      controller: _imagePageController,
+                      count: camp['image_urls'].length,
+                      effect: WormEffect(activeDotColor: Colors.white),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 50,
+                  left: 20,
+                  right: 20,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(camp['name'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                      Text(camp['description'], style: TextStyle(fontSize: 16, color: Colors.white)),
+                      Text('Activités: ${camp['activities'].join(', ')}', style: TextStyle(fontSize: 16, color: Colors.white)),
+                    ],
+                  ),
+                ),
+              ],
             ),
           );
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed, // Ensures all icons are shown
-        selectedItemColor: Colors.deepPurple, // Highlight the selected icon
-        unselectedItemColor: Colors.grey, // Color for unselected items
-        iconSize: 30, // Increased icon size for better visibility
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.more_horiz, color: Colors.red), // Placeholder icon
-            label: '', // Removed label
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite, color: Colors.purple), // Icon for wishlist
-            label: '', // Removed label
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search, color: Colors.blue), // Icon for search
-            label: '', // Removed label
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school, color: Colors.amber), // Icon for tutorial
-            label: '', // Removed label
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle, color: Colors.green), // Icon for profile
-            label: '', // Removed label
-          ),
-        ],
-        onTap: (index) {
-          switch (index) {
-            case 0:
-            // Action pour l'icône placeholder (à définir)
-              break;
-            case 1:
-            // Naviguer vers la wishlist
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => WishlistScreen()),
-              );
-              break;
-            case 2:
-            // Naviguer vers la page de recherche
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SearchScreen()),
-              );
-              break;
-            case 3:
-            // Naviguer vers la page de tutoriel
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Wingfoil()),
-              );
-              break;
-            case 4:
-            // Naviguer vers la page de profil
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfileScreen()),
-              );
-              break;
-          }
-        },
-      ),
+      bottomNavigationBar: buildBottomNavigationBar(),
+    );
+  }
+  BottomNavigationBar buildBottomNavigationBar() {
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: Colors.deepPurple,
+      unselectedItemColor: Colors.grey,
+      iconSize: 30,
+      items: [
+        BottomNavigationBarItem(icon: Icon(Icons.more_horiz, color: Colors.red), label: ''),
+        BottomNavigationBarItem(icon: Icon(Icons.favorite, color: Colors.purple), label: ''),
+        BottomNavigationBarItem(icon: Icon(Icons.search, color: Colors.blue), label: ''),
+        BottomNavigationBarItem(icon: Icon(Icons.school, color: Colors.amber), label: ''),
+        BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.green), label: ''),
+      ],
+      onTap: (index) {
+        switch (index) {
+          case 0:
+          // Naviguer vers la wishlist
+            break;
+          case 1:
+          // Naviguer vers la wishlist
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => WishlistScreen()),
+            );
+            break;
+          case 2:
+          // Naviguer vers la page de recherche
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SearchScreen()),
+            );
+            break;
+          case 3:
+          // Naviguer vers la page de tutoriel
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Kitesurf()),
+            );
+            break;
+          case 4:
+          // Naviguer vers la page de profil
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfileScreen()),
+            );
+            break;
+        }
+      },
     );
   }
 }
-
