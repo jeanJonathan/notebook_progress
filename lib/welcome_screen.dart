@@ -67,11 +67,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         itemBuilder: (context, index) {
           Map<String, dynamic> camp = widget.recommendedCamps[index];
           return GestureDetector(
-            onTap: () {
-              if (_imagePageController.page!.toInt() < camp['image_urls'].length - 1) {
-                _imagePageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+            onTapDown: (TapDownDetails details) {
+              double screenWidth = MediaQuery.of(context).size.width;
+              if (details.localPosition.dx < screenWidth / 2) {
+                // User tapped on the left side
+                if (_imagePageController.page!.toInt() > 0) {
+                  _imagePageController.previousPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                }
               } else {
-                _imagePageController.jumpToPage(0); // Retour au début si on est à la dernière image
+                // User tapped on the right side
+                if (_imagePageController.page!.toInt() < camp['image_urls'].length - 1) {
+                  _imagePageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                }
               }
             },
             child: Stack(
