@@ -18,7 +18,7 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 8),
+      duration: Duration(seconds: 5),
     )..repeat();
 
     _animation = Tween<double>(begin: 0, end: 100).animate(_controller)
@@ -26,7 +26,7 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
         setState(() {});
       });
 
-    Future.delayed(Duration(seconds: 8), () {
+    Future.delayed(Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => WelcomeScreen(recommendedCamps: [])),
