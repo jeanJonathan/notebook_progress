@@ -20,29 +20,48 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              "Préféreriez-vous un séjour plus tôt ?",
-              style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.center,
+      body: Stack(
+        children: [
+          // Background image
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/pref.jpg'), // Path to your background image in assets
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-          SizedBox(height: 20),
-          _buildOptionCard('Festif', Colors.deepOrangeAccent[200]!, "Animations, concerts, et vie nocturne"),
-          _buildOptionCard('Tranquille', Colors.lightBlue[200]!, "Détente, nature, et calme"),
-          SizedBox(height: 40),
-          ElevatedButton(
-            onPressed: _selectedType == null ? null : _savePreferredType,
-            child: Text('Suivant',style: TextStyle(fontSize: 18, color: Colors.white),),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFF64C8C8),
-              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-              textStyle: TextStyle(fontSize: 18),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          // Content over the background image
+          Container(
+            color: Colors.black.withOpacity(0.5), // Optional: Add a semi-transparent overlay for better contrast
+            child: Center( // Use Center to align children both horizontally and vertically
+              child: Column(
+                mainAxisSize: MainAxisSize.min, // Centers the column vertically in the available space
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      "Préféreriez-vous un séjour plus tôt ?",
+                      style: theme.textTheme.headline6?.copyWith(color: Colors.white), // Ensure the text is visible on the background
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  _buildOptionCard('Festif', Color(0xFF0077B6), "Animations, concerts, et vie nocturne"),
+                  _buildOptionCard('Tranquille', Color(0xFF2D2F31), "Détente, nature, et calme"),
+                  SizedBox(height: 40),
+                  ElevatedButton(
+                    onPressed: _selectedType == null ? null : _savePreferredType,
+                    child: Text('Suivant'),
+                    style: ElevatedButton.styleFrom(
+                      disabledForegroundColor: Colors.grey.withOpacity(0.38), disabledBackgroundColor: Colors.grey.withOpacity(0.12), // Color when disabled
+                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                      textStyle: theme.textTheme.button,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -51,6 +70,7 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
   }
 
   Widget _buildOptionCard(String type, Color color, String description) {
+    bool isSelected = _selectedType == type;
     return GestureDetector(
       onTap: () => _selectType(type),
       child: AnimatedContainer(
@@ -59,22 +79,22 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
         padding: EdgeInsets.all(20),
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: _selectedType == type ? color : Colors.grey[200],
+          color: isSelected ? color : Colors.grey[200]?.withOpacity(0.9), // Slightly transparent when not selected
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
               spreadRadius: 1,
               blurRadius: 10,
-              offset: Offset(0, 5), // changes position of shadow
+              offset: Offset(0, 5),
             ),
           ],
         ),
         child: Column(
           children: [
-            Text(type, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+            Text(type, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: isSelected ? Colors.white : Colors.black)),
             SizedBox(height: 10),
-            Text(description, style: TextStyle(fontSize: 16, color: Colors.white70)),
+            Text(description, style: TextStyle(fontSize: 16, color: isSelected ? Colors.white70 : Colors.black45)),
           ],
         ),
       ),
@@ -93,15 +113,9 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
         'preferredStayType': _selectedType,
       });
-      // Assuming ExperienceLevelScreen is already set up
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ExperienceLevelScreen()),
-      );
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ExperienceLevelScreen()));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please log in to save your preferences.'))
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please log in to save your preferences.')));
     }
   }
 }

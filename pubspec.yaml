@@ -114,6 +114,7 @@ flutter:
     - assets/grid_icon.png
     - assets/chat_icon.png
     - assets/profile_icon.png
+    - assets/pref.jpg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
