@@ -1,7 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/basic_info_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:notebook_progress/recommandation_service.dart';
+import 'package:notebook_progress/welcome_screen.dart';
+
+import 'loading_screen.dart';
 
 class CreateProfileStart extends StatelessWidget {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,14 +72,11 @@ class CreateProfileStart extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                      // Logique pour revenir à l'écran précédent ou à l'écran de connexion
-                      Navigator.of(context).pop(); // Retour à l'écran précédent
-                    },
+                    onPressed: () => _saveDefaultDataAndExit(context),
                     child: Text(
                       'Je ne souhaite pas maintenant',
                       style: TextStyle(
-                        color: Colors.grey[700], // Une couleur neutre mais visible
+                        color: Colors.grey[700],
                       ),
                     ),
                   ),
@@ -83,4 +89,38 @@ class CreateProfileStart extends StatelessWidget {
       ),
     );
   }
+  void _saveDefaultDataAndExit(BuildContext context) async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      try {
+        await _firestore.collection('users').doc(user.uid).set({
+          'preferredStayType': 'Festif',
+          'experienceLevel': 'Débutant',
+        }, SetOptions(merge: true));
+
+        // Simuler un chargement avant de récupérer les recommandations
+        await Future.delayed(Duration(seconds: 5));  // Réduire à 5 secondes pour le rendre moins long
+
+        // Supposant que RecommendationService est une classe existante qui gère la logique de recommandation
+        RecommendationService recommendationService = RecommendationService();
+        List<Map<String, dynamic>> recommendedCamps = await recommendationService.getRecommendedCamps();
+
+        // Naviguer vers WelcomeScreen avec les camps recommandés
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => WelcomeScreen(recommendedCamps: recommendedCamps)),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to save default data. Please try again.'), backgroundColor: Colors.red)
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No user logged in.'), backgroundColor: Colors.red)
+      );
+    }
+  }
 }
+
+

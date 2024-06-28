@@ -13,43 +13,49 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Date de naissance ?"),
+        title: Text(""),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
               "Quelle est votre date de naissance ?",
-              style: TextStyle(fontSize: 16),
+              style: theme.textTheme.headline6,
               textAlign: TextAlign.center,
             ),
-          ),
-          SizedBox(height: 20),
-          ListTile(
-            title: Text(
-              _selectedDate == null
-                  ? "Date de naissance (0 ans)"
-                  : "Date de naissance: ${_selectedDate!.day} ${_selectedDate!.month} ${_selectedDate!.year} (${DateTime.now().year - _selectedDate!.year} ans)",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: () => _pickDate(context),
+              icon: Icon(Icons.calendar_today, color: Colors.white),
+              label: Text(
+                _selectedDate == null
+                    ? "Sélectionner la date"
+                    : "Né le: ${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year} (${DateTime.now().year - _selectedDate!.year} ans)",
+                style: theme.textTheme.bodyText1,
+              ),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                textStyle: theme.textTheme.button,
+              ),
             ),
-            trailing: Icon(Icons.calendar_today),
-            onTap: () => _pickDate(context),
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: _selectedDate == null ? null : _saveBirthdate,
-            child: Text('Suivant',style: TextStyle(fontSize: 18, color: Colors.white),),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFF64C8C8), disabledForegroundColor: Colors.grey.withOpacity(0.38), disabledBackgroundColor: Colors.grey.withOpacity(0.12), // Color when disabled
+            SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: _selectedDate == null ? null : _saveBirthdate,
+              child: Text('Suivant'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF64C8C8), // Active color
+                disabledForegroundColor: Colors.grey.withOpacity(0.38), disabledBackgroundColor: Colors.grey.withOpacity(0.12), // Disabled color
+                padding: EdgeInsets.symmetric(horizontal: 48, vertical: 12),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -60,6 +66,18 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
       initialDate: _selectedDate ?? DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              onPrimary: Colors.white, // header text color
+              onSurface: Colors.black, // body text color
+            ),
+            dialogBackgroundColor: Colors.white,
+          ),
+          child: child!,
+        );
+      },
     );
     if (picked != null && picked != _selectedDate) {
       setState(() {
@@ -74,10 +92,7 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
         'birthdate': _selectedDate,
       });
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PreferredStayTypeScreen()),
-      );
+      Navigator.push(context, MaterialPageRoute(builder: (context) => PreferredStayTypeScreen()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Please log in to save your birthdate.'))
