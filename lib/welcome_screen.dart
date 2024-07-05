@@ -144,11 +144,26 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       unselectedItemColor: Colors.grey,
       iconSize: 30,
       items: [
-        BottomNavigationBarItem(icon: Icon(Icons.more_horiz, color: Colors.red), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.favorite, color: Colors.purple), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.search, color: Colors.blue), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.school, color: Colors.amber), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.green), label: ''),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.more_horiz, color: Color(0xFF64C8C8)),
+          label: 'Plus',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.favorite, color: Color(0xFF64C8C8)),
+          label: 'Favoris',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.search, color: Color(0xFF64C8C8)),
+          label: 'Recherche',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.school, color: Color(0xFF64C8C8)),
+          label: 'Formations',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.account_circle, color: Color(0xFF64C8C8)),
+          label: 'Profil',
+        ),
       ],
       onTap: (index) {
         switch (index) {
