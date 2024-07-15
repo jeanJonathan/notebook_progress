@@ -16,7 +16,7 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
     ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(""),
+        title: Text("Date de naissance"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
@@ -46,7 +46,7 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
             ),
             SizedBox(height: 32),
             ElevatedButton(
-              onPressed: _selectedDate == null ? null : _saveBirthdate,
+              onPressed: _selectedDate == null || (DateTime.now().year - _selectedDate!.year < 18) ? null : _saveBirthdate,
               child: Text('Suivant'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFF64C8C8), // Active color
@@ -61,17 +61,21 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
   }
 
   Future<void> _pickDate(BuildContext context) async {
+    final DateTime now = DateTime.now();
+    final DateTime eighteenYearsAgo = DateTime(now.year - 18, now.month, now.day);
+
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: _selectedDate ?? DateTime.now(),
+      initialDate: eighteenYearsAgo,
       firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
+      lastDate: eighteenYearsAgo,
       builder: (context, child) {
         return Theme(
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.light(
-              onPrimary: Colors.white, // header text color
-              onSurface: Colors.black, // body text color
+              primary: Colors.blue, // Color of the header
+              onPrimary: Colors.white, // Color of the header text
+              onSurface: Colors.black, // Color of the body text
             ),
             dialogBackgroundColor: Colors.white,
           ),
@@ -79,7 +83,7 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
         );
       },
     );
-    if (picked != null && picked != _selectedDate) {
+    if (picked != null && picked != _selectedDate && picked.isBefore(eighteenYearsAgo.add(Duration(days: 1)))) {
       setState(() {
         _selectedDate = picked;
       });
@@ -88,14 +92,14 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
 
   void _saveBirthdate() async {
     User? user = FirebaseAuth.instance.currentUser;
-    if (user != null && _selectedDate != null) {
+    if (user != null && _selectedDate != null && (DateTime.now().year - _selectedDate!.year >= 18)) {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
         'birthdate': _selectedDate,
       });
       Navigator.push(context, MaterialPageRoute(builder: (context) => PreferredStayTypeScreen()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please log in to save your birthdate.'))
+          SnackBar(content: Text('Veuillez vous connecter pour enregistrer votre date de naissance.'))
       );
     }
   }
