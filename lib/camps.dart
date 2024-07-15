@@ -23,7 +23,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/12/surfcamp-barbacue-night.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/12/breakfast-included-in-2.jpg"
       ],
-      "booking_link": "https://example.com/book/lisbonne-surf-villa"
+      "booking_link": "https://oceanadventure.surf/europe/portugal-2/lisbonne/caparica-adulte/"
     },
     {
       "name": "Ocean Adventure, Natural Park Resort",
@@ -45,7 +45,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2022/12/dsc01163.1800x1000-1-1.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/08/natural-park-resort-dakhla-kitecenter-2.jpg"
       ],
-      "booking_link": "https://example.com/book/dakhla-adventure"
+      "booking_link": "https://oceanadventure.surf/maroc/dakhla/kite-camp-lagon-8/"
     },
 
     {
@@ -68,7 +68,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/09/beach-party-kitecamp-economique-et-festif-dakhla-chambre-1.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/09/beach-party-kitecamp-economique-et-festif-dakhla-chambre-5.jpg",
       ],
-      "booking_link": "https://example.com/book/beach-party-dakhla"
+      "booking_link": "https://oceanadventure.surf/maroc/dakhla/camp-6/"
     },
     {
       "name": "Ocean Adventure, Le Cercle Dakhla",
@@ -92,7 +92,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/08/room-cercle-1.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/08/resto-cercle-1-815x1024.jpg"
       ],
-      "booking_link": "https://example.com/book/ocean-adventure-cercle"
+      "booking_link": "https://oceanadventure.surf/maroc/dakhla/kite-camp-18/"
     },
     {
       "name": "Ocean Adventure Le Lagon, Kite camp Dakhla",
@@ -115,7 +115,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/08/ocean-adventure-kitesurf-resort-dakhla-le-lagon-les-cours_hebergement-4-e1692604956913.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/08/dakhla-lagon-dejeuner-e1692607443646.jpg"
       ],
-      "booking_link": "https://example.com/book/le-lagon-dakhla"
+      "booking_link": "https://oceanadventure.surf/maroc/dakhla/kite-camp-lagon-7/"
     },
     {
       "name": "Ocean Adventure Lassarga : Lagune et Océan",
@@ -137,7 +137,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2024/01/capture-decran-2024-01-05-103934.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2024/01/beach-bar-lassarga-1024x681.jpg"
       ],
-      "booking_link": "https://example.com/book/lassarga"
+      "booking_link": "https://oceanadventure.surf/maroc/dakhla/lassarga/"
     },
     {
       "name": "Kitecamp - Fuerteventura, Corralejo",
@@ -159,7 +159,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/11/surf-camp-fuerteventura-corralejo-iles-canaries-6.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/11/surf-camp-fuerteventura-corralejo-iles-canaries-1024x768.jpg"
       ],
-      "booking_link": "https://example.com/book/corralejo-kitecamp"
+      "booking_link": "https://oceanadventure.surf/canaries/fuerteventura-2/corralejo/"
     },
     {
       "name": "Surf camp Surf House, Imsouane - Maroc",
@@ -178,7 +178,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/10/brahim-imsouane.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2024/02/imsouane-surf-house-e1707833322628-1.jpg"
       ],
-      "booking_link": "https://example.com/book/surfhouse-imsouane"
+      "booking_link": "https://oceanadventure.surf/maroc/imsouane-2/surf-camp-1/"
     },
     {
       "name": "Surfcamp Surf house Bilbao",
@@ -200,7 +200,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/05/dsc_1383-1-1-1024x681.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/09/surfcamp-bilbao-surf-yoga-spa-12-1024x576.jpg"
       ],
-      "booking_link": "https://example.com/book/surfhouse-bilbao"
+      "booking_link": "https://oceanadventure.surf/europe/espagne/bilbao/"
     },
     {
       "name": "Le meilleur Surf Camp d'Imsouane",
@@ -222,7 +222,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/11/imsouane-activites-960x750.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2022/04/telechargement-4-960x551.jpg"
       ],
-      "booking_link": "https://example.com/book/best-surf-imsouane"
+      "booking_link": "https://oceanadventure.surf/maroc/imsouane-2/"
     },
     {
       "name": "Surf Lodge Premium",
@@ -244,7 +244,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2024/01/272429876_648068799973142_1697168591816504879_n-1024x1024.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2024/01/367432326_18070897126406269_3885384719068672346_n-1024x1024.jpg"
       ],
-      "booking_link": "https://example.com/book/surf-lodge-premium"
+      "booking_link": "https://oceanadventure.surf/maroc/taghazout/surf-camp-8/"
     },
     {
       "name": "Surf camp Taghazout - Maroc Authentique",
@@ -266,7 +266,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/06/caption-7.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/06/repas-au-meilleur-surf-camp-economique-de-taghazout-scaled-1.jpg"
       ],
-      "booking_link": "https://example.com/book/taghazout-authentique"
+      "booking_link": "https://oceanadventure.surf/maroc/taghazout/surf-camp-2/"
     },
     {
       "name": "Séjour ados et Colonies",
@@ -288,7 +288,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/05/93760946.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/05/134957088.jpg"
       ],
-      "booking_link": "https://example.com/book/colonies-biarritz"
+      "booking_link": "https://oceanadventure.surf/biarritz-pays-basque/hebergement-groupes/"
     },
     {
       "name": "Surfcamp - Fuerteventura, Corralejo",
@@ -310,7 +310,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/11/surf-camp-fuerteventura-corralejo-iles-canaries-6.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/11/surf-camp-fuerteventura-corralejo-iles-canaries-1024x768.jpg"
       ],
-      "booking_link": "https://example.com/book/fuerteventura-corralejo"
+      "booking_link": "https://oceanadventure.surf/canaries/fuerteventura-2/surfcamp/"
     },
     {
       "name": "Surf Camp Sidi Kaouki - Villa Beach House",
@@ -330,7 +330,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/08/surfcamp-sidi-kouaki-villa-sarah-image-9.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2024/02/surfcamp-sidi-kouaki-villa-chambre-e1708438321698.jpg"
       ],
-      "booking_link": "https://example.com/book/sidi-kaouki-villa"
+      "booking_link": "https://oceanadventure.surf/maroc/essaouira/villa-perchee/"
     },
     {
       "name": "Boutique Hôtel Surf And Yoga House",
@@ -353,7 +353,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/11/376298748.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/04/f9538cdb-d8ab-498f-9e07-58e312d7d706-1152x1536.jpg"
       ],
-      "booking_link": "https://example.com/book/taghazout-yoga"
+      "booking_link": "https://oceanadventure.surf/maroc/taghazout/surf-camp-6/"
     },
     {
       "name": "Ocean Adventure, Nature & Spa",
@@ -376,7 +376,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/10/img_4722-1024x618.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/05/diner-romantique-1-1024x1024.jpg"
       ],
-      "booking_link": "https://example.com/book/nature-spa-dakhla"
+      "booking_link": "https://oceanadventure.surf/maroc/dakhla/camp-5/"
     },
     {
       "name": "Ocean Vagabond Le Lagon, Dakhla",
@@ -398,7 +398,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2024/01/431652580.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/03/431657810.jpg"
       ],
-      "booking_link": "https://example.com/book/ocean-vagabond"
+      "booking_link": "https://oceanadventure.surf/maroc/dakhla/camp-2/"
     },
     {
       "name": "Surfcamp - La Centrale",
@@ -421,7 +421,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/05/jo-joe-hossegor.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/05/jo-joe-hossegor-1.jpg"
       ],
-      "booking_link": "https://example.com/book/la-centrale"
+      "booking_link": "https://oceanadventure.surf/france-2/hossegor/surf-camp-3/"
     },
     {
       "name": "Surf Camp Nazaré, Portugal",
@@ -443,7 +443,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/05/103003476.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/05/0094e6_8c35cc25ea1c4e4ba27e882b04e1b908_mv2-1.jpg"
       ],
-      "booking_link": "https://example.com/book/nazare"
+      "booking_link": "https://oceanadventure.surf/europe/portugal-2/nazare/"
     },
     {
       "name": "Surf Lodge Péniche, Portugal",
@@ -465,7 +465,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2024/02/surf-camp-peniche-1024x576.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2024/04/91909535-1.jpg"
       ],
-      "booking_link": "https://example.com/book/peniche-lodge"
+      "booking_link": "https://oceanadventure.surf/europe/portugal-2/peniche-baleal/surf-camp-1/"
     },
     {
       "name": "Auberge Bilbao",
@@ -487,7 +487,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/09/surfcamp-bilbao-auberge-authentique-ocean-adventure-3-1024x683.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/09/surf-camp-de-bilbao-1.jpg"
       ],
-      "booking_link": "https://example.com/book/auberge-bilbao"
+      "booking_link": "https://oceanadventure.surf/europe/espagne/bilbao/surfhotel/"
     },
     {
       "name": "Surf camp Surf & Chill Capbreton – Hossegor",
@@ -510,7 +510,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2024/02/2019_wnslcuisine-1024x573.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/05/196930341.jpg"
       ],
-      "booking_link": "https://example.com/book/hossegor-chill"
+      "booking_link": "https://oceanadventure.surf/france-2/surf-camp-4/"
     },
     {
       "name": "Surfcamp - Surf House Adventure",
@@ -532,7 +532,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/05/salon1600-x-1560-98b57e85.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/05/1600-x-200x0spa-3129d45d-1200x1500.jpg"
       ],
-      "booking_link": "https://example.com/book/capbreton-Adventure"
+      "booking_link": "https://oceanadventure.surf/france-2/hossegor/surf-camp-2/"
     },
     {
       "name": "Surf Camp Villa - Beach House Corralejo",
@@ -554,7 +554,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/11/surf-camp-villa-beach-house-a-corralejo-7-1024x768.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/11/surf-camp-villa-beach-house-a-corralejo-11-2-1024x707.jpg"
       ],
-      "booking_link": "https://example.com/book/corralejo-villa"
+      "booking_link": "https://oceanadventure.surf/canaries/fuerteventura-2/corralejo-2/"
     },
     {
       "name": "Winf Foil camp - Fuerteventura, Corralejo",
@@ -575,7 +575,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/11/surf-camp-fuerteventura-corralejo-iles-canaries-8.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/11/surf-camp-fuerteventura-corralejo-iles-canaries-1024x768.jpg",
       ],
-      "booking_link": "https://example.com/book/corralejo-windfoil"
+      "booking_link": "https://oceanadventure.surf/canaries/wingfoil/"
     },
     {
       "name": "Village Vacances Surf à Corralejo",
@@ -597,7 +597,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/12/surf-village-fuerteventura-img-6-1024x768.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/12/surf-village-fuerteventura-img-9-1024x768.jpg"
       ],
-      "booking_link": "https://example.com/book/corralejo-village"
+      "booking_link": "https://oceanadventure.surf/canaries/fuerteventura-2/surf-village/"
     },
     {
       "name": "Surf Camp Vue Mer Peniche, Portugal",
@@ -619,7 +619,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/02/055968eb-f561-45b1-a896-c3898dcff652.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/02/064b186d-5a14-432c-bafb-f0ef984f9715.jpg"
       ],
-      "booking_link": "https://example.com/book/peniche-vue-mer"
+      "booking_link": "https://oceanadventure.surf/europe/portugal-2/peniche-baleal/surf-camp-4/"
     },
     {
       "name": "Surf Camp Yoga & Chill – Peniche, Portugal",
@@ -643,7 +643,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2024/02/653x490-2.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/07/cc6a7b_f255a421fb114dd8ac7092a584af74af_mv2.jpg"
       ],
-      "booking_link": "https://example.com/book/peniche-yoga-chill"
+      "booking_link": "https://oceanadventure.surf/europe/portugal-2/peniche-baleal/surf-camp-5/"
     },
     {
       "name": "Kitecamp Obidos",
@@ -664,7 +664,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/12/kite-wing-camp-a-obidos-image-5.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2024/02/kite-wing-camp-a-obidos-image-3.jpg",
       ],
-      "booking_link": "https://example.com/book/obidos-kite"
+      "booking_link": "https://oceanadventure.surf/europe/portugal-2/peniche-baleal/kite-camp-obidos/"
     },
     {
       "name": "Surf House - Açores",
@@ -686,7 +686,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2024/01/yoga-acores-1024x683.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/05/284160375.jpg"
       ],
-      "booking_link": "https://example.com/book/acores-surfhouse"
+      "booking_link": "https://oceanadventure.surf/europe/portugal-2/acores/surfcamp-1/"
     },
     {
       "name": "Resort Sicile",
@@ -708,7 +708,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/04/appartamento-con-vista-min-1024x681.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/04/residence-santa-maria-1-1024x683.jpg"
       ],
-      "booking_link": "https://example.com/book/sicile-resort"
+      "booking_link": "https://oceanadventure.surf/europe/sicile/surf-camp-1/"
     },
     {
       "name": "Wingfoil, Surf & Yoga Camp Essaouira, Maroc",
@@ -730,7 +730,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/08/ocean-adventure-come-surfing-3.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2024/01/dejeuneressaouira-1024x823.jpg"
       ],
-      "booking_link": "https://example.com/book/essaouira-wingfoil"
+      "booking_link": "https://oceanadventure.surf/maroc/essaouira/surf-camp-1/"
     },
     {
       "name": "Surfcamp Banana Village, Taghazout Bay",
@@ -752,7 +752,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/10/surf-camp-agadir-ocean-adventure-2.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/10/surf-camp-agadir-ocean-adventure-9.jpg"
       ],
-      "booking_link": "https://example.com/book/banana-village"
+      "booking_link": "https://oceanadventure.surf/maroc/taghazout/surf-camp-12/"
     },
     {
       "name": "Le meilleur Surf Camp de Taghazout, Maroc",
@@ -774,7 +774,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/05/gl14.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/05/195851125.jpg"
       ],
-      "booking_link": "https://example.com/book/taghazout-best"
+      "booking_link": "https://oceanadventure.surf/maroc/taghazout/surf-camp-10/t"
     },
     {
       "name": "Surf Camp - Jungle view, Santa Teresa",
@@ -796,7 +796,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2024/01/surf-house-playa-hermosa-santa-teresa-img-1-1024x576.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2021/01/costa-rica-960x750.jpg"
       ],
-      "booking_link": "https://example.com/book/jungle-view"
+      "booking_link": "https://oceanadventure.surf/costa-rica/santa-teresa/"
     },
     {
       "name": "Surfcamp Canggu, Bali, Indonésie",
@@ -818,7 +818,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/07/surfcamp-canggu-12-ocean-adventure.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/07/surfcamp-canggu-9-ocean-adventure.jpg"
       ],
-      "booking_link": "https://example.com/book/canggu"
+      "booking_link": "https://oceanadventure.surf/asie/indonesie/bali/canggu2/"
     },
     {
       "name": "Surfcamp Ado de Luxe",
@@ -840,7 +840,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2024/01/surf-camp-ados-deluxe-biarritz-2.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/03/capture-decran-2023-02-24-120003-1-1024x768.jpg"
       ],
-      "booking_link": "https://example.com/book/biarritz-ado-luxe"
+      "booking_link": "https://oceanadventure.surf/surf-camp-ados/deluxe-biarritz/"
     },
     {
       "name": "Surf Camp - Beach House",
@@ -861,7 +861,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2024/06/lacanau-surf-camp-1024x730.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2024/04/surf-camp-lacanau-5-1024x1024.jpg"
       ],
-      "booking_link": "https://example.com/book/lacanau-beach-house"
+      "booking_link": "https://oceanadventure.surf/france-2/gironde/surf-camp-lacanau/"
     },
     {
       "name": "Surfcamp Ados",
@@ -883,7 +883,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/11/image-surf-camp-ados-bar-et-restaurant-1.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2023/11/groupe-surfcamp-ado-vendee-1024x683-1.jpg"
       ],
-      "booking_link": "https://example.com/book/sables-ados"
+      "booking_link": "https://oceanadventure.surf/france-2/la-tranche/surf-camp-ados-1/"
     },
     {
       "name": "Surf Camp - Villa Beach Party",
@@ -903,7 +903,7 @@ List<Map<String, dynamic>> dataTopCamps() {
         "https://oceanadventure.surf/wp-content/uploads/2023/02/villa-beach-party-e1677513128642.jpg",
         "https://oceanadventure.surf/wp-content/uploads/2024/02/1440_6e0-1635949941-1-1024x764.jpg",
       ],
-      "booking_link": "https://example.com/book/ahangama-beach-party"
+      "booking_link": "https://oceanadventure.surf/asie/sri-lanka/surf-camp-1/"
     }
   ];
 }
