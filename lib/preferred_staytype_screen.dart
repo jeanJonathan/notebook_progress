@@ -52,7 +52,7 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
                   _buildOptionCard('Adventure', Color(0xFF1B5E20), "Activités excitantes et explorations"),
                   _buildOptionCard('Relax', Color(0xFF01579B), "Retraites paisibles avec spa et yoga"),
                   _buildOptionCard('Culture', Color(0xFFF9A825), "Immersion culturelle et expériences locales"),
-                  _buildOptionCard('Family', Color(0xFF6A1B9A), "Idéal pour les familles avec activités pour tous"),
+                  _buildOptionCard('Family', Color(0xFF6A1B9A), "Pour les familles avec activités pour tous"),
                   _buildOptionCard('View', Color(0xFFEF6C00), "Emplacements spectaculaires avec vues"),
                   SizedBox(height: 10),
                   ElevatedButton(
