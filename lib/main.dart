@@ -24,7 +24,7 @@ Future<void> main() async {
   //sendEtapesWingfoil(); //envoies des donnees dans firestore
   //sendEtapesKitesurf();
   //sendEtapesSurf();
-  //sendCampsData();
+  sendCampsData();
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -137,7 +137,7 @@ Future<UserCredential?> signInWithEmailAndPassword(String email, String password
 
 void sendCampsData() async {
   try {
-    List<Map<String, dynamic>> campsData = simulateDataCamps();
+    List<Map<String, dynamic>> campsData = dataTopCamps();
 
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference campsCollection = firestore.collection('camps');
