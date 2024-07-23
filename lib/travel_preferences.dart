@@ -8,7 +8,6 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:notebook_progress/recommandation_service.dart';
 import 'package:notebook_progress/welcome_screen.dart';
-import 'loading_screen.dart';
 
 class TravelPreferences extends StatefulWidget {
   @override
@@ -90,7 +89,7 @@ class _TravelPreferencesState extends State<TravelPreferences> {
     }
   }
 
-  void _savePreferencesToFirestore() async {
+  Future<void> _savePreferencesToFirestore() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
@@ -99,11 +98,8 @@ class _TravelPreferencesState extends State<TravelPreferences> {
     }
   }
 
-  void _navigateToLoadingScreen(BuildContext context) async {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => LoadingScreen()));
-
-    // Utiliser Future.delayed pour simuler le chargement pendant 10 secondes
-    await Future.delayed(Duration(seconds: 10));
+  void _navigateToHomeScreen(BuildContext context) async {
+    await _savePreferencesToFirestore(); // Sauvegarde les préférences avant de naviguer
 
     RecommendationService recommendationService = RecommendationService();
     List<Map<String, dynamic>> recommendedCamps = await recommendationService.getRecommendedCamps();
@@ -171,12 +167,11 @@ class _TravelPreferencesState extends State<TravelPreferences> {
             bottom: 16.0,
             right: 50.0,
             child: FloatingActionButton(
-              onPressed: () async {
-                await _savePreferencesToFirestore;
-                _navigateToLoadingScreen(context);
+              onPressed: () {
+                _navigateToHomeScreen(context);
               },
               child: Icon(Icons.check),
-              backgroundColor:Color(0xFF64C8C8),  // Couleur du bouton
+              backgroundColor: Color(0xFF64C8C8),  // Couleur du bouton
             ),
           ),
         ],
