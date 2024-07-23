@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:notebook_progress/wishlist_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -144,6 +145,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             title: "About Me",
             value: userData!['about'] ?? 'Short bio here',
             field: 'about',
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => WishlistScreen()),
+              );
+            },
+            child: Text('Ma Wishlist'),
           ),
         ],
       ),
