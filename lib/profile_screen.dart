@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -59,8 +60,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: CircleAvatar(
                 radius: 60,
                 backgroundColor: Colors.grey.shade800,
-                backgroundImage: _imageFile != null ? FileImage(File(_imageFile!.path)) : null,
-                child: _imageFile == null ? Icon(Icons.camera_alt, size: 60, color: Colors.white70) : null,
+                backgroundImage: _imageFile != null
+                    ? FileImage(File(_imageFile!.path))
+                    : (userData!['photoUrl'] != null
+                    ? NetworkImage(userData!['photoUrl']) as ImageProvider
+                    : null),
+                child: _imageFile == null && userData!['photoUrl'] == null
+                    ? Icon(Icons.camera_alt, size: 60, color: Colors.white70)
+                    : null,
               ),
             ),
           ),
@@ -159,9 +166,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
         setState(() {
           _imageFile = pickedFile;
         });
+        await _uploadImageToFirebase();
       }
     } catch (e) {
       print('Error picking image: $e');
+    }
+  }
+
+  Future<void> _uploadImageToFirebase() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null && _imageFile != null) {
+      try {
+        // Reference to Firebase Storage
+        final storageRef = FirebaseStorage.instance.ref().child('user_profiles').child(user.uid);
+        final uploadTask = storageRef.putFile(File(_imageFile!.path));
+        final snapshot = await uploadTask.whenComplete(() => {});
+        final downloadUrl = await snapshot.ref.getDownloadURL();
+
+        // Update Firestore with the image URL
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+          'photoUrl': downloadUrl,
+        });
+
+        // Update local state
+        setState(() {
+          userData!['photoUrl'] = downloadUrl;
+          _imageFile = null;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Photo de profil mise à jour!'))
+        );
+      } catch (e) {
+        print('Error uploading image: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erreur lors de la mise à jour de la photo. Veuillez réessayer.'))
+        );
+      }
     }
   }
 }
