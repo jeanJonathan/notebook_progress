@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -79,6 +80,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             title: Text("Email", style: TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text(userData!['email'] ?? FirebaseAuth.instance.currentUser?.email ?? 'Non spécifié'),
           ),
+          ListTile(
+            title: Text("Âge", style: TextStyle(fontWeight: FontWeight.bold)),
+            subtitle: Text(
+              userData!['birthdate'] != null
+                  ? "${calculateAge((userData!['birthdate'] as Timestamp).toDate())} ans"
+                  : 'Non spécifié',
+            ),
+          ),
           profileDetail("Niveau d'expérience", userData!['experienceLevel'] ?? 'Non spécifié', experienceLevels, 'experienceLevel'),
           profileDetail("Type de séjour préféré", userData!['preferredStayType'] ?? 'Non spécifié', stayTypes, 'preferredStayType'),
           profileDetail("About Me", userData!['about'] ?? 'Short bio here', []),
@@ -131,6 +140,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       },
     );
+  }
+  int calculateAge(DateTime birthdate) {
+    DateTime currentDate = DateTime.now();
+    int age = currentDate.year - birthdate.year;
+    if (currentDate.month < birthdate.month ||
+        (currentDate.month == birthdate.month && currentDate.day < birthdate.day)) {
+      age--;
+    }
+    return age;
   }
 
   Future<void> updateUserData(String field, String newValue) async {

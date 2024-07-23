@@ -47,6 +47,7 @@ dependencies:
   sign_in_with_apple: ^5.0.0
   image_picker: ^1.0.1
   firebase_storage: ^11.2.5
+  intl: ^0.19.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -83,6 +84,7 @@ flutter:
         - asset: fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf
         - asset: fonts/OpenSans-VariableFont_wdth,wght.ttf
   assets:
+    - assets/balloons.gif
     - assets/countries.json
     - assets/desc_etapes.png
     - assets/kitesurf.jpg
