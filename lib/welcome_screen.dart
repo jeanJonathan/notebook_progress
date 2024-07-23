@@ -5,6 +5,8 @@ import 'package:notebook_progress/search_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
 import 'kitesurf.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WelcomeScreen extends StatefulWidget {
   final List<Map<String, dynamic>> recommendedCamps;
@@ -19,11 +21,28 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   late PageController _pageController;
   late PageController _imagePageController;
 
+  Map<String, bool> favoriteCamps = {};
+
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
     _imagePageController = PageController();
+    _initializeFavorites();
+  }
+
+  void _initializeFavorites() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot docSnapshot = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      if (docSnapshot.exists) {
+        Map<String, dynamic> userData = docSnapshot.data() as Map<String, dynamic>;
+        List<dynamic> camps = userData['camps'] ?? [];
+        setState(() {
+          favoriteCamps = {for (var camp in camps) camp['camp_link']: true};
+        });
+      }
+    }
   }
 
   @override
@@ -67,6 +86,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         itemCount: widget.recommendedCamps.length,
         itemBuilder: (context, index) {
           Map<String, dynamic> camp = widget.recommendedCamps[index];
+          bool isFavorite = favoriteCamps[camp['booking_link']] ?? false;
           return GestureDetector(
             onTapDown: (TapDownDetails details) {
               double screenWidth = MediaQuery.of(context).size.width;
@@ -123,11 +143,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       Text(camp['description'], style: TextStyle(fontSize: 16, color: Colors.white)),
                       Text('Activités: ${camp['activities'].join(', ')}', style: TextStyle(fontSize: 16, color: Colors.white)),
                       SizedBox(height: 10),
-                      MaterialButton(
-                        color: Colors.red,
-                        textColor: Colors.white,
-                        onPressed: () => _launchURL(camp['booking_link']),
-                        child: Text('Visitez maintenant'),
+                      Row(
+                        children: [
+                          MaterialButton(
+                            color: Colors.red,
+                            textColor: Colors.white,
+                            onPressed: () => _launchURL(camp['booking_link']),
+                            child: Text('Visitez maintenant'),
+                          ),
+                          SizedBox(width: 120),
+                          IconButton(
+                            icon: Icon(
+                              isFavorite ? Icons.favorite : Icons.favorite_border,
+                              color: isFavorite ? Colors.red : Colors.white,
+                              size: 36,
+                            ),
+                            onPressed: () => _toggleWishlist(camp),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -163,6 +196,55 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       await launch(url);
     } else {
       throw 'Could not launch $url';
+    }
+  }
+
+  void _toggleWishlist(Map<String, dynamic> camp) async {
+    User? user = FirebaseAuth.instance.currentUser; // Récupère l'utilisateur actuel
+    if (user != null) {
+      DocumentReference userDoc = FirebaseFirestore.instance.collection('users').doc(user.uid); // Référence au document de l'utilisateur
+      DocumentSnapshot docSnapshot = await userDoc.get(); // Récupère le document de l'utilisateur
+
+      // Crée un objet avec les données essentielles du camp
+      Map<String, dynamic> campData = {
+        'camp_link': camp['booking_link'], // Identifiant unique du camp
+        'name': camp['name'], // Nom du camp
+        'image_url': camp['image_urls'].isNotEmpty ? camp['image_urls'][0] : '', // Image représentative du camp
+      };
+
+      if (docSnapshot.exists) {
+        // Si le document existe
+        Map<String, dynamic> userData = docSnapshot.data() as Map<String, dynamic>;
+        List<dynamic> camps = userData['camps'] ?? []; // Récupère la liste des camps ou crée une nouvelle liste vide
+
+        int index = camps.indexWhere((item) => item['camp_link'] == camp['booking_link']);
+        if (index >= 0) {
+          camps.removeAt(index); // Supprime le camp de la liste
+          setState(() {
+            favoriteCamps.remove(camp['booking_link']);
+          });
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Camp retiré de votre wishlist')));
+        } else {
+          camps.insert(0, campData); // Ajoute le camp au début de la liste
+          setState(() {
+            favoriteCamps[camp['booking_link']] = true;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Camp ajouté à votre wishlist')));
+        }
+
+        await userDoc.update({'camps': camps}); // Met à jour la liste des camps dans Firestore
+      } else {
+        // Si le document n'existe pas
+        Map<String, dynamic> newUserDoc = {
+          'camps': [campData], // Crée un nouveau document avec une liste contenant le camp
+        };
+        await userDoc.set(newUserDoc);
+
+        setState(() {
+          favoriteCamps[camp['booking_link']] = true;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Camp ajouté à votre wishlist')));
+      }
     }
   }
 
