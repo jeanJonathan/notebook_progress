@@ -70,7 +70,6 @@ class Kitesurf extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 10), // Vous pouvez ajuster l'espace si nécessaire
-                  // Le texte a été supprimé pour mettre en évidence le logo
                 ],
               ),
             ),
@@ -99,7 +98,7 @@ class Kitesurf extends StatelessWidget {
                 left: 16,
                 right: 16,
                 child: Text(
-                  'Faites glisser vers la gauche pour Wingfoil',
+                  '👉 Faites glisser vers la gauche pour Wingfoil 👈',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
@@ -114,7 +113,7 @@ class Kitesurf extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'KITE SURF',
+                    '🌊 KITE SURF 🌊',
                     style: TextStyle(
                       fontSize: 46,
                       fontWeight: FontWeight.bold,
@@ -131,7 +130,7 @@ class Kitesurf extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    "Let's while",
+                    "Let's ride the waves! 🏄‍♂️",
                     style: TextStyle(
                       fontSize: 24,
                       color: Colors.white,
@@ -146,7 +145,7 @@ class Kitesurf extends StatelessWidget {
                       );
                     },
                     child: Text(
-                      'VOIR LES ÉTAPES',
+                      'VOIR LES ÉTAPES 📝',
                       style: TextStyle(
                         fontSize: 20,
                         color: Color(0xFF074868),
@@ -157,7 +156,8 @@ class Kitesurf extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                         horizontal: 25,
                         vertical: 10,
-                      ), backgroundColor: Colors.white,
+                      ),
+                      backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -175,7 +175,7 @@ class Kitesurf extends StatelessWidget {
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed, // Ensures all icons are shown
-          selectedItemColor: Colors.deepPurple, // Highlight the selected icon
+          selectedItemColor: Color(0xFF64C8C8), // Highlight the selected icon
           unselectedItemColor: Colors.grey, // Color for unselected items
           iconSize: 30, // Increased icon size for better visibility
           items: [

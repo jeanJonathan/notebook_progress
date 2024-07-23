@@ -6,6 +6,40 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Profile Screen',
+      theme: ThemeData(
+        primaryColor: Color(0xFF64C8C8),
+        hintColor: Color(0xFF074868),
+        textTheme: TextTheme(
+          headline1: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold, color: Color(0xFF074868)),
+          headline6: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Color(0xFF074868)),
+          bodyText2: TextStyle(fontSize: 14.0, color: Colors.black),
+        ),
+        appBarTheme: AppBarTheme(
+          color: Colors.white,
+          elevation: 0,
+          iconTheme: IconThemeData(color: Color(0xFF074868)),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white, backgroundColor: Color(0xFF64C8C8),
+            textStyle: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      home: ProfileScreen(),
+    );
+  }
+}
+
 class ProfileScreen extends StatefulWidget {
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -41,11 +75,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profil"),
-        backgroundColor: Colors.white,
-        elevation: 0,
+        title: Text("Profil", style: Theme.of(context).textTheme.headline6),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -74,43 +106,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           SizedBox(height: 30),
           Text(
-            "${userData!['firstName'] ?? 'Prénom'} ${userData!['lastName'] ?? 'Nom'}",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            "${userData!['firstName'] ?? 'Prénom'}",
+            style: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 24), // Réduction de la taille de la police
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 10),
-          ListTile(
-            title: Text("Email", style: TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text(userData!['email'] ?? FirebaseAuth.instance.currentUser?.email ?? 'Non spécifié'),
+          SizedBox(height: 40),
+          _buildProfileItem(
+            icon: Icons.email,
+            title: "Email",
+            value: userData!['email'] ?? FirebaseAuth.instance.currentUser?.email ?? 'Non spécifié',
+            isEditable: false,
           ),
-          ListTile(
-            title: Text("Âge", style: TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text(
-              userData!['birthdate'] != null
-                  ? "${calculateAge((userData!['birthdate'] as Timestamp).toDate())} ans"
-                  : 'Non spécifié',
-            ),
+          _buildProfileItem(
+            icon: Icons.cake,
+            title: "Âge",
+            value: userData!['birthdate'] != null
+                ? "${calculateAge((userData!['birthdate'] as Timestamp).toDate())} ans"
+                : 'Non spécifié',
+            isEditable: false,
           ),
-          profileDetail("Niveau d'expérience", userData!['experienceLevel'] ?? 'Non spécifié', experienceLevels, 'experienceLevel'),
-          profileDetail("Type de séjour préféré", userData!['preferredStayType'] ?? 'Non spécifié', stayTypes, 'preferredStayType'),
-          profileDetail("About Me", userData!['about'] ?? 'Votre courte bio ici', [], 'about'),
+          _buildProfileItem(
+            icon: Icons.star,
+            title: "Niveau d'expérience",
+            value: userData!['experienceLevel'] ?? 'Non spécifié',
+            options: experienceLevels,
+            field: 'experienceLevel',
+          ),
+          _buildProfileItem(
+            icon: Icons.favorite,
+            title: "Type de séjour préféré",
+            value: userData!['preferredStayType'] ?? 'Non spécifié',
+            options: stayTypes,
+            field: 'preferredStayType',
+          ),
+          _buildProfileItem(
+            icon: Icons.info,
+            title: "About Me",
+            value: userData!['about'] ?? 'Short bio here',
+            field: 'about',
+          ),
         ],
       ),
     );
   }
 
-  Widget profileDetail(String title, String value, List<String> options, [String? field]) {
+  Widget _buildProfileItem({
+    required IconData icon,
+    required String title,
+    required String value,
+    List<String>? options,
+    String? field,
+    bool isEditable = true,
+  }) {
     return ListTile(
-      title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-      subtitle: Text(value),
-      trailing: Icon(Icons.edit, color: Colors.blue),
-      onTap: () {
-        if (options.isNotEmpty) {
-          showEditDialog(context, title, value, options, field!);
+      leading: Icon(icon, color: Color(0xFF64C8C8)),
+      title: Text(title, style: Theme.of(context).textTheme.headline6),
+      subtitle: Text(value, style: Theme.of(context).textTheme.bodyText2),
+      trailing: isEditable ? Icon(Icons.edit, color: Color(0xFF64C8C8)) : null,
+      onTap: isEditable
+          ? () {
+        if (options != null && field != null) {
+          showEditDialog(context, title, value, options, field);
         } else if (field != null) {
           showEditTextDialog(context, title, value, field);
         }
-      },
+      }
+          : null,
     );
   }
 

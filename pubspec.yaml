@@ -83,6 +83,7 @@ flutter:
       fonts:
         - asset: fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf
         - asset: fonts/OpenSans-VariableFont_wdth,wght.ttf
+
   assets:
     - assets/balloons.gif
     - assets/countries.json
