@@ -4,6 +4,7 @@ import 'package:notebook_progress/profile_screen.dart';
 import 'package:notebook_progress/search_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
 import 'kitesurf.dart';
+import 'package:url_launcher/url_launcher.dart'; // Import URL launcher package
 
 class WelcomeScreen extends StatefulWidget {
   final List<Map<String, dynamic>> recommendedCamps;
@@ -70,12 +71,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             onTapDown: (TapDownDetails details) {
               double screenWidth = MediaQuery.of(context).size.width;
               if (details.localPosition.dx < screenWidth / 2) {
-                // User tapped on the left side
                 if (_imagePageController.page!.toInt() > 0) {
                   _imagePageController.previousPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
                 }
               } else {
-                // User tapped on the right side
                 if (_imagePageController.page!.toInt() < camp['image_urls'].length - 1) {
                   _imagePageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
                 }
@@ -105,19 +104,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                 ),
                 Positioned(
-                  bottom: 10,
-                  left: 0,
-                  right: 0,
-                  child: Center(
-                    child: SmoothPageIndicator(
-                      controller: _imagePageController,
-                      count: camp['image_urls'].length,
-                      effect: WormEffect(activeDotColor: Colors.white),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 50,
+                  bottom: 60,
                   left: 20,
                   right: 20,
                   child: Column(
@@ -126,6 +113,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       Text(camp['name'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
                       Text(camp['description'], style: TextStyle(fontSize: 16, color: Colors.white)),
                       Text('Activités: ${camp['activities'].join(', ')}', style: TextStyle(fontSize: 16, color: Colors.white)),
+                      SizedBox(height: 10),
+                      MaterialButton(
+                        color: Colors.red,
+                        textColor: Colors.white,
+                        onPressed: () => _launchURL(camp['booking_link']),
+                        child: Text('Visitez maintenant'),
+                      ),
                     ],
                   ),
                 ),
@@ -137,6 +131,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       bottomNavigationBar: buildBottomNavigationBar(),
     );
   }
+
+  void _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   BottomNavigationBar buildBottomNavigationBar() {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
@@ -168,31 +171,26 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       onTap: (index) {
         switch (index) {
           case 0:
-          // Naviguer vers la wishlist
             break;
           case 1:
-          // Naviguer vers la wishlist
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => WishlistScreen()),
             );
             break;
           case 2:
-          // Naviguer vers la page de recherche
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => SearchScreen()),
             );
             break;
           case 3:
-          // Naviguer vers la page de tutoriel
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Kitesurf()),
             );
             break;
           case 4:
-          // Naviguer vers la page de profil
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ProfileScreen()),

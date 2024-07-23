@@ -14,6 +14,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   XFile? _imageFile;
   Map<String, dynamic>? userData;
 
+  static const List<String> experienceLevels = ['Débutant', 'Intermédiaire', 'Avancé'];
+  static const List<String> stayTypes = ['Adventure', 'Relax', 'Culture', 'Family', 'View'];
+
   @override
   void initState() {
     super.initState();
@@ -36,7 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profil Utilisateur"),
+        title: Text("Profil"),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
@@ -65,34 +68,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Text("${userData!['firstName'] ?? 'Prénom'} ${userData!['lastName'] ?? 'Nom'}",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
           SizedBox(height: 10),
-          profileDetail("Email", userData!['email'] ?? FirebaseAuth.instance.currentUser?.email ?? 'Non spécifié'),
-          profileDetail("Niveau d'expérience", userData!['experienceLevel'] ?? 'Non spécifié'),
-          profileDetail("Type de séjour préféré", userData!['preferredStayType'] ?? 'Non spécifié'),
-          profileDetail("About Me", userData!['about'] ?? 'Short bio here'),
+          ListTile(
+            title: Text("Email", style: TextStyle(fontWeight: FontWeight.bold)),
+            subtitle: Text(userData!['email'] ?? FirebaseAuth.instance.currentUser?.email ?? 'Non spécifié'),
+          ),
+          profileDetail("Niveau d'expérience", userData!['experienceLevel'] ?? 'Non spécifié', experienceLevels, 'experienceLevel'),
+          profileDetail("Type de séjour préféré", userData!['preferredStayType'] ?? 'Non spécifié', stayTypes, 'preferredStayType'),
+          profileDetail("About Me", userData!['about'] ?? 'Short bio here', []),
         ],
       ),
     );
   }
 
-  Widget profileDetail(String title, String value) {
+  Widget profileDetail(String title, String value, List<String> options, [String? field]) {
     return ListTile(
       title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
       subtitle: Text(value),
-      trailing: Icon(Icons.edit, color: Colors.blue),
-      onTap: () => showEditDialog(context, title, value),
+      trailing: options.isNotEmpty ? Icon(Icons.edit, color: Colors.blue) : null,
+      onTap: options.isNotEmpty ? () => showEditDialog(context, title, value, options, field!) : null,
     );
   }
 
-  Future<void> showEditDialog(BuildContext context, String field, String currentValue) async {
-    TextEditingController _controller = TextEditingController(text: currentValue);
+  Future<void> showEditDialog(BuildContext context, String title, String currentValue, List<String> options, String field) async {
+    String selectedValue = currentValue;
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Modifier $field"),
-          content: TextField(
-            controller: _controller,
-            decoration: InputDecoration(),
+          title: Text("Modifier $title"),
+          content: DropdownButtonFormField<String>(
+            value: selectedValue,
+            items: options.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              selectedValue = newValue!;
+            },
           ),
           actions: [
             TextButton(
@@ -103,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Text('Enregistrer'),
               onPressed: () async {
                 Navigator.of(context).pop();
-                await updateUserData(field, _controller.text);
+                await updateUserData(field, selectedValue);
               },
             ),
           ],
@@ -120,7 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           field: newValue,
         });
         setState(() {
-          userData![field] = newValue;  // Update local state only if Firestore update is successful
+          userData![field] = newValue;
         });
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Mise à jour réussie!'))

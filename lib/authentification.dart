@@ -48,8 +48,44 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   Future<void> _signInWithGoogle() async {
-    // TODO: Implement Google Sign-In
+    try {
+      // Création d'une instance de GoogleSignIn
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+
+      // Tentative de connexion de l'utilisateur
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+      if (googleUser != null) {
+        // Obtention des détails d'authentification à partir de la requête
+        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+        // Création d'un nouvel identifiant d'authentification utilisant le jeton obtenu
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        // Connexion à Firebase avec les informations d'identification de Google
+        final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+        // Naviguer vers l'écran suivant si la connexion réussit
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => CreateProfileStart()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      // Gestion des erreurs de Firebase lors de la tentative de connexion
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erreur de connexion avec Firebase: ${e.message}')),
+      );
+    } catch (e) {
+      // Autres erreurs éventuelles
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erreur lors de la connexion avec Google: $e')),
+      );
+    }
   }
+
 
   Future<void> _signInWithFacebook() async {
     // TODO: Implement Facebook Sign-In
@@ -172,7 +208,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                       SizedBox(height: 20),
                       // Répétez le même pattern pour les autres boutons
-                      ElevatedButton(
+                      /*ElevatedButton(
                         onPressed: _signInWithGoogle,
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.black, backgroundColor: Colors.white,
@@ -192,6 +228,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 'Continuer avec Facebook',
                                 textAlign: TextAlign.center, // Centrer le texte
                               ),
+
                             ),
                           ],
                         ),
@@ -220,7 +257,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           ],
                         ),
-                      ),
+                      ), */
                     ],
                   ),
                 ],
