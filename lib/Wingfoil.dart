@@ -117,7 +117,7 @@ class Wingfoil extends StatelessWidget {
         body: Stack(
           children: [
             Image.asset(
-              'assets/wingfoil.png',
+              'assets/wingfoil.jpeg',
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,

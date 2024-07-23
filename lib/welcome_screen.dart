@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:notebook_progress/profile_screen.dart';
-import 'package:notebook_progress/search_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
 import 'kitesurf.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'welcome_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   final List<Map<String, dynamic>> recommendedCamps;
@@ -187,7 +187,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           );
         },
       ),
-      bottomNavigationBar: buildBottomNavigationBar(),
+      bottomNavigationBar: buildBottomNavigationBar(context),
     );
   }
 
@@ -248,7 +248,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     }
   }
 
-  BottomNavigationBar buildBottomNavigationBar() {
+  BottomNavigationBar buildBottomNavigationBar(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Color(0xFF64C8C8),
@@ -256,20 +256,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       iconSize: 30,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.more_horiz, color: Color(0xFF64C8C8)),
-          label: 'Plus',
+          icon: Icon(Icons.home, color: Color(0xFF64C8C8)),
+          label: 'Accueil',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.favorite, color: Color(0xFF64C8C8)),
-          label: 'Favoris',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.search, color: Color(0xFF64C8C8)),
-          label: 'Recherche',
+          label: 'Wishlist',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.school, color: Color(0xFF64C8C8)),
-          label: 'Formations',
+          label: 'Tutoriels',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.account_circle, color: Color(0xFF64C8C8)),
@@ -279,7 +275,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       onTap: (index) {
         switch (index) {
           case 0:
-            break;
+            break; // Désactivé sur l'écran d'accueil
           case 1:
             Navigator.push(
               context,
@@ -289,16 +285,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           case 2:
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SearchScreen()),
-            );
-            break;
-          case 3:
-            Navigator.push(
-              context,
               MaterialPageRoute(builder: (context) => Kitesurf()),
             );
             break;
-          case 4:
+          case 3:
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ProfileScreen()),

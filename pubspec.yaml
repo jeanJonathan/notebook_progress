@@ -87,6 +87,7 @@ flutter:
   assets:
     - assets/balloons.gif
     - assets/countries.json
+    - assets/wingfoil.jpeg
     - assets/desc_etapes.png
     - assets/kitesurf.jpg
     - assets/surf.jpg
@@ -102,7 +103,7 @@ flutter:
     - assets/demarrage.mp4
     - assets/surf3.png
     - assets/wingfoil.png
-    - assets/kitesurf3.png
+    - assets/kitesurf3.jpg
     - assets/connexion.jpg
     - assets/icones/facebook.png
     - assets/icones/google.png

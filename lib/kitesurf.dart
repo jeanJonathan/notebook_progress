@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:notebook_progress/etapes_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/parametre_screen.dart';
+import 'package:notebook_progress/profile_screen.dart';
+import 'package:notebook_progress/search_screen.dart';
+import 'package:notebook_progress/wishlist_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'Wingfoil.dart';
 import 'Surf.dart';
+import 'welcome_screen.dart';
 
 class Kitesurf extends StatelessWidget {
   Offset? _initialPosition;
@@ -87,7 +91,7 @@ class Kitesurf extends StatelessWidget {
         body: Stack(
           children: [
             Image.asset(
-              'assets/kitesurf3.png',
+              'assets/kitesurf.jpg',
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
@@ -174,53 +178,53 @@ class Kitesurf extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed, // Ensures all icons are shown
-          selectedItemColor: Color(0xFF64C8C8), // Highlight the selected icon
-          unselectedItemColor: Colors.grey, // Color for unselected items
-          iconSize: 30, // Increased icon size for better visibility
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Color(0xFF64C8C8),
+          unselectedItemColor: Colors.grey,
+          iconSize: 30,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.more_horiz, color: Colors.red), // Placeholder icon
-              label: '', // Removed label
+              icon: Icon(Icons.home, color: Color(0xFF64C8C8)),
+              label: 'Accueil',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite, color: Colors.purple), // Icon for wishlist
-              label: '', // Removed label
+              icon: Icon(Icons.favorite, color: Color(0xFF64C8C8)),
+              label: 'Wishlist',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search, color: Colors.blue), // Icon for search
-              label: '', // Removed label
+              icon: Icon(Icons.school, color: Color(0xFF64C8C8)),
+              label: 'Tutoriels',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.school, color: Colors.amber), // Icon for tutorial
-              label: '', // Removed label
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle, color: Colors.green), // Icon for profile
-              label: '', // Removed label
+              icon: Icon(Icons.account_circle, color: Color(0xFF64C8C8)),
+              label: 'Profil',
             ),
           ],
           onTap: (index) {
             switch (index) {
               case 0:
-              // Action pour l'icône placeholder (à définir)
-                Navigator.pushNamed(context, '/placeholder');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WelcomeScreen(recommendedCamps: [])),
+                );
                 break;
               case 1:
-              // Naviguer vers la wishlist
-                Navigator.pushNamed(context, '/wishlist');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WishlistScreen()),
+                );
                 break;
               case 2:
-              // Naviguer vers la page de recherche
-                Navigator.pushNamed(context, '/search');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Kitesurf()),
+                );
                 break;
               case 3:
-              // Naviguer vers la page de tutoriel
-                Navigator.pushNamed(context, '/tutorial');
-                break;
-              case 4:
-              // Naviguer vers la page de profil
-                Navigator.pushNamed(context, '/profile');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
                 break;
             }
           },
