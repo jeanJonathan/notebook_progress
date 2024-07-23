@@ -153,6 +153,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 MaterialPageRoute(builder: (context) => WishlistScreen()),
               );
             },
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white, backgroundColor: Color(0xFF64C8C8), // Couleur du texte
+            ),
             child: Text('Ma Wishlist'),
           ),
         ],
