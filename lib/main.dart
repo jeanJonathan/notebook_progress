@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:notebook_progress/basic_info_screen.dart';
 import 'package:notebook_progress/camps.dart';
 import 'package:notebook_progress/parametre_screen.dart';
@@ -16,6 +17,7 @@ import 'data_firestore.dart';
 import 'kitesurf.dart';
 
 Future<void> main() async {
+  initializeDateFormatting().then((_) => runApp(MyApp()));
   WidgetsFlutterBinding.ensureInitialized();
   //Initialisation de firebase
   await Firebase.initializeApp(
@@ -24,7 +26,7 @@ Future<void> main() async {
   //sendEtapesWingfoil(); //envoies des donnees dans firestore
   //sendEtapesKitesurf();
   //sendEtapesSurf();
-  sendCampsData();
+  //sendCampsData();
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -52,6 +54,7 @@ class MyApp extends StatelessWidget {
           },
         ),
     ),
+
       //Pour enlever l'icone debug
       debugShowCheckedModeBanner: false,
       home: OceanAdventureApp(),//Ecran de demarrage de l'application

@@ -21,7 +21,7 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
     ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Choisissez votre type de séjour"),
+        title: Text("Type de séjour"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
