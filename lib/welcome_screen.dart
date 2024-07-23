@@ -4,7 +4,7 @@ import 'package:notebook_progress/profile_screen.dart';
 import 'package:notebook_progress/search_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
 import 'kitesurf.dart';
-import 'package:url_launcher/url_launcher.dart'; // Import URL launcher package
+import 'package:url_launcher/url_launcher.dart';
 
 class WelcomeScreen extends StatefulWidget {
   final List<Map<String, dynamic>> recommendedCamps;
@@ -90,6 +90,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       return Image.network(
                         camp['image_urls'][imageIndex],
                         fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Center(child: Icon(Icons.error, color: Colors.red, size: 50));
+                        },
                       );
                     },
                   ),
@@ -123,6 +132,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ],
                   ),
                 ),
+                Positioned(
+                  bottom: 20,
+                  left: 20,
+                  right: 20,
+                  child: Center(
+                    child: SmoothPageIndicator(
+                      controller: _pageController,
+                      count: widget.recommendedCamps.length,
+                      effect: ExpandingDotsEffect(
+                        activeDotColor: Color(0xFF64C8C8),
+                        dotColor: Colors.white,
+                        dotHeight: 8.0,
+                        dotWidth: 8.0,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           );
@@ -143,7 +169,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   BottomNavigationBar buildBottomNavigationBar() {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.deepPurple,
+      selectedItemColor: Color(0xFF64C8C8),
       unselectedItemColor: Colors.grey,
       iconSize: 30,
       items: [

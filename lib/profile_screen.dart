@@ -108,8 +108,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SizedBox(height: 30),
           Text(
             "${userData!['firstName'] ?? 'Prénom'}",
-            style: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 24), // Réduction de la taille de la police
+            style: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 24,
+                color: Color(0xFF64C8C8),
+                fontFamily: 'Open Sans'), // Réduction de la taille de la police
             textAlign: TextAlign.center,
+
           ),
           SizedBox(height: 40),
           _buildProfileItem(
