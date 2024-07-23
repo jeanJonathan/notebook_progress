@@ -73,8 +73,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           SizedBox(height: 30),
-          Text("${userData!['firstName'] ?? 'Prénom'} ${userData!['lastName'] ?? 'Nom'}",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+          Text(
+            "${userData!['firstName'] ?? 'Prénom'} ${userData!['lastName'] ?? 'Nom'}",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
           SizedBox(height: 10),
           ListTile(
             title: Text("Email", style: TextStyle(fontWeight: FontWeight.bold)),
@@ -90,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           profileDetail("Niveau d'expérience", userData!['experienceLevel'] ?? 'Non spécifié', experienceLevels, 'experienceLevel'),
           profileDetail("Type de séjour préféré", userData!['preferredStayType'] ?? 'Non spécifié', stayTypes, 'preferredStayType'),
-          profileDetail("About Me", userData!['about'] ?? 'Short bio here', []),
+          profileDetail("About Me", userData!['about'] ?? 'Votre courte bio ici', [], 'about'),
         ],
       ),
     );
@@ -100,8 +103,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return ListTile(
       title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
       subtitle: Text(value),
-      trailing: options.isNotEmpty ? Icon(Icons.edit, color: Colors.blue) : null,
-      onTap: options.isNotEmpty ? () => showEditDialog(context, title, value, options, field!) : null,
+      trailing: Icon(Icons.edit, color: Colors.blue),
+      onTap: () {
+        if (options.isNotEmpty) {
+          showEditDialog(context, title, value, options, field!);
+        } else if (field != null) {
+          showEditTextDialog(context, title, value, field);
+        }
+      },
     );
   }
 
@@ -113,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         return AlertDialog(
           title: Text("Modifier $title"),
           content: DropdownButtonFormField<String>(
-            value: selectedValue,
+            value: (selectedValue != null && options.contains(selectedValue)) ? selectedValue : null,
             items: options.map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -121,7 +130,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               );
             }).toList(),
             onChanged: (String? newValue) {
-              selectedValue = newValue!;
+              setState(() {
+                selectedValue = newValue!;
+              });
             },
           ),
           actions: [
@@ -141,6 +152,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
     );
   }
+
+  Future<void> showEditTextDialog(BuildContext context, String title, String currentValue, String field) async {
+    TextEditingController _textFieldController = TextEditingController(text: currentValue);
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Modifier $title"),
+          content: TextField(
+            controller: _textFieldController,
+            maxLines: 3,
+            decoration: InputDecoration(hintText: "Entrez $title"),
+          ),
+          actions: [
+            TextButton(
+              child: Text('Annuler'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: Text('Enregistrer'),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await updateUserData(field, _textFieldController.text);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   int calculateAge(DateTime birthdate) {
     DateTime currentDate = DateTime.now();
     int age = currentDate.year - birthdate.year;
@@ -162,17 +204,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
           userData![field] = newValue;
         });
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Mise à jour réussie!'))
+          SnackBar(content: Text('Mise à jour réussie!')),
         );
       } catch (e) {
         print('Error updating user data: $e');
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Erreur lors de la mise à jour. Veuillez réessayer.'))
+          SnackBar(content: Text('Erreur lors de la mise à jour. Veuillez réessayer.')),
         );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Utilisateur non connecté.'))
+        SnackBar(content: Text('Utilisateur non connecté.')),
       );
     }
   }
@@ -213,12 +255,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Photo de profil mise à jour!'))
+          SnackBar(content: Text('Photo de profil mise à jour!')),
         );
       } catch (e) {
         print('Error uploading image: $e');
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Erreur lors de la mise à jour de la photo. Veuillez réessayer.'))
+          SnackBar(content: Text('Erreur lors de la mise à jour de la photo. Veuillez réessayer.')),
         );
       }
     }
