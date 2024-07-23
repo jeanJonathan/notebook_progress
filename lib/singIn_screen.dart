@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notebook_progress/form_screen.dart';
+import 'package:notebook_progress/welcome_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   final String etapeId; // Pour stocker l'identifiant de l'étape
@@ -25,8 +26,7 @@ class _SignInScreenState extends State<SignInScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => FormScreen(etapeRef: widget.etapeId, sportRef: '',),// // Remplacez "AutreEcran" par l'écran que vous souhaitez afficher après la connexion réussie.
-        ),
+            builder: (context) => WelcomeScreen(recommendedCamps: [])),// // Remplacez "AutreEcran" par l'écran que vous souhaitez afficher après la connexion réussie.
       );
     } catch (e) {
       // Une erreur s'est produite lors de l'authentification, affichez un message d'erreur ou effectuez des actions supplémentaires ici

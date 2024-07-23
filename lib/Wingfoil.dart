@@ -4,10 +4,10 @@ import 'package:notebook_progress/etapes_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/profile_screen.dart';
-import 'package:notebook_progress/search_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
 import 'Surf.dart';
 import 'kitesurf.dart';
+import 'welcome_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Wingfoil extends StatelessWidget {
@@ -26,11 +26,9 @@ class Wingfoil extends StatelessWidget {
           final offset = details.globalPosition;
           final difference = offset.dx - _initialPosition!.dx;
 
-          // Si le mouvement est vers la gauche
           if (difference < -10) {
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Surf()));
           }
-          // Si le mouvement est vers la droite
           if (difference > 10) {
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Kitesurf()));
           }
@@ -51,12 +49,12 @@ class Wingfoil extends StatelessWidget {
             },
           ),
           title: Row(
-            mainAxisSize: MainAxisSize.min, // Utilisez l'espace minimum nécessaire
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GestureDetector(
                 onTap: () async {
-                  const url = 'https://oceanadventure.surf/'; // URL de votre choix
+                  const url = 'https://oceanadventure.surf/';
                   if (await canLaunch(url)) {
                     await launch(url);
                   } else {
@@ -65,12 +63,12 @@ class Wingfoil extends StatelessWidget {
                 },
                 child: Image.asset(
                   'assets/logoOcean.png',
-                  width: 250, // Ajustez la largeur comme vous le souhaitez
-                  height: 205, // Ajustez la hauteur comme vous le souhaitez
+                  width: 200,
+                  height: 100,
                 ),
               ),
             ],
-          ), // Titre vide pour cet exemple
+          ),
           actions: [
             StreamBuilder<User?>(
               stream: FirebaseAuth.instance.authStateChanges(),
@@ -93,11 +91,11 @@ class Wingfoil extends StatelessWidget {
                         );
                       },
                       child: Row(
-                        mainAxisSize: MainAxisSize.min, // Utilisez l'espace minimum nécessaire
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(initials, style: TextStyle(fontSize: 16, color: Color(0xFF64C8C8),fontFamily: 'Open Sans')), // Les initiales de l'utilisateur
-                          SizedBox(width: 4), // Espacement entre le texte et l'icône
-                          Icon(Icons.person, color: Color(0xFF64C8C8)), // Icône avec la couleur modifiée
+                          Text(initials, style: TextStyle(fontSize: 16, color: Color(0xFF64C8C8), fontFamily: 'Open Sans')),
+                          SizedBox(width: 4),
+                          Icon(Icons.person, color: Color(0xFF64C8C8)),
                         ],
                       ),
                     ),
@@ -128,7 +126,7 @@ class Wingfoil extends StatelessWidget {
                 left: 16,
                 right: 16,
                 child: Text(
-                  'Faites glisser vers la gauche pour Wingfoil, et vers la droite pour Kitesurf',
+                  '👉 Faites glisser vers la gauche pour Surf, et vers la droite pour Kitesurf 👈',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
@@ -148,7 +146,7 @@ class Wingfoil extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'WING FOIL',
+                    '🪁 WING FOIL 🪁',
                     style: TextStyle(
                       fontSize: 46,
                       fontWeight: FontWeight.bold,
@@ -165,7 +163,7 @@ class Wingfoil extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    "Let's while",
+                    "Let's glide on water! 🌊",
                     style: TextStyle(
                       fontSize: 24,
                       color: Color(0xFF074868),
@@ -180,7 +178,7 @@ class Wingfoil extends StatelessWidget {
                       );
                     },
                     child: Text(
-                      'VOIR LES ÉTAPES',
+                      'VOIR LES ÉTAPES 📝',
                       style: TextStyle(
                         fontSize: 20,
                         color: Color(0xFF074868),
@@ -191,7 +189,8 @@ class Wingfoil extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                         horizontal: 25,
                         vertical: 10,
-                      ), backgroundColor: Colors.white,
+                      ),
+                      backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -208,60 +207,49 @@ class Wingfoil extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed, // Ensures all icons are shown
-          selectedItemColor: Colors.deepPurple, // Highlight the selected icon
-          unselectedItemColor: Colors.grey, // Color for unselected items
-          iconSize: 30, // Increased icon size for better visibility
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Color(0xFF64C8C8),
+          unselectedItemColor: Colors.grey,
+          iconSize: 30,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.more_horiz, color: Colors.red), // Placeholder icon
-              label: '', // Removed label
+              icon: Icon(Icons.home, color: Color(0xFF64C8C8)),
+              label: 'Accueil',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite, color: Colors.purple), // Icon for wishlist
-              label: '', // Removed label
+              icon: Icon(Icons.favorite, color: Color(0xFF64C8C8)),
+              label: 'Wishlist',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search, color: Colors.blue), // Icon for search
-              label: '', // Removed label
+              icon: Icon(Icons.school, color: Color(0xFF64C8C8)),
+              label: 'Tutoriels',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.school, color: Colors.amber), // Icon for tutorial
-              label: '', // Removed label
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle, color: Colors.green), // Icon for profile
-              label: '', // Removed label
+              icon: Icon(Icons.account_circle, color: Color(0xFF64C8C8)),
+              label: 'Profil',
             ),
           ],
           onTap: (index) {
             switch (index) {
               case 0:
-              // Action pour l'icône placeholder (à définir)
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WelcomeScreen(recommendedCamps: [])),
+                );
                 break;
               case 1:
-              // Naviguer vers la wishlist
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => WishlistScreen()),
                 );
                 break;
               case 2:
-              // Naviguer vers la page de recherche
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SearchScreen()),
-                );
-                break;
-              case 3:
-              // Naviguer vers la page de tutoriel
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Kitesurf()),
                 );
                 break;
-              case 4:
-              // Naviguer vers la page de profil
+              case 3:
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ProfileScreen()),
