@@ -16,45 +16,83 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
     ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Date de naissance"),
+        title: Text(
+          "Date de naissance",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Roboto',
+          ),
+        ),
         backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "Quelle est votre date de naissance ?",
-              style: theme.textTheme.headline6,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: () => _pickDate(context),
-              icon: Icon(Icons.calendar_today, color: Colors.white),
-              label: Text(
-                _selectedDate == null
-                    ? "Sélectionner la date"
-                    : "Né le: ${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year} (${DateTime.now().year - _selectedDate!.year} ans)",
-                style: theme.textTheme.bodyText1,
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "Quelle est votre date de naissance ?",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF64C8C8),
+                  fontFamily: 'Roboto',
+                ),
+                textAlign: TextAlign.center,
               ),
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                textStyle: theme.textTheme.button,
+              SizedBox(height: 24),
+              ElevatedButton.icon(
+                onPressed: () => _pickDate(context),
+                icon: Icon(Icons.calendar_today, color: Colors.white),
+                label: Text(
+                  _selectedDate == null
+                      ? "Sélectionner la date"
+                      : "Né le: ${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year} (${DateTime.now().year - _selectedDate!.year} ans)",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF64C8C8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  elevation: 5,
+                ),
               ),
-            ),
-            SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: _selectedDate == null || (DateTime.now().year - _selectedDate!.year < 18) ? null : _saveBirthdate,
-              child: Text('Suivant'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF64C8C8), // Active color
-                disabledForegroundColor: Colors.grey.withOpacity(0.38), disabledBackgroundColor: Colors.grey.withOpacity(0.12), // Disabled color
-                padding: EdgeInsets.symmetric(horizontal: 48, vertical: 12),
+              SizedBox(height: 32),
+              ElevatedButton(
+                onPressed: _selectedDate == null || (DateTime.now().year - _selectedDate!.year < 18) ? null : _saveBirthdate,
+                child: Text(
+                  'Suivant',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF64C8C8),
+                  disabledBackgroundColor: Colors.grey.withOpacity(0.12),
+                  disabledForegroundColor: Colors.grey.withOpacity(0.38),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 48, vertical: 16),
+                  elevation: 5,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -73,7 +111,7 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
         return Theme(
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.light(
-              primary: Colors.blue, // Color of the header
+              primary: Color(0xFF64C8C8), // Color of the header
               onPrimary: Colors.white, // Color of the header text
               onSurface: Colors.black, // Color of the body text
             ),
