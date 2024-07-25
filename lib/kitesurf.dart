@@ -1,17 +1,17 @@
 import 'dart:ui';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/etapes_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
-import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/profile_screen.dart';
 import 'package:notebook_progress/recommandation_service.dart';
-import 'package:notebook_progress/search_screen.dart';
+import 'package:notebook_progress/splash_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'Wingfoil.dart';
 import 'Surf.dart';
 import 'welcome_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Kitesurf extends StatelessWidget {
   Offset? _initialPosition;
@@ -78,12 +78,42 @@ class Kitesurf extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ParametresScreen()),
-                );
+            StreamBuilder<User?>(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.active && snapshot.data != null) {
+                  User user = snapshot.data!;
+                  String initials = '';
+                  if (user.email != null) {
+                    initials = user.email!.split('@').first[0].toUpperCase();
+                    if (user.email!.split('@').first.length > 1) {
+                      initials += user.email!.split('@').first[1].toUpperCase();
+                    }
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 12.0),
+                    child: InkWell(
+                      onTap: () {
+                        _showLogoutDialog(context); // Appel de la fonction pour afficher le dialogue de déconnexion
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(initials, style: TextStyle(fontSize: 16, color: Color(0xFF64C8C8), fontFamily: 'Open Sans')),
+                          SizedBox(width: 4),
+                          Icon(Icons.logout, color: Color(0xFF64C8C8)), // Icône de déconnexion
+                        ],
+                      ),
+                    ),
+                  );
+                } else {
+                  return IconButton(
+                    icon: const Icon(Icons.login),
+                    onPressed: () {
+                      // Rediriger vers l'écran de connexion
+                    },
+                  );
+                }
               },
             ),
           ],
@@ -234,6 +264,41 @@ class Kitesurf extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Déconnexion'),
+          content: Text('Voulez-vous vraiment vous déconnecter?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Annuler',
+                style: TextStyle(
+                  color: Color(0xFF64C8C8),
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => OceanAdventureHome()), // Redirige vers l'écran de connexion
+                );
+              },
+              child: Text('Déconnexion',
+                style: TextStyle(
+                  color: Color(0xFF64C8C8),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
