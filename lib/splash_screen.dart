@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 import 'authentification.dart';
@@ -67,7 +68,14 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
               ),
               SizedBox(height: 12),
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  const url = 'https://oceanadventure.surf/';
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                },
                 child: Text('DECOUVRIR LES AVANTAGES DE L\'APPLICATION'),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.white,
