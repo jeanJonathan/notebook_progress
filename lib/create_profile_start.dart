@@ -71,14 +71,21 @@ class CreateProfileStart extends StatelessWidget {
                     },
                     child: Text(
                       'Démarrer',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold, // Ajout de gras pour un texte plus affirmé
+                        letterSpacing: 1.2, // Espacement entre les lettres pour une apparence plus aérée
+                      ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF64C8C8), // Couleur de bouton qui se distingue
+                      foregroundColor: Colors.white, backgroundColor: Color(0xFF64C8C8), // Couleur du texte
                       minimumSize: Size(double.infinity, 60), // Bouton plus grand pour une meilleure touchabilité
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12), // Boutons avec coins arrondis
+                        borderRadius: BorderRadius.circular(25), // Boutons avec coins arrondis
                       ),
+                      elevation: 5, // Ajout d'une légère ombre pour un effet de profondeur
+                      padding: EdgeInsets.symmetric(vertical: 15), // Augmenter le padding vertical pour un bouton plus haut
                     ),
                   ),
                   TextButton(
