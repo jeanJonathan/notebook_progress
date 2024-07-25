@@ -28,6 +28,15 @@ class CreateProfileStart extends StatelessWidget {
                       fontSize: 40, // Taille augmentée pour plus de présence
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF64C8C8), // Couleur pour écho à la marque Ocean Adventure
+                      shadows: [
+                        Shadow(
+                          offset: Offset(0,1), // Décalage de l'ombre
+                          blurRadius: 1.0, // Rayon de flou de l'ombre
+                          color: Colors.black.withOpacity(0.1), // Couleur de l'ombre avec transparence
+                        ),
+                      ],
+                      letterSpacing: 1.5, // Espacement entre les lettres pour améliorer la lisibilité
+                      fontFamily: 'Roboto', // Police moderne et professionnelle
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -35,8 +44,11 @@ class CreateProfileStart extends StatelessWidget {
                   Text(
                     'Commencez par gérer votre profil pour une expérience personnalisée.',
                     style: TextStyle(
-                      fontSize: 18, // Légère augmentation de la taille pour une meilleure lisibilité
+                      fontSize: 16, // Légère augmentation de la taille pour une meilleure lisibilité
                       color: Colors.grey[700], // Couleur douce pour le texte explicatif
+                      height: 1.5, // Hauteur de ligne augmentée pour améliorer la lisibilité
+                      letterSpacing: 0.2, // Espacement entre les lettres pour une apparence plus aérée
+                      fontFamily: 'Roboto', // Police moderne et professionnelle
                     ),
                     textAlign: TextAlign.center,
                   ),
