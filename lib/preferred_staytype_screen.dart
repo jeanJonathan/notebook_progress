@@ -10,6 +10,7 @@ class PreferredStayTypeScreen extends StatefulWidget {
 
 class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
   String? _selectedType;
+  Color? _selectedColor;
 
   @override
   Widget build(BuildContext context) {
@@ -73,11 +74,11 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1.2,
-                          color: Colors.white
+                          color: Colors.white,
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: _selectedType == null ? Colors.grey : theme.primaryColor,
+                        backgroundColor: _selectedType == null ? Colors.grey : _selectedColor,
                         padding: EdgeInsets.symmetric(horizontal: 80, vertical: 20),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                         elevation: 5,
@@ -96,7 +97,7 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
   Widget _buildOptionCard(String type, Color color, String description) {
     bool isSelected = _selectedType == type;
     return GestureDetector(
-      onTap: () => _selectType(type),
+      onTap: () => _selectType(type, color),
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
         curve: Curves.easeInOut,
@@ -143,9 +144,10 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
     );
   }
 
-  void _selectType(String type) {
+  void _selectType(String type, Color color) {
     setState(() {
       _selectedType = type;
+      _selectedColor = color;
     });
   }
 
