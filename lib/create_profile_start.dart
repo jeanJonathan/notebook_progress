@@ -44,11 +44,12 @@ class CreateProfileStart extends StatelessWidget {
                   Text(
                     'Commencez par gérer votre profil pour une expérience personnalisée.',
                     style: TextStyle(
-                      fontSize: 16, // Légère augmentation de la taille pour une meilleure lisibilité
+                      fontSize: 18, // Légère augmentation de la taille pour une meilleure lisibilité
                       color: Colors.grey[700], // Couleur douce pour le texte explicatif
                       height: 1.5, // Hauteur de ligne augmentée pour améliorer la lisibilité
                       letterSpacing: 0.2, // Espacement entre les lettres pour une apparence plus aérée
                       fontFamily: 'Roboto', // Police moderne et professionnelle
+                      fontWeight: FontWeight.w500, // Poids de police intermédiaire pour un meilleur contraste
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -88,16 +89,24 @@ class CreateProfileStart extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 15), // Augmenter le padding vertical pour un bouton plus haut
                     ),
                   ),
+                  SizedBox(height: 10),
                   TextButton(
                     onPressed: () => _applyAlgorithmAndExit(context),
                     child: Text(
                       'Je ne souhaite pas maintenant',
                       style: TextStyle(
-                        color: Colors.grey[700],
+                        fontSize: 16, // Taille de police augmentée pour une meilleure lisibilité
+                        color: Colors.grey[700], // Couleur du texte explicatif
+                        fontFamily: 'Roboto', // Utilisation d'une police moderne
+                      ),
+                    ),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.grey[700], padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Couleur de texte pour le bouton
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8), // Coins légèrement arrondis pour un style moderne
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
                 ],
               ),
             ),
