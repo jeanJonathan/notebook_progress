@@ -151,7 +151,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             onPressed: () => _launchURL(camp['booking_link']),
                             child: Text('Visitez maintenant'),
                           ),
-                          SizedBox(width: 120),
+                          Spacer(),
                           IconButton(
                             icon: Icon(
                               isFavorite ? Icons.favorite : Icons.favorite_border,
