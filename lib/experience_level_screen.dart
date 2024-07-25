@@ -15,29 +15,52 @@ class _ExperienceLevelScreenState extends State<ExperienceLevelScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Niveau d'expérience"),
+        title: Text(
+          "Niveau d'expérience",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Roboto',
+          ),
+        ),
         backgroundColor: Color(0xFF64C8C8),
-        foregroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.white),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(child: _buildLevelCard('Débutant', 'assets/debutant.jpg', "Idéal pour les débutants ou ceux qui découvrent le sport.")),
-          Expanded(child: _buildLevelCard('Intermédiaire', 'assets/intermediaire.jpg', "Pour ceux qui ont une certaine expérience et compétence.")),
-          Expanded(child: _buildLevelCard('Avancé', 'assets/avance.jpg', "Conçu pour les experts qui maîtrisent pleinement le sport.")),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-            child: ElevatedButton(
-              onPressed: _selectedLevel != null ? _navigateOrConfirm : null,
-              child: Text('Suivant', style: TextStyle(fontSize: 18,color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF64C8C8),
-                disabledForegroundColor: Colors.grey.withOpacity(0.38), disabledBackgroundColor: Colors.grey.withOpacity(0.12), // Color when disabled
-                padding: EdgeInsets.symmetric(vertical: 12),
-                minimumSize: Size(double.infinity, 50), // Make the button wide
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30), // Rounded rectangle
-                ),
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/background.jpg'),
+                fit: BoxFit.cover,
               ),
+            ),
+          ),
+          Container(
+            color: Colors.black.withOpacity(0.5),
+            child: Column(
+              children: <Widget>[
+                Expanded(child: _buildLevelCard('Débutant', 'assets/debutant.jpg', "Idéal pour les débutants ou ceux qui découvrent le sport.")),
+                Expanded(child: _buildLevelCard('Intermédiaire', 'assets/intermediaire.jpg', "Pour ceux qui ont une certaine expérience et compétence.")),
+                Expanded(child: _buildLevelCard('Avancé', 'assets/avance.jpg', "Conçu pour les experts qui maîtrisent pleinement le sport.")),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                  child: ElevatedButton(
+                    onPressed: _selectedLevel != null ? _navigateOrConfirm : null,
+                    child: Text('Suivant', style: TextStyle(fontSize: 18, color: Colors.white)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _selectedLevel != null ? Color(0xFF64C8C8) : Colors.grey,
+                      padding: EdgeInsets.symmetric(vertical: 12),
+                      minimumSize: Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      elevation: 5,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -63,16 +86,41 @@ class _ExperienceLevelScreenState extends State<ExperienceLevelScreen> {
             colorFilter: isSelected ? null : ColorFilter.mode(Colors.grey.withOpacity(0.7), BlendMode.darken),
           ),
           border: isSelected ? Border.all(color: Colors.greenAccent, width: 3) : null,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 10,
+              offset: Offset(0, 5),
+            ),
+          ],
         ),
-        alignment: Alignment.bottomLeft,
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         padding: EdgeInsets.all(20),
-        child: Text(
-          level,
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: isSelected ? Colors.greenAccent : Colors.white,
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              level,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: isSelected ? Colors.greenAccent : Colors.white,
+                fontFamily: 'Roboto',
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              description,
+              style: TextStyle(
+                fontSize: 14,
+                color: isSelected ? Colors.greenAccent.withOpacity(0.7) : Colors.white.withOpacity(0.7),
+                fontFamily: 'Roboto',
+              ),
+            ),
+          ],
         ),
       ),
     );
