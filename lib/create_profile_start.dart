@@ -70,7 +70,7 @@ class CreateProfileStart extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                    onPressed: () => _saveDefaultDataAndExit(context),
+                    onPressed: () => _applyAlgorithmAndExit(context),
                     child: Text(
                       'Je ne souhaite pas maintenant',
                       style: TextStyle(
@@ -88,19 +88,21 @@ class CreateProfileStart extends StatelessWidget {
     );
   }
 
-  void _saveDefaultDataAndExit(BuildContext context) async {
+  void _applyAlgorithmAndExit(BuildContext context) async {
     User? user = _auth.currentUser;
     if (user != null) {
       try {
-        await _firestore.collection('users').doc(user.uid).set({
-          'preferredStayType': 'Festif',
-          'experienceLevel': 'Débutant',
-        }, SetOptions(merge: true));
+        // Utiliser les préférences de l'utilisateur enregistrées dans Firebase
+        DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
+        if (!userDoc.exists) {
+          // Si l'utilisateur n'a pas de données de préférences, utiliser des valeurs par défaut
+          await _firestore.collection('users').doc(user.uid).set({
+            'preferredStayType': 'Adventure',
+            'experienceLevel': 'Débutant',
+          }, SetOptions(merge: true));
+        }
 
-        // Simuler un chargement avant de récupérer les recommandations
-        await Future.delayed(Duration(seconds: 2));  //
-
-        // Supposant que RecommendationService est une classe existante qui gère la logique de recommandation
+        // Appliquer l'algorithme de recommandation
         RecommendationService recommendationService = RecommendationService();
         List<Map<String, dynamic>> recommendedCamps = await recommendationService.getRecommendedCamps();
 
@@ -111,17 +113,13 @@ class CreateProfileStart extends StatelessWidget {
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to save default data. Please try again.'), backgroundColor: Colors.red)
+            SnackBar(content: Text('Failed to load recommendations. Please try again.'), backgroundColor: Colors.red)
         );
       }
     } else {
-      // Afficher des camps par défaut s'il n'y a pas d'utilisateur connecté ou en cas d'erreur
-      RecommendationService recommendationService = RecommendationService();
-      List<Map<String, dynamic>> defaultCamps = await recommendationService.getDefaultCamps();
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => WelcomeScreen(recommendedCamps: defaultCamps)),
+      // Gérer les erreurs en cas de non-connexion
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('User not logged in. Please try again.'), backgroundColor: Colors.red)
       );
     }
   }
