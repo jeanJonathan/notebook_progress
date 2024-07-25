@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'birthday_screen.dart';
-import 'validator.dart'; // Assurez-vous que ce fichier existe et est correctement importé
+import 'validator.dart';
 
 class BasicInfoScreen extends StatefulWidget {
   @override
@@ -29,10 +29,17 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Votre nom"),
+        title: Text(
+          "Votre nom",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Roboto',
+          ),
+        ),
         backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
         elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -42,10 +49,21 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                Text(
+                  'Entrez vos informations de base',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF64C8C8),
+                    fontFamily: 'Roboto',
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20),
                 _buildTextField(_firstNameController, 'Prénom', Validator.validateName, _firstNameFocusNode),
                 SizedBox(height: 16),
                 _buildTextField(_lastNameController, 'Nom', Validator.validateName, _lastNameFocusNode),
-                SizedBox(height: 24),
+                SizedBox(height: 30),
                 _buildSubmitButton(),
               ],
             ),
@@ -61,9 +79,16 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
       focusNode: focusNode,
       decoration: InputDecoration(
         labelText: label,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF64C8C8), width: 2)),
+        labelStyle: TextStyle(color: Color(0xFF64C8C8)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Color(0xFF64C8C8)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xFF64C8C8), width: 2),
+        ),
       ),
+      cursorColor: Color(0xFF64C8C8),
       validator: (value) => validator(value ?? ''),
       onTap: () => focusNode.requestFocus(),
     );
@@ -72,12 +97,20 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
   Widget _buildSubmitButton() {
     return ElevatedButton(
       onPressed: _submitForm,
-      child: Text('Suivant'),
+      child: Text(
+        'Suivant',
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.2,
+          color: Colors.white,
+        ),
+      ),
       style: ElevatedButton.styleFrom(
         backgroundColor: Color(0xFF64C8C8),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         padding: EdgeInsets.symmetric(vertical: 16),
-        textStyle: TextStyle(fontSize: 18),
+        elevation: 5,
       ),
     );
   }
@@ -94,7 +127,7 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
         'firstName': _firstNameController.text,
         'lastName': _lastNameController.text,
-      });
+      }, SetOptions(merge: true));
       Navigator.push(context, MaterialPageRoute(builder: (context) => BirthdateScreen()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Aucun utilisateur connecté trouvé.')));
