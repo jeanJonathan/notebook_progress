@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/etapes_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
-import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/profile_screen.dart';
 import 'package:notebook_progress/recommandation_service.dart';
+import 'package:notebook_progress/splash_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
 import 'Surf.dart';
 import 'kitesurf.dart';
@@ -87,16 +87,14 @@ class Wingfoil extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 12.0),
                     child: InkWell(
                       onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => ParametresScreen()),
-                        );
+                        _showLogoutDialog(context); // Appel de la fonction pour afficher le dialogue de déconnexion
                       },
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(initials, style: TextStyle(fontSize: 16, color: Color(0xFF64C8C8), fontFamily: 'Open Sans')),
                           SizedBox(width: 4),
-                          Icon(Icons.person, color: Color(0xFF64C8C8)),
+                          Icon(Icons.logout, color: Color(0xFF64C8C8)), // Icône de déconnexion
                         ],
                       ),
                     ),
@@ -263,6 +261,39 @@ class Wingfoil extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Déconnexion'),
+          content: Text('Voulez-vous vraiment vous déconnecter?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Annuler',
+                style: TextStyle(
+                  color: Color(0xFF64C8C8),
+                ),),
+            ),
+            TextButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => OceanAdventureHome()), // Redirige vers l'écran de connexion
+                );
+              },
+              child: Text('Déconnexion',
+                style: TextStyle(
+                  color: Color(0xFF64C8C8),
+                ),),
+            ),
+          ],
+        );
+      },
     );
   }
 }
