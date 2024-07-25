@@ -16,20 +16,22 @@ class RecommendationService {
     String preferredStayType = userProfile['preferredStayType'];
     String experienceLevel = userProfile['experienceLevel'];
 
-    // Récupération les camps depuis Firestore
-    QuerySnapshot campSnapshot = await _firestore.collection('camps').where('type', isEqualTo: preferredStayType).where('level_required', isEqualTo: experienceLevel).get();
+    // Récupérer les camps depuis Firestore
+    QuerySnapshot campSnapshot = await _firestore.collection('camps')
+        .where('type', isEqualTo: preferredStayType)
+        .where('level_required', isEqualTo: experienceLevel)
+        .get();
 
-    // On filtre les camps en fonction des préférences utilisateur
+    // Filtrer les camps en fonction des préférences utilisateur
     List<Map<String, dynamic>> recommendedCamps = [];
     for (var camp in campSnapshot.docs) {
       Map<String, dynamic> campData = camp.data() as Map<String, dynamic>;
-      // maintenant l'image est une liste
       if (campData['image_urls'] is List) {
         recommendedCamps.add(campData);
       }
     }
 
-    // Tri les camps recommandés par note et prix
+    // Trier les camps recommandés par note et prix
     recommendedCamps.sort((a, b) {
       int ratingComparison = b['rating'].compareTo(a['rating']);
       if (ratingComparison != 0) return ratingComparison;
@@ -37,5 +39,20 @@ class RecommendationService {
     });
 
     return recommendedCamps;
+  }
+
+  Future<List<Map<String, dynamic>>> getDefaultCamps() async {
+    // Logique pour récupérer une liste de camps par défaut
+    QuerySnapshot campSnapshot = await _firestore.collection('camps').limit(10).get();
+
+    List<Map<String, dynamic>> defaultCamps = [];
+    for (var camp in campSnapshot.docs) {
+      Map<String, dynamic> campData = camp.data() as Map<String, dynamic>;
+      if (campData['image_urls'] is List) {
+        defaultCamps.add(campData);
+      }
+    }
+
+    return defaultCamps;
   }
 }

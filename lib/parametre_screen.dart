@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/singIn_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:notebook_progress/splash_screen.dart';
 
 class ParametresScreen extends StatefulWidget {
   @override
@@ -96,7 +97,7 @@ class _ParametresScreenState extends State<ParametresScreen> {
       await _auth.signOut();
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => SignInScreen(etapeId: '',)), // Redirection vers l'écran de connexion
+        MaterialPageRoute(builder: (context) => OceanAdventureHome()), // Redirection vers l'écran de connexion
       );
     } catch (e) {
       print('Erreur lors de la déconnexion : $e');
