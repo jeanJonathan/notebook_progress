@@ -4,6 +4,7 @@ import 'package:notebook_progress/etapes_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/profile_screen.dart';
+import 'package:notebook_progress/recommandation_service.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
 import 'Surf.dart';
 import 'kitesurf.dart';
@@ -232,10 +233,13 @@ class Wingfoil extends StatelessWidget {
           onTap: (index) {
             switch (index) {
               case 0:
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => WelcomeScreen(recommendedCamps: [])),
-                );
+                RecommendationService recommendationService = RecommendationService();
+                recommendationService.getRecommendedCamps().then((recommendedCamps) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => WelcomeScreen(recommendedCamps: recommendedCamps)),
+                  );
+                });
                 break;
               case 1:
                 Navigator.push(
