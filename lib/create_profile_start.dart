@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notebook_progress/basic_info_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:notebook_progress/basic_info_screen.dart';
 import 'package:notebook_progress/recommandation_service.dart';
 import 'package:notebook_progress/welcome_screen.dart';
-
-import 'loading_screen.dart';
 
 class CreateProfileStart extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -89,6 +87,7 @@ class CreateProfileStart extends StatelessWidget {
       ),
     );
   }
+
   void _saveDefaultDataAndExit(BuildContext context) async {
     User? user = _auth.currentUser;
     if (user != null) {
@@ -99,7 +98,7 @@ class CreateProfileStart extends StatelessWidget {
         }, SetOptions(merge: true));
 
         // Simuler un chargement avant de récupérer les recommandations
-        await Future.delayed(Duration(seconds: 5));  // Réduire à 5 secondes pour le rendre moins long
+        await Future.delayed(Duration(seconds: 2));  //
 
         // Supposant que RecommendationService est une classe existante qui gère la logique de recommandation
         RecommendationService recommendationService = RecommendationService();
@@ -116,11 +115,14 @@ class CreateProfileStart extends StatelessWidget {
         );
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('No user logged in.'), backgroundColor: Colors.red)
+      // Afficher des camps par défaut s'il n'y a pas d'utilisateur connecté ou en cas d'erreur
+      RecommendationService recommendationService = RecommendationService();
+      List<Map<String, dynamic>> defaultCamps = await recommendationService.getDefaultCamps();
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => WelcomeScreen(recommendedCamps: defaultCamps)),
       );
     }
   }
 }
-
-
