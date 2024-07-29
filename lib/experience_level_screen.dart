@@ -77,6 +77,7 @@ class _ExperienceLevelScreenState extends State<ExperienceLevelScreen> {
         });
       },
       child: AnimatedContainer(
+
         duration: Duration(milliseconds: 500),
         curve: Curves.easeInOut,
         decoration: BoxDecoration(

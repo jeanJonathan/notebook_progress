@@ -4,8 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
+import 'package:notebook_progress/recommandation_service.dart';
+import 'package:notebook_progress/welcome_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -79,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: Text("Profil", style: Theme.of(context).textTheme.headline6),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => _navigateToWelcomeScreen(context),
         ),
       ),
       body: userData == null
@@ -145,8 +146,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           _buildProfileItem(
             icon: Icons.info,
-            title: "About Me",
-            value: userData!['about'] ?? 'Short bio here',
+            title: "À propos de moi",
+            value: userData!['about'] ?? 'Bio courte ici',
             field: 'about',
           ),
           SizedBox(height: 20),
@@ -283,6 +284,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Mise à jour réussie!')),
         );
+        _fetchUpdatedRecommendations(context); // Fetch updated recommendations
       } catch (e) {
         print('Error updating user data: $e');
         ScaffoldMessenger.of(context).showSnackBar(
@@ -341,5 +343,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       }
     }
+  }
+
+  Future<void> _fetchUpdatedRecommendations(BuildContext context) async {
+    RecommendationService recommendationService = RecommendationService();
+    List<Map<String, dynamic>> recommendedCamps = await recommendationService.getRecommendedCamps();
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WelcomeScreen(recommendedCamps: recommendedCamps),
+      ),
+    );
+  }
+
+  void _navigateToWelcomeScreen(BuildContext context) {
+    Navigator.of(context).pop();
+    _fetchUpdatedRecommendations(context);
   }
 }
