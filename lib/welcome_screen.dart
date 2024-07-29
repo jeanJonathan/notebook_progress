@@ -81,18 +81,36 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         ),
       ),
       body: widget.recommendedCamps.isEmpty
-          ? Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            "Aucun camp ne correspond aux critères renseignés. Veuillez réessayer avec d'autres préférences.",
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.grey[700],
+          ? Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/desolé.jpg', // Path to your background image
+              fit: BoxFit.cover,
             ),
-            textAlign: TextAlign.center,
           ),
-        ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                "Aucun camp ne correspond aux critères renseignés. Veuillez réessayer avec d'autres préférences.",
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(
+                      offset: Offset(0,1),
+                      blurRadius: 8.0,
+                      color: Colors.black.withOpacity(0.9),
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ],
       )
           : PageView.builder(
         controller: _pageController,
