@@ -6,7 +6,6 @@ import 'kitesurf.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'welcome_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   final List<Map<String, dynamic>> recommendedCamps;
@@ -81,7 +80,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           ),
         ),
       ),
-      body: PageView.builder(
+      body: widget.recommendedCamps.isEmpty
+          ? Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            "Aucun camp ne correspond aux critères renseignés. Veuillez réessayer avec d'autres préférences.",
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.grey[700],
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      )
+          : PageView.builder(
         controller: _pageController,
         itemCount: widget.recommendedCamps.length,
         itemBuilder: (context, index) {
