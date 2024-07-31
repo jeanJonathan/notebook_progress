@@ -1,14 +1,34 @@
+/*
+ ******************************************************************************
+ * StartupScreen.dart
+ *
+ * Ce fichier implémente l'écran de démarrage de l'application Ocean Adventure.
+ * Cet écran sert d'introduction à l'application avec une vidéo de démarrage,
+ * des options pour s'authentifier ou découvrir plus sur l'application.
+ *
+ * Fonctionnalités :
+ * - Lecture automatique d'une vidéo d'introduction.
+ * - Navigation vers l'écran d'authentification.
+ * - Accès direct à un site web externe pour plus d'informations.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31 Juillet 2024
+ * Dépendances externes : url_launcher, video_player
+ ******************************************************************************
+ */
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
-
 import 'authentification.dart';
 
 void main() => runApp(OceanAdventureApp());
 
+// Application principale
 class OceanAdventureApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Configuration de l'application avec la route initiale
     return MaterialApp(
       title: 'Ocean Adventure Surf',
       home: OceanAdventureHome(),
@@ -16,6 +36,7 @@ class OceanAdventureApp extends StatelessWidget {
   }
 }
 
+// Écran d'accueil principal avec vidéo de démarrage
 class OceanAdventureHome extends StatefulWidget {
   @override
   _OceanAdventureHomeState createState() => _OceanAdventureHomeState();
@@ -27,18 +48,23 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
   @override
   void initState() {
     super.initState();
+    // Initialisation du contrôleur vidéo
     _controller = VideoPlayerController.asset('assets/demarrage.mp4')
       ..initialize().then((_) {
         setState(() {});
-      })..setLooping(true)..play();
+      })
+      ..setLooping(true) // La vidéo boucle continuellement
+      ..play(); // Démarrage automatique de la vidéo
   }
 
   @override
   Widget build(BuildContext context) {
+    // Construction de l'interface de l'écran d'accueil
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
+          // Affichage de la vidéo si elle est initialisée
           _controller.value.isInitialized
               ? AspectRatio(
             aspectRatio: _controller.value.aspectRatio,
@@ -48,14 +74,17 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              // Logo de l'application
               Image.asset(
                 'assets/logoOcean.png',
                 width: 300,
                 height: 100,
               ),
               SizedBox(height: 20),
+              // Bouton pour se connecter ou s'inscrire
               ElevatedButton(
                 onPressed: () {
+                  // Navigation vers l'écran d'authentification
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => AuthScreen()),
@@ -67,6 +96,7 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
                 ),
               ),
               SizedBox(height: 12),
+              // Bouton pour découvrir plus sur l'application
               OutlinedButton(
                 onPressed: () async {
                   const url = 'https://oceanadventure.surf/';
@@ -91,6 +121,7 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
   @override
   void dispose() {
     super.dispose();
+    // Libération des ressources du contrôleur vidéo
     _controller.dispose();
   }
 }
