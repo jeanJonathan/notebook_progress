@@ -20,7 +20,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:notebook_progress/experience_level_screen.dart';
+import 'package:notebook_progress/TravelPreferencesScreen.dart';
 
 class PreferredStayTypeScreen extends StatefulWidget {
   @override

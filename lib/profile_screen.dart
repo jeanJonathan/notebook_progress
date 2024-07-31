@@ -6,7 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
 import 'package:notebook_progress/recommandation_service.dart';
-import 'package:notebook_progress/welcome_screen.dart';
+import 'package:notebook_progress/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -352,7 +352,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => WelcomeScreen(recommendedCamps: recommendedCamps),
+        builder: (context) => HomeScreen(recommendedCamps: recommendedCamps),
       ),
     );
   }

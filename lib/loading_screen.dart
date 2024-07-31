@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:notebook_progress/welcome_screen.dart';
+import 'package:notebook_progress/home.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -29,7 +29,7 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
     Future.delayed(Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => WelcomeScreen(recommendedCamps: [])),
+        MaterialPageRoute(builder: (_) => HomeScreen(recommendedCamps: [])),
       );
     });
   }

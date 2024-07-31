@@ -22,6 +22,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:notebook_progress/travel_preferences.dart';
 
+
 class ExperienceLevelScreen extends StatefulWidget {
   @override
   _ExperienceLevelScreenState createState() => _ExperienceLevelScreenState();
@@ -161,7 +162,7 @@ class _ExperienceLevelScreenState extends State<ExperienceLevelScreen> {
         // Navigation vers l'écran de préférences de voyage seulement si l'enregistrement réussit
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => TravelPreferences()),
+          MaterialPageRoute(builder: (context) => TravelPreferencesScreen()),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(

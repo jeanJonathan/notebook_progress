@@ -1,3 +1,24 @@
+/*
+ ******************************************************************************
+ * TravelPreferencesScreen.dart
+ *
+ * Ce fichier implémente l'écran des préférences de voyage de l'utilisateur.
+ * L'utilisateur peut sélectionner ses destinations préférées sur une carte et ces choix
+ * sont enregistrés dans Firestore. Les destinations sélectionnées sont marquées sur la carte.
+ *
+ * Fonctionnalités :
+ * - Affichage d'une carte interactive avec Google Maps.
+ * - Recherche et sélection de destinations.
+ * - Marquage des destinations sélectionnées sur la carte.
+ * - Enregistrement des destinations sélectionnées dans Firestore.
+ * - Navigation vers l'écran d'accueil après la sauvegarde des préférences.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31/07/2024
+ * Dépendances externes : cloud_firestore, firebase_auth, google_maps_flutter, flutter_typeahead
+ ******************************************************************************
+ */
+
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,20 +28,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:notebook_progress/recommandation_service.dart';
-import 'package:notebook_progress/welcome_screen.dart';
+import 'package:notebook_progress/home.dart';
 
-class TravelPreferences extends StatefulWidget {
+class TravelPreferencesScreen extends StatefulWidget {
   @override
-  _TravelPreferencesState createState() => _TravelPreferencesState();
+  _TravelPreferencesScreenState createState() => _TravelPreferencesScreenState();
 }
 
-class _TravelPreferencesState extends State<TravelPreferences> {
+class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
   GoogleMapController? mapController;
   final TextEditingController _typeAheadController = TextEditingController();
   final LatLng _initialCenter = const LatLng(20.5937, 78.9629);
   Set<Marker> _markers = {};
   Map<String, LatLng> countryCoordinates = {};
-  Set<String> selectedCountries = {};  // Ajouté pour garder la trace des pays sélectionnés
+  Set<String> selectedCountries = {};  // Garde la trace des pays sélectionnés
 
   @override
   void initState() {
@@ -56,7 +77,7 @@ class _TravelPreferencesState extends State<TravelPreferences> {
       if (selectedCountries.contains(suggestion)) {
         selectedCountries.remove(suggestion);
         _markers.removeWhere((m) => m.markerId.value == suggestion);
-        _removeVisitedCountryFromFirestore(suggestion);  // Ajouté pour retirer le pays de Firestore
+        _removeVisitedCountryFromFirestore(suggestion);  // Retire le pays de Firestore
       } else {
         selectedCountries.add(suggestion);
         _markers.add(
@@ -66,7 +87,7 @@ class _TravelPreferencesState extends State<TravelPreferences> {
             infoWindow: InfoWindow(title: suggestion),
           ),
         );
-        _addVisitedCountryToFirestore(suggestion);  // Ajouté pour ajouter le pays à Firestore
+        _addVisitedCountryToFirestore(suggestion);  // Ajoute le pays à Firestore
       }
     });
   }
@@ -107,7 +128,7 @@ class _TravelPreferencesState extends State<TravelPreferences> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => WelcomeScreen(recommendedCamps: recommendedCamps),
+        builder: (context) => HomeScreen(recommendedCamps: recommendedCamps),
       ),
     );
   }

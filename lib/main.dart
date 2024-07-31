@@ -8,7 +8,7 @@ import 'package:notebook_progress/camps.dart';
 import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/StartupScreen.dart';
-import 'package:notebook_progress/welcome_screen.dart';
+import 'package:notebook_progress/home.dart';
 import 'Wingfoil.dart';
 import 'UserAuthenticationScreen.dart';
 import 'etapes_screen.dart';

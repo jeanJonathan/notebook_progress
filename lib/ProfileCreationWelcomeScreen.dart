@@ -23,7 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:notebook_progress/BasicInfoEntryScreen.dart';
 import 'package:notebook_progress/recommandation_service.dart';
-import 'package:notebook_progress/welcome_screen.dart';
+import 'package:notebook_progress/home.dart';
 
 class CreateProfileStart extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -166,7 +166,7 @@ class CreateProfileStart extends StatelessWidget {
         // Navigation vers WelcomeScreen avec les camps recommandés
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => WelcomeScreen(recommendedCamps: recommendedCamps)),
+          MaterialPageRoute(builder: (_) => HomeScreen(recommendedCamps: recommendedCamps)),
         );
       } catch (e) {
         // Affichage d'un message d'erreur en cas d'échec de chargement des recommandations
