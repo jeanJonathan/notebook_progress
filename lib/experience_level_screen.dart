@@ -1,3 +1,22 @@
+/*
+ ******************************************************************************
+ * ExperienceLevelScreen.dart
+ *
+ * Ce fichier implémente l'écran de sélection du niveau d'expérience de l'utilisateur.
+ * L'utilisateur peut choisir parmi plusieurs niveaux d'expérience, et cette préférence
+ * est ensuite enregistrée dans Firestore.
+ *
+ * Fonctionnalités :
+ * - Sélection du niveau d'expérience via des cartes interactives.
+ * - Validation et enregistrement du choix dans Firestore.
+ * - Navigation vers l'écran de préférences de voyage après enregistrement.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31/07/2024
+ * Dépendances externes : firebase_auth, cloud_firestore
+ ******************************************************************************
+ */
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,6 +32,7 @@ class _ExperienceLevelScreenState extends State<ExperienceLevelScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Construction de l'interface de l'écran
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -29,6 +49,7 @@ class _ExperienceLevelScreenState extends State<ExperienceLevelScreen> {
       ),
       body: Stack(
         children: [
+          // Image de fond
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -37,10 +58,12 @@ class _ExperienceLevelScreenState extends State<ExperienceLevelScreen> {
               ),
             ),
           ),
+          // Superposition sombre pour améliorer la lisibilité du texte
           Container(
             color: Colors.black.withOpacity(0.5),
             child: Column(
               children: <Widget>[
+                // Cartes de sélection du niveau d'expérience
                 Expanded(child: _buildLevelCard('Débutant', 'assets/debutant.jpg', "Idéal pour les débutants ou ceux qui découvrent le sport.")),
                 Expanded(child: _buildLevelCard('Intermédiaire', 'assets/intermediaire.jpg', "Pour ceux qui ont une certaine expérience et compétence.")),
                 Expanded(child: _buildLevelCard('Avancé', 'assets/avance.jpg', "Conçu pour les experts qui maîtrisent pleinement le sport.")),
@@ -68,6 +91,7 @@ class _ExperienceLevelScreenState extends State<ExperienceLevelScreen> {
     );
   }
 
+  // Widget pour construire une carte de niveau d'expérience
   Widget _buildLevelCard(String level, String imagePath, String description) {
     bool isSelected = _selectedLevel == level;
     return GestureDetector(
@@ -77,7 +101,6 @@ class _ExperienceLevelScreenState extends State<ExperienceLevelScreen> {
         });
       },
       child: AnimatedContainer(
-
         duration: Duration(milliseconds: 500),
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
@@ -127,6 +150,7 @@ class _ExperienceLevelScreenState extends State<ExperienceLevelScreen> {
     );
   }
 
+  // Fonction pour enregistrer le niveau d'expérience
   void _saveExperienceLevel() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null && _selectedLevel != null) {
@@ -134,10 +158,11 @@ class _ExperienceLevelScreenState extends State<ExperienceLevelScreen> {
         await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
           'experienceLevel': _selectedLevel,
         });
+        // Navigation vers l'écran de préférences de voyage seulement si l'enregistrement réussit
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => TravelPreferences()),
-        ); // Move to the next screen only if save succeeds
+        );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Failed to save experience level. Please try again.'), backgroundColor: Colors.red)
@@ -150,6 +175,7 @@ class _ExperienceLevelScreenState extends State<ExperienceLevelScreen> {
     }
   }
 
+  // Fonction pour naviguer ou confirmer l'action
   void _navigateOrConfirm() {
     _saveExperienceLevel();
   }

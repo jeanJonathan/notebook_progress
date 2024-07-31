@@ -1,3 +1,22 @@
+/*
+ ******************************************************************************
+ * PreferredStayTypeScreen.dart
+ *
+ * Ce fichier implémente l'écran de sélection du type de séjour préféré par l'utilisateur.
+ * L'utilisateur peut choisir parmi plusieurs types de séjours, et cette préférence
+ * est ensuite enregistrée dans Firestore.
+ *
+ * Fonctionnalités :
+ * - Sélection du type de séjour via des cartes interactives.
+ * - Validation et enregistrement du choix dans Firestore.
+ * - Navigation vers l'écran de sélection du niveau d'expérience après enregistrement.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31/07/2024
+ * Dépendances externes : firebase_auth, cloud_firestore
+ ******************************************************************************
+ */
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,6 +34,7 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
+    // Construction de l'interface de l'écran
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -31,14 +51,16 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
       ),
       body: Stack(
         children: [
+          // Image de fond
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/pref.jpg'), // Path to your background image in assets
+                image: AssetImage('assets/pref.jpg'), // Chemin vers votre image de fond
                 fit: BoxFit.cover,
               ),
             ),
           ),
+          // Superposition sombre pour améliorer la lisibilité du texte
           Container(
             color: Colors.black.withOpacity(0.5),
             child: Center(
@@ -60,12 +82,14 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
                         textAlign: TextAlign.center,
                       ),
                     ),
+                    // Options de sélection du type de séjour
                     _buildOptionCard('Adventure', Color(0xFF1B5E20), "Activités excitantes et explorations"),
                     _buildOptionCard('Relax', Color(0xFF01579B), "Retraites paisibles avec spa et yoga"),
                     _buildOptionCard('Culture', Color(0xFFF9A825), "Immersion culturelle et expériences locales"),
                     _buildOptionCard('Family', Color(0xFF6A1B9A), "Pour les familles avec activités pour tous"),
                     _buildOptionCard('View', Color(0xFFEF6C00), "Emplacements spectaculaires avec vues"),
                     SizedBox(height: 20),
+                    // Bouton pour continuer
                     ElevatedButton(
                       onPressed: _selectedType == null ? null : _savePreferredType,
                       child: Text(
@@ -94,6 +118,7 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
     );
   }
 
+  // Widget pour construire une carte d'option
   Widget _buildOptionCard(String type, Color color, String description) {
     bool isSelected = _selectedType == type;
     return GestureDetector(
@@ -101,9 +126,9 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // Reduce height
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // Réduire la hauteur
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        width: double.infinity, // Increase width
+        width: double.infinity, // Augmenter la largeur
         decoration: BoxDecoration(
           color: isSelected ? color : Colors.white.withOpacity(0.9),
           borderRadius: BorderRadius.circular(20),
@@ -117,22 +142,22 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
           ],
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // Align text to the start
+          crossAxisAlignment: CrossAxisAlignment.start, // Aligner le texte à gauche
           children: [
             Text(
               type,
               style: TextStyle(
-                fontSize: 20, // Adjust font size
+                fontSize: 20, // Ajuster la taille de la police
                 fontWeight: FontWeight.bold,
                 color: isSelected ? Colors.white : Colors.black,
                 fontFamily: 'Roboto',
               ),
             ),
-            SizedBox(height: 5), // Adjust spacing
+            SizedBox(height: 5), // Ajuster l'espacement
             Text(
               description,
               style: TextStyle(
-                fontSize: 14, // Adjust font size
+                fontSize: 14, // Ajuster la taille de la police
                 color: isSelected ? Colors.white70 : Colors.black45,
                 fontFamily: 'Roboto',
               ),
@@ -144,6 +169,7 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
     );
   }
 
+  // Fonction pour sélectionner le type de séjour
   void _selectType(String type, Color color) {
     setState(() {
       _selectedType = type;
@@ -151,12 +177,14 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
     });
   }
 
+  // Fonction pour enregistrer le type de séjour préféré
   void _savePreferredType() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null && _selectedType != null) {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
         'preferredStayType': _selectedType,
       });
+      // Navigation vers l'écran de sélection du niveau d'expérience
       Navigator.push(context, MaterialPageRoute(builder: (context) => ExperienceLevelScreen()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Veuillez vous connecter pour enregistrer vos préférences.')));
