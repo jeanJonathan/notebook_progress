@@ -2,17 +2,17 @@
  ******************************************************************************
  * StartupScreen.dart
  *
- * Ce fichier implémente l'écran de démarrage de l'application Ocean Adventure.
+ * Ce fichier implémente l'écran de démarrage de l'application.
  * Cet écran sert d'introduction à l'application avec une vidéo de démarrage,
  * des options pour s'authentifier ou découvrir plus sur l'application.
  *
  * Fonctionnalités :
  * - Lecture automatique d'une vidéo d'introduction.
  * - Navigation vers l'écran d'authentification.
- * - Accès direct à un site web externe pour plus d'informations.
+ * - Accès direct au site web externe de l'entreprise.
  *
  * Auteur : Jean Jonathan Koffi
- * Dernière mise à jour : 31 Juillet 2024
+ * Dernière mise à jour : 31/07/2024
  * Dépendances externes : url_launcher, video_player
  ******************************************************************************
  */
@@ -20,7 +20,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
-import 'authentification.dart';
+import 'UserAuthenticationScreen.dart';
 
 void main() => runApp(OceanAdventureApp());
 
