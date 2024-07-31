@@ -21,7 +21,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:notebook_progress/basic_info_screen.dart';
+import 'package:notebook_progress/BasicInfoEntryScreen.dart';
 import 'package:notebook_progress/recommandation_service.dart';
 import 'package:notebook_progress/welcome_screen.dart';
 

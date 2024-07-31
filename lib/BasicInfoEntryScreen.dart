@@ -1,7 +1,26 @@
+/*
+ ******************************************************************************
+ * BasicInfoEntryScreen.dart
+ *
+ * Ce fichier implémente l'écran de saisie des informations de base de l'utilisateur.
+ * L'utilisateur entre son prénom et son nom, qui sont ensuite enregistrés dans Firestore.
+ *
+ * Fonctionnalités :
+ * - Formulaire de saisie pour le prénom et le nom.
+ * - Validation des champs de texte.
+ * - Sauvegarde des informations dans Firestore.
+ * - Navigation vers l'écran de saisie de la date de naissance.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31/07/2024
+ * Dépendances externes : firebase_auth, cloud_firestore
+ ******************************************************************************
+ */
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'birthday_screen.dart';
+import 'BirthdateEntryScreen.dart';
 import 'validator.dart';
 
 class BasicInfoScreen extends StatefulWidget {
@@ -18,6 +37,7 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
 
   @override
   void dispose() {
+    // Libération des ressources
     _firstNameController.dispose();
     _lastNameController.dispose();
     _firstNameFocusNode.dispose();
@@ -27,6 +47,7 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Construction de l'interface de l'écran
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -60,10 +81,13 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 20),
+                // Champ de texte pour le prénom
                 _buildTextField(_firstNameController, 'Prénom', Validator.validateName, _firstNameFocusNode),
                 SizedBox(height: 16),
+                // Champ de texte pour le nom
                 _buildTextField(_lastNameController, 'Nom', Validator.validateName, _lastNameFocusNode),
                 SizedBox(height: 30),
+                // Bouton de soumission du formulaire
                 _buildSubmitButton(),
               ],
             ),
@@ -73,6 +97,7 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
     );
   }
 
+  // Construction d'un champ de texte avec validation
   Widget _buildTextField(TextEditingController controller, String label, Function(String) validator, FocusNode focusNode) {
     return TextFormField(
       controller: controller,
@@ -94,6 +119,7 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
     );
   }
 
+  // Construction du bouton de soumission
   Widget _buildSubmitButton() {
     return ElevatedButton(
       onPressed: _submitForm,
@@ -115,12 +141,14 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
     );
   }
 
+  // Soumission du formulaire
   void _submitForm() {
     if (_formKey.currentState?.validate() ?? false) {
       _saveInfoToFirestore();
     }
   }
 
+  // Sauvegarde des informations dans Firestore
   void _saveInfoToFirestore() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -128,8 +156,10 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
         'firstName': _firstNameController.text,
         'lastName': _lastNameController.text,
       }, SetOptions(merge: true));
+      // Navigation vers l'écran de saisie de la date de naissance
       Navigator.push(context, MaterialPageRoute(builder: (context) => BirthdateScreen()));
     } else {
+      // Affichage d'un message d'erreur si aucun utilisateur n'est connecté
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Aucun utilisateur connecté trouvé.')));
     }
   }

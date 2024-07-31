@@ -1,3 +1,22 @@
+/*
+ ******************************************************************************
+ * BirthdateEntryScreen.dart
+ *
+ * Ce fichier implémente l'écran de saisie de la date de naissance de l'utilisateur.
+ * L'utilisateur sélectionne sa date de naissance qui est ensuite enregistrée dans Firestore.
+ *
+ * Fonctionnalités :
+ * - Sélection de la date de naissance via un DatePicker.
+ * - Validation de l'âge de l'utilisateur (doit avoir au moins 18 ans).
+ * - Sauvegarde de la date de naissance dans Firestore.
+ * - Navigation vers l'écran de sélection du type de séjour préféré.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31/07/2024
+ * Dépendances externes : firebase_auth, cloud_firestore
+ ******************************************************************************
+ */
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,6 +33,7 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
+    // Construction de l'interface de l'écran
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -98,6 +118,7 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
     );
   }
 
+  // Fonction pour sélectionner une date
   Future<void> _pickDate(BuildContext context) async {
     final DateTime now = DateTime.now();
     final DateTime eighteenYearsAgo = DateTime(now.year - 18, now.month, now.day);
@@ -111,9 +132,9 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
         return Theme(
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.light(
-              primary: Color(0xFF64C8C8), // Color of the header
-              onPrimary: Colors.white, // Color of the header text
-              onSurface: Colors.black, // Color of the body text
+              primary: Color(0xFF64C8C8), // Couleur de l'en-tête
+              onPrimary: Colors.white, // Couleur du texte de l'en-tête
+              onSurface: Colors.black, // Couleur du texte de la boîte de dialogue
             ),
             dialogBackgroundColor: Colors.white,
           ),
@@ -128,14 +149,17 @@ class _BirthdateScreenState extends State<BirthdateScreen> {
     }
   }
 
+  // Fonction pour enregistrer la date de naissance
   void _saveBirthdate() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null && _selectedDate != null && (DateTime.now().year - _selectedDate!.year >= 18)) {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
         'birthdate': _selectedDate,
       });
+      // Navigation vers l'écran de sélection du type de séjour préféré
       Navigator.push(context, MaterialPageRoute(builder: (context) => PreferredStayTypeScreen()));
     } else {
+      // Affichage d'un message d'erreur si l'utilisateur n'est pas connecté
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Veuillez vous connecter pour enregistrer votre date de naissance.'))
       );

@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:notebook_progress/basic_info_screen.dart';
+import 'package:notebook_progress/BasicInfoEntryScreen.dart';
 import 'package:notebook_progress/camps.dart';
 import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
