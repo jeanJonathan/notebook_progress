@@ -49,7 +49,7 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                'assets/logoOcean.png', // Remplacez par le chemin de votre image/logo
+                'assets/logoOcean.png',
                 width: 300,
                 height: 100,
               ),
