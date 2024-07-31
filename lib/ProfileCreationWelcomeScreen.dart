@@ -1,3 +1,23 @@
+/*
+ ******************************************************************************
+ * ProfileCreationWelcomeScreen.dart
+ *
+ * Ce fichier implémente l'écran de démarrage de la création de profil.
+ * Cet écran accueille l'utilisateur et lui permet de commencer à gérer son profil,
+ * ou de sauter cette étape pour accéder à des recommandations par défaut.
+ *
+ * Fonctionnalités :
+ * - Message de bienvenue et instructions pour démarrer.
+ * - Image d'illustration.
+ * - Navigation vers l'écran de saisie des informations de base.
+ * - Option de sauter l'étape et d'obtenir des recommandations par défaut.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31/07/2024
+ * Dépendances externes : firebase_auth, cloud_firestore
+ ******************************************************************************
+ */
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,17 +31,19 @@ class CreateProfileStart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Construire l'interface de l'écran
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.0), // pour un meilleur espace latéral
+              padding: EdgeInsets.symmetric(horizontal: 24.0), // Meilleur espace latéral
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: 100),
+                  // Message de bienvenue
                   Text(
                     'Bienvenue chez Ocean Adventure',
                     style: TextStyle(
@@ -30,7 +52,7 @@ class CreateProfileStart extends StatelessWidget {
                       color: Color(0xFF64C8C8), // Couleur pour écho à la marque Ocean Adventure
                       shadows: [
                         Shadow(
-                          offset: Offset(0,1), // Décalage de l'ombre
+                          offset: Offset(0, 1), // Décalage de l'ombre
                           blurRadius: 1.0, // Rayon de flou de l'ombre
                           color: Colors.black.withOpacity(0.1), // Couleur de l'ombre avec transparence
                         ),
@@ -41,6 +63,7 @@ class CreateProfileStart extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 12),
+                  // Instructions pour commencer
                   Text(
                     'Commencez par gérer votre profil pour une expérience personnalisée.',
                     style: TextStyle(
@@ -54,7 +77,8 @@ class CreateProfileStart extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 30),
-                  ClipRRect( // Utilisation de ClipRRect pour arrondir les coins de l'image
+                  // Image d'illustration avec coins arrondis
+                  ClipRRect(
                     borderRadius: BorderRadius.circular(20.0), // Rayon de 20.0 pour les coins arrondis
                     child: Image.asset(
                       'assets/welcome_image.jpg',
@@ -62,9 +86,10 @@ class CreateProfileStart extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 40),
+                  // Bouton pour démarrer la gestion du profil
                   ElevatedButton(
                     onPressed: () {
-                      // Utilisation de Navigator pour pousser la nouvelle route nommée
+                      // Navigation vers l'écran de saisie des informations de base
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => BasicInfoScreen()),
@@ -80,7 +105,8 @@ class CreateProfileStart extends StatelessWidget {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white, backgroundColor: Color(0xFF64C8C8), // Couleur du texte
+                      foregroundColor: Colors.white,
+                      backgroundColor: Color(0xFF64C8C8), // Couleur du texte
                       minimumSize: Size(double.infinity, 60), // Bouton plus grand pour une meilleure touchabilité
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25), // Boutons avec coins arrondis
@@ -90,6 +116,7 @@ class CreateProfileStart extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 10),
+                  // Bouton pour ignorer la gestion du profil
                   TextButton(
                     onPressed: () => _applyAlgorithmAndExit(context),
                     child: Text(
@@ -101,7 +128,8 @@ class CreateProfileStart extends StatelessWidget {
                       ),
                     ),
                     style: TextButton.styleFrom(
-                      foregroundColor: Colors.grey[700], padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Couleur de texte pour le bouton
+                      foregroundColor: Colors.grey[700],
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Couleur de texte pour le bouton
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8), // Coins légèrement arrondis pour un style moderne
                       ),
@@ -116,6 +144,7 @@ class CreateProfileStart extends StatelessWidget {
     );
   }
 
+  // Appliquer l'algorithme de recommandation et naviguer vers l'écran de bienvenue
   void _applyAlgorithmAndExit(BuildContext context) async {
     User? user = _auth.currentUser;
     if (user != null) {
@@ -123,7 +152,7 @@ class CreateProfileStart extends StatelessWidget {
         // Utiliser les préférences de l'utilisateur enregistrées dans Firebase
         DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
         if (!userDoc.exists) {
-          // Si l'utilisateur n'a pas de données de préférences, utiliser des valeurs par défaut
+          // Si l'utilisateur n'a pas de données de préférences, on utilise des valeurs par défaut
           await _firestore.collection('users').doc(user.uid).set({
             'preferredStayType': 'Adventure',
             'experienceLevel': 'Débutant',
@@ -134,20 +163,21 @@ class CreateProfileStart extends StatelessWidget {
         RecommendationService recommendationService = RecommendationService();
         List<Map<String, dynamic>> recommendedCamps = await recommendationService.getRecommendedCamps();
 
-        // Naviguer vers WelcomeScreen avec les camps recommandés
+        // Navigation vers WelcomeScreen avec les camps recommandés
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => WelcomeScreen(recommendedCamps: recommendedCamps)),
         );
       } catch (e) {
+        // Affichage d'un message d'erreur en cas d'échec de chargement des recommandations
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to load recommendations. Please try again.'), backgroundColor: Colors.red)
+          SnackBar(content: Text('Échec du chargement des recommandations. Veuillez réessayer.'), backgroundColor: Colors.red),
         );
       }
     } else {
       // Gérer les erreurs en cas de non-connexion
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('User not logged in. Please try again.'), backgroundColor: Colors.red)
+        SnackBar(content: Text('Utilisateur non connecté. Veuillez réessayer.'), backgroundColor: Colors.red),
       );
     }
   }
