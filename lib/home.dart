@@ -1,3 +1,23 @@
+/*
+ ******************************************************************************
+ * HomeScreen.dart
+ *
+ * Ce fichier implémente l'écran d'accueil de l'application,
+ * affichant des camps recommandés à l'utilisateur.
+ * Il permet de naviguer vers différents écrans et de gérer les favoris.
+ *
+ * Fonctionnalités :
+ * - Affichage des camps recommandés avec des images et descriptions.
+ * - Navigation vers des détails de camp spécifiques.
+ * - Ajout et suppression de camps favoris.
+ * - Navigation vers les écrans de wishlist, tutoriels, et profil.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31/07/2024
+ * Dépendances externes : cloud_firestore, firebase_auth, smooth_page_indicator, url_launcher
+ ******************************************************************************
+ */
+
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:notebook_progress/profile_screen.dart';
@@ -6,18 +26,17 @@ import 'kitesurf.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'welcome_screen.dart';
 
-class WelcomeScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   final List<Map<String, dynamic>> recommendedCamps;
 
-  WelcomeScreen({required this.recommendedCamps});
+  HomeScreen({required this.recommendedCamps});
 
   @override
-  _WelcomeScreenState createState() => _WelcomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   late PageController _pageController;
   late PageController _imagePageController;
 
@@ -81,7 +100,39 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           ),
         ),
       ),
-      body: PageView.builder(
+      body: widget.recommendedCamps.isEmpty
+          ? Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/desolé.jpg', // Image de fond
+              fit: BoxFit.cover,
+            ),
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                "Aucun camp ne correspond aux critères renseignés. Veuillez réessayer avec d'autres préférences.",
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(
+                      offset: Offset(0, 1),
+                      blurRadius: 8.0,
+                      color: Colors.black.withOpacity(0.9),
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ],
+      )
+          : PageView.builder(
         controller: _pageController,
         itemCount: widget.recommendedCamps.length,
         itemBuilder: (context, index) {
@@ -151,7 +202,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             onPressed: () => _launchURL(camp['booking_link']),
                             child: Text('Visitez maintenant'),
                           ),
-                          SizedBox(width: 120),
+                          Spacer(),
                           IconButton(
                             icon: Icon(
                               isFavorite ? Icons.favorite : Icons.favorite_border,

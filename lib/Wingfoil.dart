@@ -4,11 +4,11 @@ import 'package:notebook_progress/etapes_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/profile_screen.dart';
 import 'package:notebook_progress/recommandation_service.dart';
-import 'package:notebook_progress/splash_screen.dart';
+import 'package:notebook_progress/StartupScreen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
 import 'Surf.dart';
 import 'kitesurf.dart';
-import 'welcome_screen.dart';
+import 'home.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Wingfoil extends StatelessWidget {
@@ -235,7 +235,7 @@ class Wingfoil extends StatelessWidget {
                 recommendationService.getRecommendedCamps().then((recommendedCamps) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => WelcomeScreen(recommendedCamps: recommendedCamps)),
+                    MaterialPageRoute(builder: (context) => HomeScreen(recommendedCamps: recommendedCamps)),
                   );
                 });
                 break;
