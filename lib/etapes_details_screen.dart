@@ -1,16 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/singIn_screen.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'etape.dart';
 import 'form_screen.dart';
 
-class EtapeDetailScreen extends StatelessWidget {
+class EtapeDetailScreen extends StatefulWidget {
   final String etapeId;
   final String sportRef;
   final Etape etape;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   EtapeDetailScreen({
     required this.etape,
@@ -19,101 +17,113 @@ class EtapeDetailScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    String videoId = YoutubePlayer.convertUrlToId(etape.video) ?? '';
-    String youtubeUrl = 'https://www.youtube.com/embed/$videoId';
+  _EtapeDetailScreenState createState() => _EtapeDetailScreenState();
+}
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '🏆',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
+class _EtapeDetailScreenState extends State<EtapeDetailScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  late YoutubePlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    String videoId = YoutubePlayer.convertUrlToId(widget.etape.video) ?? '';
+    _controller = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+        isLive: false,
+        forceHD: true,
       ),
-      body: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/desc_etapes.png'),
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.6),
-                  BlendMode.srcOver,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          return Column(
+            children: [
+              Expanded(
+                child: YoutubePlayer(
+                  controller: _controller,
+                  showVideoProgressIndicator: true,
+                  onReady: () {
+                    _controller.addListener(() {});
+                  },
+                  bottomActions: [
+                    CurrentPosition(),
+                    ProgressBar(isExpanded: true),
+                    FullScreenButton(),
+                  ],
                 ),
               ),
-            ),
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 16),
-                Text(
-                  '🚀 ${etape.name} 🌟',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 8),
-                Text(
-                  '🔍 ${etape.description}',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 16),
-                AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: WebView(
-                    initialUrl: youtubeUrl,
-                    javascriptMode: JavascriptMode.unrestricted,
-                  ),
-                ),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_auth.currentUser != null) {
-                      _navigateToFormScreen(context);
-                    } else {
-                      _navigateToSignInScreen(context);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ), backgroundColor: Colors.white, // Changer la couleur du bouton selon vos besoins
-                  ),
+              if (orientation == Orientation.portrait)
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: Row(
-                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(
-                        '✔ Valider l\'étape ',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          backgroundColor: Color(0xFF64C8C8),
+                          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                        ),
+                        icon: Icon(Icons.arrow_back, color: Colors.white),
+                        label: Text(
+                          'Retour',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                      Text(
-                        '✅',
-                        style: TextStyle(fontSize: 18), // Adapter la taille de l'emoji
+                      ElevatedButton.icon(
+                        onPressed: () async {
+                          if (_auth.currentUser != null) {
+                            _navigateToFormScreen(context);
+                          } else {
+                            _navigateToSignInScreen(context);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          backgroundColor: Color(0xFF64C8C8),
+                          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                        ),
+                        icon: Icon(Icons.check, color: Colors.white),
+                        label: Text(
+                          'Valider l\'étape',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
@@ -125,8 +135,8 @@ class EtapeDetailScreen extends StatelessWidget {
         transitionDuration: Duration(milliseconds: 500),
         pageBuilder: (context, animation, secondaryAnimation) {
           return FormScreen(
-            etapeRef: etape.etapeId,
-            sportRef: etape.sportRef.id,
+            etapeRef: widget.etape.etapeId,
+            sportRef: widget.etape.sportRef.id,
           );
         },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -148,9 +158,8 @@ class EtapeDetailScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SignInScreen(etapeId: etape.etapeId),
+        builder: (context) => SignInScreen(etapeId: widget.etape.etapeId),
       ),
     );
   }
 }
-
