@@ -51,11 +51,11 @@ class KitesurfScreen extends StatelessWidget {
 
           // Si le mouvement est vers la gauche
           if (difference < -10) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Wingfoil()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => WingfoilScreen()));
           }
           // Si le mouvement est vers la droite
           if (difference > 10) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Surf()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SurfScreen()));
           }
         }
       },

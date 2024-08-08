@@ -1,3 +1,23 @@
+/*
+ ******************************************************************************
+ * WingfoilScreen.dart
+ *
+ * Ce fichier implémente l'écran de présentation pour le Wingfoil.
+ * Il offre des options de navigation vers les sections Surf et Kitesurf,
+ * et permet de voir les étapes spécifiques au Wingfoil.
+ *
+ * Fonctionnalités :
+ * - Navigation par glissement entre les écrans Surf et Kitesurf.
+ * - Accès aux étapes spécifiques au Wingfoil.
+ * - Navigation vers d'autres sections de l'application via la barre de navigation.
+ * - Gestion de la déconnexion de l'utilisateur.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31/07/2024
+ * Dépendances externes : firebase_auth, url_launcher
+ ******************************************************************************
+ */
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/etapes_screen.dart';
@@ -11,7 +31,7 @@ import 'kitesurf.dart';
 import 'home.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Wingfoil extends StatelessWidget {
+class WingfoilScreen extends StatelessWidget {
   Offset? _initialPosition;
   bool _showSwipeIndicator = false;
 
@@ -28,10 +48,10 @@ class Wingfoil extends StatelessWidget {
           final difference = offset.dx - _initialPosition!.dx;
 
           if (difference < -10) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Surf()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SurfScreen()));
           }
           if (difference > 10) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Kitesurf()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => KitesurfScreen()));
           }
         }
       },
@@ -87,7 +107,7 @@ class Wingfoil extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 12.0),
                     child: InkWell(
                       onTap: () {
-                        _showLogoutDialog(context); // Appel de la fonction pour afficher le dialogue de déconnexion
+                        _showLogoutDialog(context); // Affichage du dialogue de déconnexion
                       },
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -248,7 +268,7 @@ class Wingfoil extends StatelessWidget {
               case 2:
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Kitesurf()),
+                  MaterialPageRoute(builder: (context) => KitesurfScreen()),
                 );
                 break;
               case 3:

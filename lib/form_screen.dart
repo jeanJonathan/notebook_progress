@@ -115,7 +115,7 @@ class _FormScreenState extends State<FormScreen> {
         // Redirection vers l'écran précédent
         Navigator.push(
           context as BuildContext,
-          MaterialPageRoute(builder: (context) => Kitesurf()), //Pour renvoyer l'utilisateur sur l'ecran par defaut
+          MaterialPageRoute(builder: (context) => KitesurfScreen()), //Pour renvoyer l'utilisateur sur l'ecran par defaut
         );
       }
 

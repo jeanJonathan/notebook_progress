@@ -1,3 +1,23 @@
+/*
+ ******************************************************************************
+ * SurfScreen.dart
+ *
+ * Ce fichier implémente l'écran de présentation pour le Surf.
+ * Il offre des options de navigation vers les sections Kitesurf et Wingfoil,
+ * et permet de voir les étapes spécifiques au Surf.
+ *
+ * Fonctionnalités :
+ * - Navigation par glissement entre les écrans Kitesurf et Wingfoil.
+ * - Accès aux étapes spécifiques au Surf.
+ * - Navigation vers d'autres sections de l'application via la barre de navigation.
+ * - Gestion de la déconnexion de l'utilisateur.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31/07/2024
+ * Dépendances externes : firebase_auth, url_launcher
+ ******************************************************************************
+ */
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/etapes_screen.dart';
@@ -11,7 +31,7 @@ import 'kitesurf.dart';
 import 'home.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Surf extends StatelessWidget {
+class SurfScreen extends StatelessWidget {
   Offset? _initialPosition;
   bool _showSwipeIndicator = false;
 
@@ -27,11 +47,13 @@ class Surf extends StatelessWidget {
           final offset = details.globalPosition;
           final difference = offset.dx - _initialPosition!.dx;
 
+          // Navigue vers l'écran Kitesurf si on glisse vers la gauche
           if (difference < -10) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Kitesurf()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => KitesurfScreen()));
           }
+          // Navigue vers l'écran Wingfoil si on glisse vers la droite
           if (difference > 10) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Wingfoil()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => WingfoilScreen()));
           }
         }
       },
@@ -87,7 +109,7 @@ class Surf extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 12.0),
                     child: InkWell(
                       onTap: () {
-                        _showLogoutDialog(context); // Appel de la fonction pour afficher le dialogue de déconnexion
+                        _showLogoutDialog(context); // Affichage du dialogue de déconnexion
                       },
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -248,7 +270,7 @@ class Surf extends StatelessWidget {
               case 2:
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Kitesurf()),
+                  MaterialPageRoute(builder: (context) => KitesurfScreen()),
                 );
                 break;
               case 3:
@@ -274,10 +296,12 @@ class Surf extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('Annuler',
+              child: Text(
+                'Annuler',
                 style: TextStyle(
                   color: Color(0xFF64C8C8),
-                ),),
+                ),
+              ),
             ),
             TextButton(
               onPressed: () async {
@@ -286,10 +310,12 @@ class Surf extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => OceanAdventureHome()), // Redirige vers l'écran de connexion
                 );
               },
-              child: Text('Déconnexion',
+              child: Text(
+                'Déconnexion',
                 style: TextStyle(
                   color: Color(0xFF64C8C8),
-                ),),
+                ),
+              ),
             ),
           ],
         );
