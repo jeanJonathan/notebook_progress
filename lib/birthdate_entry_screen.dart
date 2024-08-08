@@ -1,6 +1,6 @@
 /*
  ******************************************************************************
- * BirthdateEntryScreen.dart
+ * birthdate_entry_screen.dart
  *
  * Ce fichier implémente l'écran de saisie de la date de naissance de l'utilisateur.
  * L'utilisateur sélectionne sa date de naissance qui est ensuite enregistrée dans Firestore.

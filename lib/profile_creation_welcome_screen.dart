@@ -1,6 +1,6 @@
 /*
  ******************************************************************************
- * ProfileCreationWelcomeScreen.dart
+ * profile_creation_welcome_screen.dart
  *
  * Ce fichier implémente l'écran de démarrage de la création de profil.
  * Cet écran accueille l'utilisateur et lui permet de commencer à gérer son profil,
@@ -21,7 +21,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:notebook_progress/BasicInfoEntryScreen.dart';
+import 'package:notebook_progress/basic_info_entry_screen.dart';
 import 'package:notebook_progress/recommandation_service.dart';
 import 'package:notebook_progress/home.dart';
 

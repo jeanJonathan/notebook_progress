@@ -1,6 +1,6 @@
 /*
  ******************************************************************************
- * BasicInfoEntryScreen.dart
+ * basic_info_entry_screen.dart
  *
  * Ce fichier implémente l'écran de saisie des informations de base de l'utilisateur.
  * L'utilisateur entre son prénom et son nom, qui sont ensuite enregistrés dans Firestore.
@@ -20,7 +20,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'BirthdateEntryScreen.dart';
+import 'birthdate_entry_screen.dart';
 import 'validator.dart';
 
 class BasicInfoScreen extends StatefulWidget {

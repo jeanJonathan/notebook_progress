@@ -1,6 +1,6 @@
 /*
  ******************************************************************************
- * UserAuthenticationScreen.dart
+ * user_authentication_screen.dart
  *
  * Ce fichier définit l'écran d'authentification de l'application,
  * offrant des options pour l'authentification via email et mot de passe,
@@ -25,8 +25,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:notebook_progress/singUp_screen.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter/gestures.dart';
-import 'ProfileCreationWelcomeScreen.dart';
-import 'StartupScreen.dart';
+import 'profile_creation_welcome_screen.dart';
+import 'startup_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
