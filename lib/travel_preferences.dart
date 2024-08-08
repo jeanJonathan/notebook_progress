@@ -45,6 +45,7 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
             markerId: MarkerId(destination["city"]),
             position: destination["coordinates"],
             infoWindow: InfoWindow(title: destination["city"]),
+            onTap: () => _onMarkerTapped(destination["city"]),
           ),
         );
       }
@@ -56,6 +57,53 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
         .where((destination) => destination["city"].toLowerCase().contains(query.toLowerCase()))
         .map((destination) => destination["city"] as String)
         .toList();
+  }
+
+  void _onMarkerTapped(String city) {
+    bool isSelected = selectedDestinations.contains(city);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(isSelected ? 'Supprimer la destination' : 'Ajouter la destination'),
+          content: Text(isSelected
+              ? 'Voulez-vous vraiment supprimer $city de vos destinations?'
+              : 'Voulez-vous vraiment ajouter $city à vos destinations?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Annuler'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(isSelected ? 'Supprimer' : 'Ajouter'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  if (isSelected) {
+                    selectedDestinations.remove(city);
+                    _markers.removeWhere((m) => m.markerId.value == city);
+                    _removeVisitedDestinationFromFirestore(city);
+                  } else {
+                    selectedDestinations.add(city);
+                    var destination = destinations.firstWhere((d) => d["city"] == city);
+                    _markers.add(
+                      Marker(
+                        markerId: MarkerId(city),
+                        position: destination["coordinates"],
+                        infoWindow: InfoWindow(title: city),
+                      ),
+                    );
+                    _addVisitedDestinationToFirestore(city);
+                  }
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _onSuggestionSelected(String suggestion) {
