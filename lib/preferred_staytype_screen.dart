@@ -185,7 +185,7 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
         'preferredStayType': _selectedType,
       });
       // Navigation vers l'écran de sélection du niveau d'expérience
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ExperienceLevelScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => UserLevelScreen()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Veuillez vous connecter pour enregistrer vos préférences.')));
     }

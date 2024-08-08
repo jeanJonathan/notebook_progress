@@ -1,0 +1,110 @@
+[
+  {
+    "city": "Dakhla",
+    "country": "Maroc",
+    "lat": 23.6845,
+    "lng": -15.9570
+  },
+  {
+    "city": "Taghazout",
+    "country": "Maroc",
+    "lat": 30.5451,
+    "lng": -9.7085
+  },
+  {
+    "city": "Essaouira",
+    "country": "Maroc",
+    "lat": 31.5085,
+    "lng": -9.7595
+  },
+  {
+    "city": "Imsouane",
+    "country": "Maroc",
+    "lat": 30.8407,
+    "lng": -9.8258
+  },
+  {
+    "city": "Fuerteventura",
+    "country": "Canaries",
+    "lat": 28.3587,
+    "lng": -14.0537
+  },
+  {
+    "city": "Lisbonne",
+    "country": "Portugal",
+    "lat": 38.7223,
+    "lng": -9.1393
+  },
+  {
+    "city": "Nazaré",
+    "country": "Portugal",
+    "lat": 39.6020,
+    "lng": -9.0684
+  },
+  {
+    "city": "Peniche",
+    "country": "Portugal",
+    "lat": 39.3575,
+    "lng": -9.3815
+  },
+  {
+    "city": "Açores",
+    "country": "Portugal",
+    "lat": 37.7412,
+    "lng": -25.6756
+  },
+  {
+    "city": "Bilbao",
+    "country": "Espagne",
+    "lat": 43.2630,
+    "lng": -2.9350
+  },
+  {
+    "city": "Biarritz",
+    "country": "France",
+    "lat": 43.4832,
+    "lng": -1.5593
+  },
+  {
+    "city": "Hossegor",
+    "country": "France",
+    "lat": 43.6644,
+    "lng": -1.3702
+  },
+  {
+    "city": "Lacanau",
+    "country": "France",
+    "lat": 45.0016,
+    "lng": -1.0882
+  },
+  {
+    "city": "Pays de la Loire",
+    "country": "France",
+    "lat": 47.7633,
+    "lng": -0.3294
+  },
+  {
+    "city": "Stagone",
+    "country": "Italie",
+    "lat": 37.8609,
+    "lng": 12.4839
+  },
+  {
+    "city": "Santa Teresa",
+    "country": "Costa Rica",
+    "lat": 9.6469,
+    "lng": -85.1671
+  },
+  {
+    "city": "Canggu",
+    "country": "Indonésie",
+    "lat": -8.6478,
+    "lng": 115.1385
+  },
+  {
+    "city": "Ahangama",
+    "country": "Sri Lanka",
+    "lat": 5.9737,
+    "lng": 80.3623
+  }
+]

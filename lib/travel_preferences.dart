@@ -40,72 +40,119 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
   final TextEditingController _typeAheadController = TextEditingController();
   final LatLng _initialCenter = const LatLng(20.5937, 78.9629);
   Set<Marker> _markers = {};
-  Map<String, LatLng> countryCoordinates = {};
-  Set<String> selectedCountries = {};  // Garde la trace des pays sélectionnés
+  List<Map<String, dynamic>> destinations = [];
+  Set<String> selectedDestinations = {};  // Garde la trace des destinations sélectionnées
 
   @override
   void initState() {
     super.initState();
-    loadCountryData();
+    loadDestinationData();
   }
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+    _zoomToFitDestinations();
   }
 
-  Future<void> loadCountryData() async {
-    final String response = await rootBundle.loadString('assets/countries.json');
+  Future<void> loadDestinationData() async {
+    final String response = await rootBundle.loadString('assets/destinations.json');
     final List<dynamic> data = jsonDecode(response);
     setState(() {
-      countryCoordinates = {
-        for (var item in data)
-          item['country']: LatLng(item['lat'], item['lng'])
-      };
+      destinations = data.map((item) => {
+        "city": item["city"],
+        "country": item["country"],
+        "coordinates": LatLng(item["lat"], item["lng"])
+      }).toList();
+      _addInitialMarkers();
     });
   }
 
-  Future<List<String>> _getCountrySuggestions(String query) async {
-    return countryCoordinates.keys
-        .where((country) => country.toLowerCase().contains(query.toLowerCase()))
+  void _addInitialMarkers() {
+    setState(() {
+      destinations.forEach((destination) {
+        _markers.add(
+          Marker(
+            markerId: MarkerId(destination["city"]),
+            position: destination["coordinates"],
+            infoWindow: InfoWindow(title: destination["city"]),
+          ),
+        );
+      });
+    });
+  }
+
+  void _zoomToFitDestinations() {
+    if (mapController != null && destinations.isNotEmpty) {
+      LatLngBounds bounds = _createBounds();
+      CameraUpdate cameraUpdate = CameraUpdate.newLatLngBounds(bounds, 50);
+      mapController?.animateCamera(cameraUpdate);
+    }
+  }
+
+  LatLngBounds _createBounds() {
+    double x0 = destinations.first["coordinates"].latitude;
+    double x1 = destinations.first["coordinates"].latitude;
+    double y0 = destinations.first["coordinates"].longitude;
+    double y1 = destinations.first["coordinates"].longitude;
+
+    destinations.forEach((destination) {
+      LatLng latLng = destination["coordinates"];
+      if (latLng.latitude > x1) x1 = latLng.latitude;
+      if (latLng.latitude < x0) x0 = latLng.latitude;
+      if (latLng.longitude > y1) y1 = latLng.longitude;
+      if (latLng.longitude < y0) y0 = latLng.longitude;
+    });
+
+    return LatLngBounds(
+      southwest: LatLng(x0, y0),
+      northeast: LatLng(x1, y1),
+    );
+  }
+
+  Future<List<String>> _getDestinationSuggestions(String query) async {
+    return destinations
+        .where((destination) => destination["city"].toLowerCase().contains(query.toLowerCase()))
+        .map((destination) => destination["city"] as String)
         .toList();
   }
 
   void _onSuggestionSelected(String suggestion) {
-    LatLng countryCoords = countryCoordinates[suggestion] ?? _initialCenter;
-    mapController?.animateCamera(CameraUpdate.newLatLng(countryCoords));
+    var destination = destinations.firstWhere((d) => d["city"] == suggestion);
+    LatLng destinationCoords = destination["coordinates"] ?? _initialCenter;
+    mapController?.animateCamera(CameraUpdate.newLatLng(destinationCoords));
     setState(() {
-      if (selectedCountries.contains(suggestion)) {
-        selectedCountries.remove(suggestion);
+      if (selectedDestinations.contains(suggestion)) {
+        selectedDestinations.remove(suggestion);
         _markers.removeWhere((m) => m.markerId.value == suggestion);
-        _removeVisitedCountryFromFirestore(suggestion);  // Retire le pays de Firestore
+        _removeVisitedDestinationFromFirestore(suggestion);  // Retire la destination de Firestore
       } else {
-        selectedCountries.add(suggestion);
+        selectedDestinations.add(suggestion);
         _markers.add(
           Marker(
             markerId: MarkerId(suggestion),
-            position: countryCoords,
+            position: destinationCoords,
             infoWindow: InfoWindow(title: suggestion),
           ),
         );
-        _addVisitedCountryToFirestore(suggestion);  // Ajoute le pays à Firestore
+        _addVisitedDestinationToFirestore(suggestion);  // Ajoute la destination à Firestore
       }
     });
   }
 
-  void _addVisitedCountryToFirestore(String countryName) async {
+  void _addVisitedDestinationToFirestore(String destinationName) async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-        'visitedCountries': FieldValue.arrayUnion([countryName])
+        'visitedDestinations': FieldValue.arrayUnion([destinationName])
       }, SetOptions(merge: true));
     }
   }
 
-  void _removeVisitedCountryFromFirestore(String countryName) async {
+  void _removeVisitedDestinationFromFirestore(String destinationName) async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-        'visitedCountries': FieldValue.arrayRemove([countryName])
+        'visitedDestinations': FieldValue.arrayRemove([destinationName])
       });
     }
   }
@@ -114,7 +161,7 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-        'visitedCountries': selectedCountries.toList()
+        'visitedDestinations': selectedDestinations.toList()
       }, SetOptions(merge: true));
     }
   }
@@ -171,9 +218,9 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
                     ),
                     cursorColor: Color(0xFF64C8C8),  // Couleur du curseur
                   ),
-                  suggestionsCallback: _getCountrySuggestions,
+                  suggestionsCallback: _getDestinationSuggestions,
                   itemBuilder: (context, String suggestion) {
-                    final isSelected = selectedCountries.contains(suggestion);
+                    final isSelected = selectedDestinations.contains(suggestion);
                     return ListTile(
                       title: Text(suggestion),
                       tileColor: isSelected ? Color(0xFFF5F5F5) : null,  // Change la couleur si sélectionné

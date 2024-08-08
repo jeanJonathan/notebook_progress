@@ -87,7 +87,7 @@ flutter:
   assets:
     - assets/balloons.gif
     - assets/desolé.jpg
-    - assets/countries.json
+    - assets/destinations.json
     - assets/wingfoil.jpeg
     - assets/desc_etapes.png
     - assets/kitesurf.jpg
