@@ -20,7 +20,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:notebook_progress/user_level_screen.dart';
+
+import 'experience_level_screen.dart';
 
 class PreferredStayTypeScreen extends StatefulWidget {
   @override
@@ -185,7 +186,7 @@ class _PreferredStayTypeScreenState extends State<PreferredStayTypeScreen> {
         'preferredStayType': _selectedType,
       });
       // Navigation vers l'écran de sélection du niveau d'expérience
-      Navigator.push(context, MaterialPageRoute(builder: (context) => UserLevelScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ExperienceLevelScreen()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Veuillez vous connecter pour enregistrer vos préférences.')));
     }
