@@ -1,3 +1,21 @@
+/*
+ ******************************************************************************
+ * WishlistScreen.dart
+ *
+ * Ce fichier implémente l'écran de la wishlist de l'application,
+ * permettant aux utilisateurs de voir et de gérer leurs camps favoris.
+ *
+ * Fonctionnalités :
+ * - Affichage des camps ajoutés à la wishlist de l'utilisateur.
+ * - Suppression de camps de la wishlist.
+ * - Navigation vers les pages de réservation des camps.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31/07/2024
+ * Dépendances externes : cloud_firestore, firebase_auth, url_launcher
+ ******************************************************************************
+ */
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,6 +35,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
     _fetchWishlist();
   }
 
+  // Récupère la wishlist de l'utilisateur depuis Firestore
   void _fetchWishlist() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -31,6 +50,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
     }
   }
 
+  // Supprime un camp de la wishlist
   void _removeFromWishlist(String campLink) async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -83,6 +103,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
     );
   }
 
+  // Lance une URL dans le navigateur par défaut
   void _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
