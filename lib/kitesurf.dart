@@ -1,3 +1,23 @@
+/*
+ ******************************************************************************
+ * KitesurfScreen.dart
+ *
+ * Ce fichier implémente l'écran de présentation pour le Kitesurf.
+ * Il offre des options de navigation vers les sections Wingfoil et Surf,
+ * et permet de voir les étapes spécifiques au Kitesurf.
+ *
+ * Fonctionnalités :
+ * - Navigation par glissement entre les écrans Wingfoil et Surf.
+ * - Accès aux étapes spécifiques au Kitesurf.
+ * - Navigation vers d'autres sections de l'application via la barre de navigation.
+ * - Gestion de la déconnexion de l'utilisateur.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31/07/2024
+ * Dépendances externes : firebase_auth, url_launcher
+ ******************************************************************************
+ */
+
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +33,7 @@ import 'Surf.dart';
 import 'home.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Kitesurf extends StatelessWidget {
+class KitesurfScreen extends StatelessWidget {
   Offset? _initialPosition;
   bool _showSwipeIndicator = false;
 
@@ -22,7 +42,7 @@ class Kitesurf extends StatelessWidget {
     return GestureDetector(
       onHorizontalDragStart: (DragStartDetails details) {
         _initialPosition = details.globalPosition;
-        _showSwipeIndicator = true; // Pour afficher l'indicateur au début du glissement
+        _showSwipeIndicator = true; // Affichage de l'indicateur de glissement
       },
       onHorizontalDragUpdate: (DragUpdateDetails details) {
         if (_initialPosition != null) {
@@ -41,7 +61,7 @@ class Kitesurf extends StatelessWidget {
       },
       onHorizontalDragEnd: (DragEndDetails details) {
         _initialPosition = null;
-        _showSwipeIndicator = false; // Pour masquer l'indicateur lorsque le glissement se termine
+        _showSwipeIndicator = false; // Masquage de l'indicateur de glissement
       },
       child: Scaffold(
         appBar: AppBar(
@@ -61,7 +81,7 @@ class Kitesurf extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      const url = 'https://oceanadventure.surf/'; // URL de votre choix
+                      const url = 'https://oceanadventure.surf/';
                       if (await canLaunch(url)) {
                         await launch(url);
                       } else {
@@ -70,11 +90,11 @@ class Kitesurf extends StatelessWidget {
                     },
                     child: Image.asset(
                       'assets/logoOcean.png',
-                      width: 200, // Ajustez la largeur comme vous le souhaitez
-                      height: 205, // Ajustez la hauteur comme vous le souhaitez
+                      width: 200,
+                      height: 205,
                     ),
                   ),
-                  SizedBox(width: 10), // Vous pouvez ajuster l'espace si nécessaire
+                  SizedBox(width: 10),
                 ],
               ),
             ),
@@ -94,7 +114,7 @@ class Kitesurf extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 12.0),
                     child: InkWell(
                       onTap: () {
-                        _showLogoutDialog(context); // Appel de la fonction pour afficher le dialogue de déconnexion
+                        _showLogoutDialog(context); // Affichage du dialogue de déconnexion
                       },
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -251,7 +271,7 @@ class Kitesurf extends StatelessWidget {
               case 2:
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Kitesurf()),
+                  MaterialPageRoute(builder: (context) => KitesurfScreen()),
                 );
                 break;
               case 3:
