@@ -1,3 +1,24 @@
+/*
+ ******************************************************************************
+ * EtapeDetailScreen.dart
+ *
+ * Ce fichier implémente l'écran de détail d'une étape pour un sport spécifique.
+ * Il permet la visualisation de la vidéo associée à l'étape et la validation
+ * de l'étape après authentification de l'utilisateur.
+ *
+ * Fonctionnalités :
+ * - Affichage de la vidéo YouTube associée à l'étape.
+ * - Mise en pause automatique de la vidéo lorsque l'application passe en arrière-plan.
+ * - Validation de l'étape après authentification de l'utilisateur.
+ * - Navigation vers l'écran de connexion si l'utilisateur n'est pas authentifié.
+ * - Affichage des boutons "Retour" et "Valider l'étape" en mode portrait.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31/07/2024
+ * Dépendances externes : firebase_auth, youtube_player_flutter, flutter
+ ******************************************************************************
+ */
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/singIn_screen.dart';
@@ -6,9 +27,9 @@ import 'etape.dart';
 import 'form_screen.dart';
 
 class EtapeDetailScreen extends StatefulWidget {
-  final String etapeId;
-  final String sportRef;
-  final Etape etape;
+  final String etapeId; // ID de l'étape
+  final String sportRef; // Référence du sport
+  final Etape etape; // Instance de l'étape
 
   EtapeDetailScreen({
     required this.etape,
@@ -27,8 +48,8 @@ class _EtapeDetailScreenState extends State<EtapeDetailScreen> with WidgetsBindi
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this); // Ajout de l'observateur
-    String videoId = YoutubePlayer.convertUrlToId(widget.etape.video) ?? '';
+    WidgetsBinding.instance.addObserver(this); // Ajout de l'observateur pour écouter les changements de cycle de vie de l'application
+    String videoId = YoutubePlayer.convertUrlToId(widget.etape.video) ?? ''; // Extraction de l'ID de la vidéo YouTube
     _controller = YoutubePlayerController(
       initialVideoId: videoId,
       flags: YoutubePlayerFlags(
@@ -42,13 +63,14 @@ class _EtapeDetailScreenState extends State<EtapeDetailScreen> with WidgetsBindi
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this); // Retrait de l'observateur
-    _controller.dispose();
+    WidgetsBinding.instance.removeObserver(this); // Retrait de l'observateur lors de la destruction du widget
+    _controller.dispose(); // Libération des ressources du contrôleur YouTube
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Mettre la vidéo en pause lorsque l'application passe en arrière-plan ou devient inactive
     if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
       _controller.pause();
     }
@@ -61,6 +83,7 @@ class _EtapeDetailScreenState extends State<EtapeDetailScreen> with WidgetsBindi
         builder: (context, orientation) {
           return Column(
             children: [
+              // Affichage du lecteur YouTube
               Expanded(
                 child: YoutubePlayer(
                   controller: _controller,
@@ -75,12 +98,14 @@ class _EtapeDetailScreenState extends State<EtapeDetailScreen> with WidgetsBindi
                   ],
                 ),
               ),
+              // Affichage des boutons "Retour" et "Valider l'étape" uniquement en mode portrait
               if (orientation == Orientation.portrait)
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      // Bouton "Retour"
                       ElevatedButton.icon(
                         onPressed: () {
                           Navigator.of(context).pop();
@@ -102,6 +127,7 @@ class _EtapeDetailScreenState extends State<EtapeDetailScreen> with WidgetsBindi
                           ),
                         ),
                       ),
+                      // Bouton "Valider l'étape"
                       ElevatedButton.icon(
                         onPressed: () async {
                           if (_auth.currentUser != null) {
@@ -137,6 +163,7 @@ class _EtapeDetailScreenState extends State<EtapeDetailScreen> with WidgetsBindi
     );
   }
 
+  // Navigation vers l'écran de formulaire pour valider l'étape
   void _navigateToFormScreen(BuildContext context) {
     Navigator.push(
       context,
@@ -163,6 +190,7 @@ class _EtapeDetailScreenState extends State<EtapeDetailScreen> with WidgetsBindi
     );
   }
 
+  // Navigation vers l'écran de connexion si l'utilisateur n'est pas authentifié
   void _navigateToSignInScreen(BuildContext context) {
     Navigator.push(
       context,

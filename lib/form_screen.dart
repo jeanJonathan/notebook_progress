@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import 'kitesurf.dart';
-import 'main.dart';
 
 class FormScreen extends StatefulWidget {
   final String etapeRef; // pour stocker l'identifiant de l'étape
