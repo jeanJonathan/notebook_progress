@@ -1,6 +1,6 @@
 /*
  ******************************************************************************
- * StartupScreen.dart
+ * startup_screen.dart
  *
  * Ce fichier implémente l'écran de démarrage de l'application.
  * Cet écran sert d'introduction à l'application avec une vidéo de démarrage,
@@ -19,7 +19,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
-import 'UserAuthenticationScreen.dart';
+import 'user_authentication_screen.dart';
 
 void main() => runApp(OceanAdventureApp());
 

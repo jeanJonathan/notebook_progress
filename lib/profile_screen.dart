@@ -1,3 +1,24 @@
+/*
+ ******************************************************************************
+ * ProfileScreen.dart
+ *
+ * Ce fichier implémente l'écran de profil de l'utilisateur.
+ * Il permet la visualisation et la modification des informations de profil,
+ * y compris la photo de profil, l'email, l'âge, le niveau d'expérience, 
+ * le type de séjour préféré, et la bio de l'utilisateur.
+ *
+ * Fonctionnalités :
+ * - Affichage des informations de profil utilisateur.
+ * - Modification des informations de profil avec des dialogues interactifs.
+ * - Téléchargement et mise à jour de la photo de profil.
+ * - Navigation vers la wishlist et la mise à jour des recommandations.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31/07/2024
+ * Dépendances externes : firebase_auth, cloud_firestore, firebase_storage, image_picker
+ ******************************************************************************
+ */
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,6 +33,7 @@ void main() {
   runApp(MyApp());
 }
 
+// Application principale
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -42,6 +64,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// Écran de profil utilisateur
 class ProfileScreen extends StatefulWidget {
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -61,6 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     fetchUserData();
   }
 
+  // Récupère les données de l'utilisateur à partir de Firestore
   Future<void> fetchUserData() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -109,11 +133,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SizedBox(height: 30),
           Text(
             "${userData!['firstName'] ?? 'Prénom'}",
-            style: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 24,
+            style: Theme.of(context).textTheme.headline1!.copyWith(
+                fontSize: 24,
                 color: Color(0xFF64C8C8),
-                fontFamily: 'Open Sans'), // Réduction de la taille de la police
+                fontFamily: 'Open Sans'),
             textAlign: TextAlign.center,
-
           ),
           SizedBox(height: 40),
           _buildProfileItem(
@@ -158,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               );
             },
             style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white, backgroundColor: Color(0xFF64C8C8), // Couleur du texte
+              foregroundColor: Colors.white, backgroundColor: Color(0xFF64C8C8),
             ),
             child: Text('Ma Wishlist'),
           ),
@@ -261,6 +285,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  // Calcule l'âge de l'utilisateur à partir de sa date de naissance
   int calculateAge(DateTime birthdate) {
     DateTime currentDate = DateTime.now();
     int age = currentDate.year - birthdate.year;
@@ -271,6 +296,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return age;
   }
 
+  // Met à jour les données de l'utilisateur dans Firestore
   Future<void> updateUserData(String field, String newValue) async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -284,7 +310,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Mise à jour réussie!')),
         );
-        _fetchUpdatedRecommendations(context); // Fetch updated recommendations
+        _fetchUpdatedRecommendations(context);
       } catch (e) {
         print('Error updating user data: $e');
         ScaffoldMessenger.of(context).showSnackBar(
@@ -298,6 +324,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  // Permet de choisir une image depuis la galerie
   Future<void> _pickImage() async {
     try {
       final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -312,22 +339,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  // Télécharge l'image sélectionnée sur Firebase Storage et met à jour l'URL de la photo de profil dans Firestore
   Future<void> _uploadImageToFirebase() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null && _imageFile != null) {
       try {
-        // Reference to Firebase Storage
         final storageRef = FirebaseStorage.instance.ref().child('user_profiles').child(user.uid);
         final uploadTask = storageRef.putFile(File(_imageFile!.path));
         final snapshot = await uploadTask.whenComplete(() => {});
         final downloadUrl = await snapshot.ref.getDownloadURL();
 
-        // Update Firestore with the image URL
         await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
           'photoUrl': downloadUrl,
         });
 
-        // Update local state
         setState(() {
           userData!['photoUrl'] = downloadUrl;
           _imageFile = null;
@@ -345,6 +370,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  // Récupère les recommandations mises à jour et navigue vers l'écran d'accueil
   Future<void> _fetchUpdatedRecommendations(BuildContext context) async {
     RecommendationService recommendationService = RecommendationService();
     List<Map<String, dynamic>> recommendedCamps = await recommendationService.getRecommendedCamps();
@@ -357,6 +383,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  // Navigue vers l'écran de bienvenue et récupère les recommandations mises à jour
   void _navigateToWelcomeScreen(BuildContext context) {
     Navigator.of(context).pop();
     _fetchUpdatedRecommendations(context);

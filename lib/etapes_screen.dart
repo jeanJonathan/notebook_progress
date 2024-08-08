@@ -1,5 +1,24 @@
-import 'dart:async';
+/*
+ ******************************************************************************
+ * EtapesScreen.dart
+ *
+ * Ce fichier implémente les écrans pour afficher et gérer les étapes de progression
+ * pour différents sports (Wingfoil, Kitesurf, Surf). Les utilisateurs peuvent voir
+ * leurs étapes, vérifier leurs progrès, et obtenir des informations supplémentaires.
+ *
+ * Fonctionnalités :
+ * - Affichage des étapes de progression pour chaque sport.
+ * - Validation des étapes en fonction de la progression de l'utilisateur.
+ * - Affichage de dialogues informatifs sur chaque sport.
+ * - Navigation vers les détails des étapes.
+ *
+ * Auteur : Jean Jonathan Koffi
+ * Dernière mise à jour : 31/07/2024
+ * Dépendances externes : firebase_auth, cloud_firestore, flutter, flutter/services.dart
+ ******************************************************************************
+ */
 
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,6 +27,7 @@ import 'etape.dart';
 import 'etapes_details_screen.dart';
 import 'package:notebook_progress/progression.dart';
 
+// Écran des étapes de Wingfoil
 class EtapesScreenWingfoil extends StatefulWidget {
   @override
   _EtapesScreenWingfoilState createState() => _EtapesScreenWingfoilState();
@@ -35,6 +55,7 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
     super.dispose();
   }
 
+  // Récupère les données des étapes et de la progression de l'utilisateur depuis Firebase
   void fetchDataFromFirebase() {
     etapesSubscription = FirebaseFirestore.instance
         .collection('etapes')
@@ -46,9 +67,7 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
               .map((doc) => Etape.fromFirestore(doc))
               .where((etape) => etape.sportRef.id == '2')
               .toList();
-          if (mounted) {
-            setState(() {});
-          }
+          setState(() {});
         }
       }
     });
@@ -63,16 +82,14 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
           progressions = progressionSnapshot.docs
               .map((doc) => Progression.fromFirestore(doc))
               .toList();
-          if (mounted) {
-            setState(() {});
-          }
+          setState(() {});
         }
       }
     });
   }
 
+  // Affiche un dialogue avec des informations supplémentaires sur le Wingfoil
   void _showAdditionalInfo(BuildContext context) {
-    // Afficher les informations supplémentaires à l'utilisateur
     showDialog(
       context: context,
       builder: (context) {
@@ -128,7 +145,6 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,8 +171,7 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
         itemBuilder: (context, index) {
           Etape etape = etapes[index];
 
-          bool dejaValidee =
-          progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '2');
+          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '2');
           bool estVerouillee = (progressions.where((progression) => progression.sportRef == '2').length + 1) <= index;
 
           return InkWell(
@@ -261,9 +276,7 @@ class _EtapesScreenWingfoilState extends State<EtapesScreenWingfoil> {
   }
 }
 
-
-
-
+// Écran des étapes de Kitesurf
 class EtapesScreenKitesurf extends StatefulWidget {
   @override
   _EtapesScreenKitesurfState createState() => _EtapesScreenKitesurfState();
@@ -303,9 +316,8 @@ class _EtapesScreenKitesurfState extends State<EtapesScreenKitesurf> {
     });
   }
 
-
+  // Affiche un dialogue avec des informations supplémentaires sur le Kitesurf
   void _showAdditionalInfo(BuildContext context) {
-    // Afficher les informations supplémentaires à l'utilisateur
     showDialog(
       context: context,
       builder: (context) {
@@ -387,8 +399,7 @@ class _EtapesScreenKitesurfState extends State<EtapesScreenKitesurf> {
         itemBuilder: (context, index) {
           Etape etape = etapes[index];
 
-          bool dejaValidee =
-          progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '1');
+          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '1');
           bool estVerouillee = (progressions.where((progression) => progression.sportRef == '1').length + 1) <= index;
 
           return InkWell(
@@ -493,8 +504,7 @@ class _EtapesScreenKitesurfState extends State<EtapesScreenKitesurf> {
   }
 }
 
-
-
+// Écran des étapes de Surf
 class EtapesScreenSurf extends StatefulWidget {
   @override
   _EtapesScreenSurfState createState() => _EtapesScreenSurfState();
@@ -534,8 +544,8 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
     });
   }
 
+  // Affiche un dialogue avec des informations supplémentaires sur le Surf
   void _showAdditionalInfo(BuildContext context) {
-    // Afficher les informations supplémentaires à l'utilisateur
     showDialog(
       context: context,
       builder: (context) {
@@ -617,8 +627,7 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
         itemBuilder: (context, index) {
           Etape etape = etapes[index];
 
-          bool dejaValidee =
-          progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '3');
+          bool dejaValidee = progressions.any((progression) => progression.etapeRef == etape.etapeId && progression.sportRef == '3');
           bool estVerouillee = (progressions.where((progression) => progression.sportRef == '3').length + 1) <= index;
 
           return InkWell(
@@ -642,7 +651,7 @@ class _EtapesScreenSurfState extends State<EtapesScreenSurf> {
                       return EtapeDetailScreen(
                         etape: etape,
                         etapeId: etape.etapeId,
-                        sportRef: '2',
+                        sportRef: '3',
                       );
                     },
                     transitionsBuilder: (context, animation, secondaryAnimation, child) {

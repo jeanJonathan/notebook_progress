@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/singIn_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:notebook_progress/StartupScreen.dart';
+import 'package:notebook_progress/startup_screen.dart';
 
 class ParametresScreen extends StatefulWidget {
   @override
