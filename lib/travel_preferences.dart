@@ -1,6 +1,6 @@
 /*
  ******************************************************************************
- * travel_preferences_screen.dart
+ * user_level_screen.dart
  *
  * Ce fichier implémente l'écran des préférences de voyage de l'utilisateur.
  * L'utilisateur peut sélectionner ses destinations préférées sur une carte et ces choix

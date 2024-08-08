@@ -67,6 +67,17 @@ Ocean Adventure est une application mobile destinée aux passionnés de sports n
 - **YouTube Player** : Intégré pour lire des vidéos YouTube directement dans l'application.
 - **TypeAhead** : Utilisé pour fournir des suggestions automatiques lors de la saisie de texte.
 
-## Conclusion
+## Les destinations de Surfcamps dans la base de données
+## Diversité géographique étendue pour les camps
 
-Ocean Adventure est une application complète et avancée pour les passionnés de sports nautiques, offrant un ensemble riche de fonctionnalités pour suivre les progrès, accéder à des tutoriels vidéo, gérer une liste de souhaits et recevoir des recommandations personnalisées. Grâce à l'utilisation de technologies modernes comme Flutter et Firebase, l'application assure une expérience utilisateur fluide et optimisée.
+les pays suivants sont représentés par les différents camps :
+
+Maroc - Plusieurs camps sont situés à des endroits tels que Dakhla, Taghazout, Essaouira, et Imsouane.
+Canaries - Des camps sont localisés à Fuerteventura.
+Portugal - Les camps se trouvent à des lieux comme Lisbonne, Nazaré, Peniche, et les Açores.
+Espagne - Des camps sont situés à Bilbao.
+France - Des camps sont présents à Biarritz, Hossegor, Lacanau, et dans les Pays de la Loire.
+Italie - Un camp est mentionné en Sicile.
+Costa Rica - Un camp est placé à Santa Teresa.
+Indonésie - Un camp est localisé à Canggu, Bali.
+Sri Lanka - Un camp est situé à Ahangama.
