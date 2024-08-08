@@ -236,7 +236,7 @@ class KitesurfScreen extends StatelessWidget {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home, color: Color(0xFF64C8C8)),
-              label: 'Accueil',
+              label: 'Surfcamps',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.favorite, color: Color(0xFF64C8C8)),
