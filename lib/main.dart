@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:notebook_progress/BasicInfoEntryScreen.dart';
-import 'package:notebook_progress/camps.dart';
 import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/StartupScreen.dart';
@@ -60,7 +59,7 @@ class MyApp extends StatelessWidget {
       home: OceanAdventureApp(),//Ecran de demarrage de l'application
       routes: {
         '/authentification': (context) => AuthScreen(),
-        '/wingfoil': (context) => Wingfoil(),
+        '/wingfoil': (context) => WingfoilScreen(),
         '/menu': (context) => MenuScreen(),
         '/parametres': (context) => ParametresScreen(),
         '/etapesW': (context) => EtapesScreenWingfoil(),

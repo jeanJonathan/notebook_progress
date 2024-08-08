@@ -336,7 +336,7 @@ class _HomeScreenState extends State<HomeScreen> {
           case 2:
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Kitesurf()),
+              MaterialPageRoute(builder: (context) => KitesurfScreen()),
             );
             break;
           case 3:
