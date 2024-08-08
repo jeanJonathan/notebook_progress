@@ -20,14 +20,24 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
   List<Map<String, dynamic>> destinations = [];
   Set<String> selectedDestinations = {};
 
+  BitmapDescriptor? defaultIcon;
+  BitmapDescriptor? selectedIcon;
+
   @override
   void initState() {
     super.initState();
     loadDestinationData();
+    _setCustomMapPins();
   }
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+  }
+
+  Future<void> _setCustomMapPins() async {
+    defaultIcon = await BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+    selectedIcon = await BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+    setState(() {});
   }
 
   Future<void> loadDestinationData() async {
@@ -44,6 +54,7 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
           Marker(
             markerId: MarkerId(destination["city"]),
             position: destination["coordinates"],
+            icon: selectedDestinations.contains(destination["city"]) ? selectedIcon! : defaultIcon!,
             infoWindow: InfoWindow(title: destination["city"]),
             onTap: () => _onMarkerTapped(destination["city"]),
           ),
@@ -67,8 +78,8 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
         return AlertDialog(
           title: Text(isSelected ? 'Supprimer la destination' : 'Ajouter la destination'),
           content: Text(isSelected
-              ? 'Voulez-vous vraiment supprimer $city de vos destinations?'
-              : 'Voulez-vous vraiment ajouter $city à vos destinations?'),
+              ? 'Voulez-vous supprimer $city de vos top destinations?'
+              : 'Voulez-vous ajouter $city à vos top destinations?'),
           actions: <Widget>[
             TextButton(
               child: Text('Annuler'),
@@ -83,8 +94,18 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
                 setState(() {
                   if (isSelected) {
                     selectedDestinations.remove(city);
-                    _markers.removeWhere((m) => m.markerId.value == city);
                     _removeVisitedDestinationFromFirestore(city);
+                    // Mettre à jour l'icône du marqueur pour le marquer comme non sélectionné
+                    var destination = destinations.firstWhere((d) => d["city"] == city);
+                    _markers.add(
+                      Marker(
+                        markerId: MarkerId(city),
+                        position: destination["coordinates"],
+                        icon: defaultIcon!,
+                        infoWindow: InfoWindow(title: city),
+                        onTap: () => _onMarkerTapped(city),
+                      ),
+                    );
                   } else {
                     selectedDestinations.add(city);
                     var destination = destinations.firstWhere((d) => d["city"] == city);
@@ -92,7 +113,9 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
                       Marker(
                         markerId: MarkerId(city),
                         position: destination["coordinates"],
+                        icon: selectedIcon!,
                         infoWindow: InfoWindow(title: city),
+                        onTap: () => _onMarkerTapped(city),
                       ),
                     );
                     _addVisitedDestinationToFirestore(city);
@@ -121,7 +144,9 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
           Marker(
             markerId: MarkerId(suggestion),
             position: destinationCoords,
+            icon: selectedIcon!,
             infoWindow: InfoWindow(title: suggestion),
+            onTap: () => _onMarkerTapped(suggestion),
           ),
         );
         _addVisitedDestinationToFirestore(suggestion);
