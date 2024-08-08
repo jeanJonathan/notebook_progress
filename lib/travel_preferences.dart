@@ -28,6 +28,7 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
     super.initState();
     loadDestinationData();
     _setCustomMapPins();
+    _loadVisitedDestinationsFromFirestore();
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -49,18 +50,36 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
         "country": item["country"],
         "coordinates": LatLng(item["lat"], item["lng"])
       }).toList();
-      for (var destination in destinations) {
-        _markers.add(
-          Marker(
-            markerId: MarkerId(destination["city"]),
-            position: destination["coordinates"],
-            icon: selectedDestinations.contains(destination["city"]) ? selectedIcon! : defaultIcon!,
-            infoWindow: InfoWindow(title: destination["city"]),
-            onTap: () => _onMarkerTapped(destination["city"]),
-          ),
-        );
-      }
+      _updateMarkers();
     });
+  }
+
+  Future<void> _loadVisitedDestinationsFromFirestore() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      if (userDoc.exists && userDoc['visitedDestinations'] != null) {
+        setState(() {
+          selectedDestinations = Set<String>.from(userDoc['visitedDestinations']);
+          _updateMarkers();
+        });
+      }
+    }
+  }
+
+  void _updateMarkers() {
+    _markers.clear();
+    for (var destination in destinations) {
+      _markers.add(
+        Marker(
+          markerId: MarkerId(destination["city"]),
+          position: destination["coordinates"],
+          icon: selectedDestinations.contains(destination["city"]) ? selectedIcon! : defaultIcon!,
+          infoWindow: InfoWindow(title: destination["city"]),
+          onTap: () => _onMarkerTapped(destination["city"]),
+        ),
+      );
+    }
   }
 
   Future<List<String>> _getDestinationSuggestions(String query) async {
@@ -95,31 +114,11 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
                   if (isSelected) {
                     selectedDestinations.remove(city);
                     _removeVisitedDestinationFromFirestore(city);
-                    // Mettre à jour l'icône du marqueur pour le marquer comme non sélectionné
-                    var destination = destinations.firstWhere((d) => d["city"] == city);
-                    _markers.add(
-                      Marker(
-                        markerId: MarkerId(city),
-                        position: destination["coordinates"],
-                        icon: defaultIcon!,
-                        infoWindow: InfoWindow(title: city),
-                        onTap: () => _onMarkerTapped(city),
-                      ),
-                    );
                   } else {
                     selectedDestinations.add(city);
-                    var destination = destinations.firstWhere((d) => d["city"] == city);
-                    _markers.add(
-                      Marker(
-                        markerId: MarkerId(city),
-                        position: destination["coordinates"],
-                        icon: selectedIcon!,
-                        infoWindow: InfoWindow(title: city),
-                        onTap: () => _onMarkerTapped(city),
-                      ),
-                    );
                     _addVisitedDestinationToFirestore(city);
                   }
+                  _updateMarkers();
                 });
               },
             ),
@@ -136,21 +135,12 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
     setState(() {
       if (selectedDestinations.contains(suggestion)) {
         selectedDestinations.remove(suggestion);
-        _markers.removeWhere((m) => m.markerId.value == suggestion);
         _removeVisitedDestinationFromFirestore(suggestion);
       } else {
         selectedDestinations.add(suggestion);
-        _markers.add(
-          Marker(
-            markerId: MarkerId(suggestion),
-            position: destinationCoords,
-            icon: selectedIcon!,
-            infoWindow: InfoWindow(title: suggestion),
-            onTap: () => _onMarkerTapped(suggestion),
-          ),
-        );
         _addVisitedDestinationToFirestore(suggestion);
       }
+      _updateMarkers();
     });
   }
 
