@@ -20,13 +20,14 @@ class EtapeDetailScreen extends StatefulWidget {
   _EtapeDetailScreenState createState() => _EtapeDetailScreenState();
 }
 
-class _EtapeDetailScreenState extends State<EtapeDetailScreen> {
+class _EtapeDetailScreenState extends State<EtapeDetailScreen> with WidgetsBindingObserver {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late YoutubePlayerController _controller;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this); // Ajout de l'observateur
     String videoId = YoutubePlayer.convertUrlToId(widget.etape.video) ?? '';
     _controller = YoutubePlayerController(
       initialVideoId: videoId,
@@ -41,8 +42,16 @@ class _EtapeDetailScreenState extends State<EtapeDetailScreen> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this); // Retrait de l'observateur
     _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
+      _controller.pause();
+    }
   }
 
   @override
