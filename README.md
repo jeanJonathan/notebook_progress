@@ -1,4 +1,4 @@
-# Ocean Adventure
+# Ocean Adventure : Water Camps
 
 Ocean Adventure est une application mobile destinée aux passionnés de sports nautiques tels que le kitesurf, le wingfoil et le surf. L'application permet aux utilisateurs de suivre leur progression, de regarder des tutoriels vidéo, de prendre des notes sur leurs sessions et de gérer leur liste de camps favoris.
 
