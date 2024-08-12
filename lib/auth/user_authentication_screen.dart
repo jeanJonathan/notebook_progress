@@ -25,8 +25,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:notebook_progress/auth/singUp_screen.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter/gestures.dart';
-import '../profile_creation_welcome_screen.dart';
-import '../ocean_adventure_home.dart';
+import '../profile/profile_creation_welcome_screen.dart';
+import '../home/ocean_adventure_home.dart';
 
 class AuthScreen extends StatefulWidget {
   @override

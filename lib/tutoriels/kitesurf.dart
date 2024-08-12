@@ -2,15 +2,14 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:notebook_progress/etapes_screen.dart';
-import 'package:notebook_progress/menu_screen.dart';
-import 'package:notebook_progress/profile_screen.dart';
-import 'package:notebook_progress/recommandation_service.dart';
-import 'package:notebook_progress/ocean_adventure_home.dart';
-import 'package:notebook_progress/wishlist_screen.dart';
+import 'package:notebook_progress/tutoriels/etapes_screen.dart';
+import 'package:notebook_progress/home/profile_screen.dart';
+import 'package:notebook_progress/services/recommandation_service.dart';
+import 'package:notebook_progress/home/ocean_adventure_home.dart';
+import 'package:notebook_progress/home/wishlist_screen.dart';
 import 'Wingfoil.dart';
 import 'Surf.dart';
-import 'home.dart';
+import '../home/home.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class KitesurfScreen extends StatelessWidget {
@@ -55,14 +54,6 @@ class KitesurfScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.menu),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => MenuScreen()),
-                      );
-                    },
-                  ),
                   GestureDetector(
                     onTap: () async {
                       const url = 'https://oceanadventure.surf/';

@@ -20,7 +20,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:notebook_progress/preferred_staytype_screen.dart';
+import 'package:notebook_progress/profile/preferences/preferred_staytype_screen.dart';
 
 class BirthdateScreen extends StatefulWidget {
   @override

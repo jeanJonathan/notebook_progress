@@ -1,17 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notebook_progress/etapes_screen.dart';
-import 'package:notebook_progress/menu_screen.dart';
-import 'package:notebook_progress/profile_screen.dart';
-import 'package:notebook_progress/recommandation_service.dart';
-import 'package:notebook_progress/ocean_adventure_home.dart';
-import 'package:notebook_progress/wishlist_screen.dart';
-import 'Wingfoil.dart';
+import 'package:notebook_progress/tutoriels/etapes_screen.dart';
+import 'package:notebook_progress/home/profile_screen.dart';
+import 'package:notebook_progress/services/recommandation_service.dart';
+import 'package:notebook_progress/home/ocean_adventure_home.dart';
+import 'package:notebook_progress/home/wishlist_screen.dart';
+import 'Surf.dart';
 import 'kitesurf.dart';
-import 'home.dart';
+import '../home/home.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SurfScreen extends StatelessWidget {
+class WingfoilScreen extends StatelessWidget {
   Offset? _initialPosition;
   bool _showSwipeIndicator = false;
 
@@ -27,13 +26,11 @@ class SurfScreen extends StatelessWidget {
           final offset = details.globalPosition;
           final difference = offset.dx - _initialPosition!.dx;
 
-          // Navigue vers l'écran Kitesurf si on glisse vers la gauche
           if (difference < -10) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => KitesurfScreen()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SurfScreen()));
           }
-          // Navigue vers l'écran Wingfoil si on glisse vers la droite
           if (difference > 10) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => WingfoilScreen()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => KitesurfScreen()));
           }
         }
       },
@@ -53,14 +50,6 @@ class SurfScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.menu),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => MenuScreen()),
-                      );
-                    },
-                  ),
                   GestureDetector(
                     onTap: () async {
                       const url = 'https://oceanadventure.surf/';
@@ -123,7 +112,7 @@ class SurfScreen extends StatelessWidget {
         body: Stack(
           children: [
             Image.asset(
-              'assets/surf.jpg',
+              'assets/wingfoil.jpeg',
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
@@ -134,7 +123,7 @@ class SurfScreen extends StatelessWidget {
                 left: 16,
                 right: 16,
                 child: Text(
-                  '👉 Faites glisser vers la gauche pour Kitesurf, et vers la droite pour Wingfoil 👈',
+                  '👉 Faites glisser vers la gauche pour Surf, et vers la droite pour Kitesurf 👈',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
@@ -154,7 +143,7 @@ class SurfScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    ' SURF 🏄‍♂️',
+                    '🪁 WING FOIL 🪁',
                     style: TextStyle(
                       fontSize: 46,
                       fontWeight: FontWeight.bold,
@@ -171,10 +160,10 @@ class SurfScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    "Catch the waves! 🌊",
+                    "Let's glide on water! 🌊",
                     style: TextStyle(
                       fontSize: 24,
-                      color: Colors.white,
+                      color: Color(0xFF074868),
                       fontFamily: 'Concert One',
                     ),
                   ),
@@ -182,7 +171,7 @@ class SurfScreen extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => EtapesScreenSurf()),
+                        MaterialPageRoute(builder: (context) => EtapesScreenWingfoil()),
                       );
                     },
                     child: Text(
@@ -281,12 +270,10 @@ class SurfScreen extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text(
-                'Annuler',
+              child: Text('Annuler',
                 style: TextStyle(
                   color: Color(0xFF64C8C8),
-                ),
-              ),
+                ),),
             ),
             TextButton(
               onPressed: () async {
@@ -295,12 +282,10 @@ class SurfScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => OceanAdventureHome()), // Redirige vers l'écran de connexion
                 );
               },
-              child: Text(
-                'Déconnexion',
+              child: Text('Déconnexion',
                 style: TextStyle(
                   color: Color(0xFF64C8C8),
-                ),
-              ),
+                ),),
             ),
           ],
         );

@@ -5,11 +5,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:notebook_progress/auth/user_authentication_screen.dart';
-import 'package:notebook_progress/wishlist_screen.dart';
-import 'package:notebook_progress/recommandation_service.dart';
-import 'package:notebook_progress/home.dart';
+import 'package:notebook_progress/home/wishlist_screen.dart';
+import 'package:notebook_progress/services/recommandation_service.dart';
+import 'package:notebook_progress/home/home.dart';
 
-import 'kitesurf.dart';
+import '../tutoriels/kitesurf.dart';
 
 // Écran de profil utilisateur
 class ProfileScreen extends StatefulWidget {

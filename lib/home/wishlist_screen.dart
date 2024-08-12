@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:notebook_progress/recommandation_service.dart';
+import 'package:notebook_progress/services/recommandation_service.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:notebook_progress/ocean_adventure_home.dart';
-import 'package:notebook_progress/profile_screen.dart';
-import 'package:notebook_progress/kitesurf.dart';
+import 'package:notebook_progress/home/ocean_adventure_home.dart';
+import 'package:notebook_progress/home/profile_screen.dart';
+import 'package:notebook_progress/tutoriels/kitesurf.dart';
 import 'home.dart';
 
 class WishlistScreen extends StatefulWidget {

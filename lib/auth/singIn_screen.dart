@@ -5,7 +5,7 @@ import 'package:notebook_progress/auth/singUp_screen.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter/gestures.dart';
 
-import '../form_screen.dart';
+import '../tutoriels/form_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   final String etapeId; // Pour stocker l'identifiant de l'étape

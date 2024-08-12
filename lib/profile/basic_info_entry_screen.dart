@@ -21,7 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'birthdate_entry_screen.dart';
-import 'validator.dart';
+import '../services/validator.dart';
 
 class BasicInfoScreen extends StatefulWidget {
   @override

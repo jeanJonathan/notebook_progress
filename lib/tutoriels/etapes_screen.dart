@@ -23,9 +23,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
-import 'etape.dart';
+import '../models/etape.dart';
 import 'etapes_details_screen.dart';
-import 'package:notebook_progress/progression.dart';
+import 'package:notebook_progress/tutoriels/progression.dart';
 
 // Écran des étapes de Wingfoil
 class EtapesScreenWingfoil extends StatefulWidget {

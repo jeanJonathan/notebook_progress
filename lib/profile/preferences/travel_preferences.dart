@@ -5,8 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:notebook_progress/home.dart';
-import 'package:notebook_progress/recommandation_service.dart';
+import 'package:notebook_progress/home/home.dart';
+import 'package:notebook_progress/services/recommandation_service.dart';
 
 class TravelPreferencesScreen extends StatefulWidget {
   @override

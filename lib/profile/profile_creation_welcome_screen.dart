@@ -21,9 +21,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:notebook_progress/basic_info_entry_screen.dart';
-import 'package:notebook_progress/recommandation_service.dart';
-import 'package:notebook_progress/home.dart';
+import 'package:notebook_progress/profile/basic_info_entry_screen.dart';
+import 'package:notebook_progress/services/recommandation_service.dart';
+import 'package:notebook_progress/home/home.dart';
 
 class CreateProfileStart extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;

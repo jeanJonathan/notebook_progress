@@ -3,17 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:notebook_progress/basic_info_entry_screen.dart';
-import 'package:notebook_progress/kitesurf.dart';
-import 'package:notebook_progress/parametre_screen.dart';
-import 'package:notebook_progress/menu_screen.dart';
-import 'package:notebook_progress/Wingfoil.dart';
+import 'package:notebook_progress/profile/basic_info_entry_screen.dart';
+import 'package:notebook_progress/tutoriels/kitesurf.dart';
+import 'package:notebook_progress/tutoriels/Wingfoil.dart';
 import 'package:notebook_progress/auth/user_authentication_screen.dart';
-import 'package:notebook_progress/etapes_screen.dart';
-import 'package:notebook_progress/firebase_options.dart';
-import 'package:notebook_progress/data_firestore.dart';
+import 'package:notebook_progress/tutoriels/etapes_screen.dart';
+import 'package:notebook_progress/services/firebase_options.dart';
+import 'package:notebook_progress/services/data_firestore.dart';
 
-import 'ocean_adventure_home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,8 +52,6 @@ class MyApp extends StatelessWidget {
       routes: {
         '/authentification': (context) => AuthScreen(),
         '/wingfoil': (context) => WingfoilScreen(),
-        '/menu': (context) => MenuScreen(),
-        '/parametres': (context) => ParametresScreen(),
         '/etapesW': (context) => EtapesScreenWingfoil(),
         '/etapesK': (context) => EtapesScreenKitesurf(),
         '/etapesS': (context) => EtapesScreenSurf(),
