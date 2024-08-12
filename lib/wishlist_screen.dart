@@ -1,25 +1,11 @@
-/*
- ******************************************************************************
- * WishlistScreen.dart
- *
- * Ce fichier implémente l'écran de la wishlist de l'application,
- * permettant aux utilisateurs de voir et de gérer leurs camps favoris.
- *
- * Fonctionnalités :
- * - Affichage des camps ajoutés à la wishlist de l'utilisateur.
- * - Suppression de camps de la wishlist.
- * - Navigation vers les pages de réservation des camps.
- *
- * Auteur : Jean Jonathan Koffi
- * Dernière mise à jour : 31/07/2024
- * Dépendances externes : cloud_firestore, firebase_auth, url_launcher
- ******************************************************************************
- */
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:notebook_progress/ocean_adventure_home.dart';
+import 'package:notebook_progress/profile_screen.dart';
+import 'package:notebook_progress/kitesurf.dart';
+import 'home.dart';
 
 class WishlistScreen extends StatefulWidget {
   @override
@@ -100,6 +86,60 @@ class _WishlistScreenState extends State<WishlistScreen> {
           );
         },
       ),
+      bottomNavigationBar: buildBottomNavigationBar(context),
+    );
+  }
+
+  // Barre de navigation en bas de l'écran
+  BottomNavigationBar buildBottomNavigationBar(BuildContext context) {
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: Color(0xFF64C8C8),
+      unselectedItemColor: Colors.grey,
+      iconSize: 30,
+      currentIndex: 1, // Met l'onglet Wishlist en surbrillance
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Accueil',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.favorite),
+          label: 'Wishlist',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.school),
+          label: 'Tutoriels',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.account_circle),
+          label: 'Profil',
+        ),
+      ],
+      onTap: (index) {
+        switch (index) {
+          case 0:
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen(recommendedCamps: [])), // Ajoutez les camps recommandés appropriés
+            );
+            break;
+          case 1:
+            break; // Déjà sur l'écran Wishlist
+          case 2:
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => KitesurfScreen()),
+            );
+            break;
+          case 3:
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfileScreen()),
+            );
+            break;
+        }
+      },
     );
   }
 

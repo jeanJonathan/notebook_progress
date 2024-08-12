@@ -1,24 +1,3 @@
-/*
- ******************************************************************************
- * ProfileScreen.dart
- *
- * Ce fichier implémente l'écran de profil de l'utilisateur.
- * Il permet la visualisation et la modification des informations de profil,
- * y compris la photo de profil, l'email, l'âge, le niveau d'expérience,
- * le type de séjour préféré, et la bio de l'utilisateur.
- *
- * Fonctionnalités :
- * - Affichage des informations de profil utilisateur.
- * - Modification des informations de profil avec des dialogues interactifs.
- * - Téléchargement et mise à jour de la photo de profil.
- * - Navigation vers la wishlist et la mise à jour des recommandations.
- *
- * Auteur : Jean Jonathan Koffi
- * Dernière mise à jour : 31/07/2024
- * Dépendances externes : firebase_auth, cloud_firestore, firebase_storage, image_picker
- ******************************************************************************
- */
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,6 +8,8 @@ import 'package:notebook_progress/user_authentication_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
 import 'package:notebook_progress/recommandation_service.dart';
 import 'package:notebook_progress/home.dart';
+
+import 'kitesurf.dart';
 
 // Écran de profil utilisateur
 class ProfileScreen extends StatefulWidget {
@@ -69,9 +50,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profil", style: Theme.of(context).textTheme.headline6),
+        title: Text("Profil", style: TextStyle(color: Color(0xFF64C8C8))),
+        backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Color(0xFF64C8C8)),
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
@@ -128,8 +110,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SizedBox(height: 30),
           Text(
             "${userData!['firstName'] ?? 'Prénom'}",
-            style: Theme.of(context).textTheme.headline1!.copyWith(
-                fontSize: 24, color: Color(0xFF64C8C8), fontFamily: 'Open Sans'),
+            style: TextStyle(
+                fontSize: 24, color: Color(0xFF64C8C8), fontFamily: 'Open Sans', fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 40),
@@ -175,11 +157,65 @@ class _ProfileScreenState extends State<ProfileScreen> {
               );
             },
             style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white, backgroundColor: Color(0xFF64C8C8),
+              foregroundColor: Colors.white,
+              backgroundColor: Color(0xFF64C8C8),
             ),
             child: Text('Ma Wishlist'),
           ),
         ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Color(0xFF64C8C8),
+        unselectedItemColor: Colors.grey,
+        iconSize: 30,
+        currentIndex: 3, // Cet écran est sur l'onglet "Profil", donc index 3
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Accueil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Wishlist',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'Tutoriels',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Profil',
+          ),
+        ],
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              RecommendationService recommendationService = RecommendationService();
+              recommendationService.getRecommendedCamps().then((recommendedCamps) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeScreen(recommendedCamps: recommendedCamps)),
+                );
+              });
+              break;
+            case 1:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => WishlistScreen()),
+              );
+              break;
+            case 2:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => KitesurfScreen()),
+              );
+              break;
+            case 3:
+            // Do nothing since we are on the ProfileScreen which is already under "Profil"
+              break;
+          }
+        },
       ),
     );
   }
@@ -194,8 +230,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }) {
     return ListTile(
       leading: Icon(icon, color: Color(0xFF64C8C8)),
-      title: Text(title, style: Theme.of(context).textTheme.headline6),
-      subtitle: Text(value, style: Theme.of(context).textTheme.bodyText2),
+      title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF074868))),
+      subtitle: Text(value, style: TextStyle(color: Colors.black)),
       trailing: isEditable ? Icon(Icons.edit, color: Color(0xFF64C8C8)) : null,
       onTap: isEditable
           ? () {
@@ -232,11 +268,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           actions: [
             TextButton(
-              child: Text('Annuler'),
+              child: Text('Annuler', style: TextStyle(color: Color(0xFF64C8C8))),
               onPressed: () => Navigator.of(context).pop(),
             ),
             TextButton(
-              child: Text('Enregistrer'),
+              child: Text('Enregistrer', style: TextStyle(color: Color(0xFF64C8C8))),
               onPressed: () async {
                 Navigator.of(context).pop();
                 await updateUserData(field, selectedValue);
@@ -262,11 +298,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           actions: [
             TextButton(
-              child: Text('Annuler'),
+              child: Text('Annuler', style: TextStyle(color: Color(0xFF64C8C8))),
               onPressed: () => Navigator.of(context).pop(),
             ),
             TextButton(
-              child: Text('Enregistrer'),
+              child: Text('Enregistrer', style: TextStyle(color: Color(0xFF64C8C8))),
               onPressed: () async {
                 Navigator.of(context).pop();
                 await updateUserData(field, _textFieldController.text);

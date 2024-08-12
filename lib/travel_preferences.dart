@@ -5,7 +5,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:notebook_progress/recommandation_service.dart';
 import 'package:notebook_progress/home.dart';
 
 class TravelPreferencesScreen extends StatefulWidget {
@@ -176,13 +175,6 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
         title: Text('Vos Destinations'),
         backgroundColor: Color(0xFF8AB4F8),
         actions: [
-          TextButton(
-            onPressed: _navigateToNextScreen,
-            child: Text(
-              'Continuer',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
         ],
       ),
       body: Stack(
@@ -235,6 +227,7 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
               onPressed: _navigateToNextScreen,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFF64C8C8),
+                foregroundColor: Colors.white, // Utilisation correcte pour définir la couleur du texte
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),
               child: Text('Continuer'),

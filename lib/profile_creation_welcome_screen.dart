@@ -44,28 +44,51 @@ class CreateProfileStart extends StatelessWidget {
                 children: <Widget>[
                   SizedBox(height: 100),
                   // Message de bienvenue
-                  Text(
-                    'Bienvenue chez Ocean Adventure',
-                    style: TextStyle(
-                      fontSize: 40, // Taille augmentée pour plus de présence
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF64C8C8), // Couleur pour écho à la marque Ocean Adventure
-                      shadows: [
-                        Shadow(
-                          offset: Offset(0, 1), // Décalage de l'ombre
-                          blurRadius: 1.0, // Rayon de flou de l'ombre
-                          color: Colors.black.withOpacity(0.1), // Couleur de l'ombre avec transparence
+                  Column(
+                    children: [
+                      Text(
+                        'Bienvenue chez Ocean Adventure:',
+                        style: TextStyle(
+                          fontSize: 40, // Taille augmentée pour plus de présence
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF64C8C8), // Couleur en accord avec la marque Ocean Adventure
+                          shadows: [
+                            Shadow(
+                              offset: Offset(0, 1), // Décalage de l'ombre
+                              blurRadius: 1.0, // Rayon de flou de l'ombre
+                              color: Colors.black.withOpacity(0.1), // Couleur de l'ombre avec transparence
+                            ),
+                          ],
+                          letterSpacing: 1.5, // Espacement entre les lettres pour améliorer la lisibilité
+                          fontFamily: 'Roboto', // Police moderne et professionnelle
                         ),
-                      ],
-                      letterSpacing: 1.5, // Espacement entre les lettres pour améliorer la lisibilité
-                      fontFamily: 'Roboto', // Police moderne et professionnelle
-                    ),
-                    textAlign: TextAlign.center,
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 10), // Espace entre les deux textes
+                      Text(
+                        'Water Camps',
+                        style: TextStyle(
+                          fontSize: 32, // Taille légèrement plus petite pour le sous-titre
+                          fontWeight: FontWeight.w400, // Un peu moins gras pour contraster avec le titre principal
+                          color: Color(0xFF64C8C8), // Couleur différente pour faire ressortir "Water Camps"
+                          fontFamily: 'Pacifico', // Une police plus stylisée et ludique pour créer un contraste
+                          letterSpacing: 2.0, // Espacement accentué pour un effet stylisé
+                          shadows: [
+                            Shadow(
+                              offset: Offset(0, 2),
+                              blurRadius: 3.0,
+                              color: Colors.black.withOpacity(0.2), // Ombre plus prononcée pour le sous-titre
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                   SizedBox(height: 12),
                   // Instructions pour commencer
                   Text(
-                    'Commencez par gérer votre profil pour une expérience personnalisée.',
+                    'Commencez par gérer votre profil.',
                     style: TextStyle(
                       fontSize: 18, // Légère augmentation de la taille pour une meilleure lisibilité
                       color: Colors.grey[700], // Couleur douce pour le texte explicatif

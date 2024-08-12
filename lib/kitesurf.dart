@@ -111,7 +111,11 @@ class KitesurfScreen extends StatelessWidget {
                           icon: const Icon(Icons.login),
                           onPressed: () {
                             // Rediriger vers l'écran de connexion
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => OceanAdventureHome()),
+                            );
                           },
+                          color: Color(0xFF64C8C8),
                         );
                       }
                     },
@@ -141,6 +145,7 @@ class KitesurfScreen extends StatelessWidget {
                     fontSize: 20,
                     color: Colors.white,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
             Positioned(
@@ -216,21 +221,22 @@ class KitesurfScreen extends StatelessWidget {
           selectedItemColor: Color(0xFF64C8C8),
           unselectedItemColor: Colors.grey,
           iconSize: 30,
+          currentIndex: 2, // Cet écran est sur l'onglet "Tutoriels", donc index 2
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Color(0xFF64C8C8)),
+              icon: Icon(Icons.home),
               label: 'Accueil',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite, color: Color(0xFF64C8C8)),
+              icon: Icon(Icons.favorite),
               label: 'Wishlist',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.school, color: Color(0xFF64C8C8)),
+              icon: Icon(Icons.school),
               label: 'Tutoriels',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle, color: Color(0xFF64C8C8)),
+              icon: Icon(Icons.account_circle),
               label: 'Profil',
             ),
           ],
@@ -252,10 +258,7 @@ class KitesurfScreen extends StatelessWidget {
                 );
                 break;
               case 2:
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => KitesurfScreen()),
-                );
+              // Do nothing since we are on the KitesurfScreen which is already under "Tutoriels"
                 break;
               case 3:
                 Navigator.push(

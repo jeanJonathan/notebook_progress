@@ -115,171 +115,203 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: user == null
-          ? Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            "Vous devez vous connecter puis remplir votre profil pour voir les meilleurs surfcamps.",
-            style: TextStyle(
-              fontSize: 24,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              shadows: [
-                Shadow(
-                  offset: Offset(0, 1),
-                  blurRadius: 8.0,
-                  color: Colors.black.withOpacity(0.2),
-                ),
-              ],
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      )
+          ? _buildNotLoggedInContent()
           : widget.recommendedCamps.isEmpty
-          ? Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/desolé.jpg', // Image de fond
-              fit: BoxFit.cover,
-            ),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                "Aucun camp ne correspond aux critères renseignés. Veuillez réessayer avec d'autres préférences.",
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  shadows: [
-                    Shadow(
-                      offset: Offset(0, 1),
-                      blurRadius: 8.0,
-                      color: Colors.black.withOpacity(0.9),
-                    ),
-                  ],
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ],
-      )
-          : PageView.builder(
-        controller: _pageController,
-        itemCount: widget.recommendedCamps.length,
-        itemBuilder: (context, index) {
-          Map<String, dynamic> camp = widget.recommendedCamps[index];
-          bool isFavorite = favoriteCamps[camp['booking_link']] ?? false;
-          return GestureDetector(
-            onTapDown: (TapDownDetails details) {
-              double screenWidth = MediaQuery.of(context).size.width;
-              if (details.localPosition.dx < screenWidth / 2) {
-                if (_imagePageController.page!.toInt() > 0) {
-                  _imagePageController.previousPage(
-                      duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
-                }
-              } else {
-                if (_imagePageController.page!.toInt() < camp['image_urls'].length - 1) {
-                  _imagePageController.nextPage(
-                      duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
-                }
-              }
-            },
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: PageView.builder(
-                    controller: _imagePageController,
-                    itemCount: camp['image_urls'].length,
-                    itemBuilder: (context, imageIndex) {
-                      return Image.network(
-                        camp['image_urls'][imageIndex],
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
-                        errorBuilder: (context, error, stackTrace) {
-                          return Center(child: Icon(Icons.error, color: Colors.red, size: 50));
-                        },
-                      );
-                    },
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [Colors.black.withOpacity(0.7), Colors.transparent],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 60,
-                  left: 20,
-                  right: 20,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(camp['name'],
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
-                      Text(camp['description'], style: TextStyle(fontSize: 16, color: Colors.white)),
-                      Text('Activités: ${camp['activities'].join(', ')}',
-                          style: TextStyle(fontSize: 16, color: Colors.white)),
-                      SizedBox(height: 10),
-                      Row(
-                        children: [
-                          MaterialButton(
-                            color: Colors.red,
-                            textColor: Colors.white,
-                            onPressed: () => _launchURL(camp['booking_link']),
-                            child: Text('Visitez maintenant'),
-                          ),
-                          Spacer(),
-                          IconButton(
-                            icon: Icon(
-                              isFavorite ? Icons.favorite : Icons.favorite_border,
-                              color: isFavorite ? Colors.red : Colors.white,
-                              size: 36,
-                            ),
-                            onPressed: () => _toggleWishlist(camp),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  bottom: 20,
-                  left: 20,
-                  right: 20,
-                  child: Center(
-                    child: SmoothPageIndicator(
-                      controller: _pageController,
-                      count: widget.recommendedCamps.length,
-                      effect: ExpandingDotsEffect(
-                        activeDotColor: Color(0xFF64C8C8),
-                        dotColor: Colors.white,
-                        dotHeight: 8.0,
-                        dotWidth: 8.0,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+          ? _buildNoCampsContent()
+          : _buildCampsContent(),
       bottomNavigationBar: buildBottomNavigationBar(context),
     );
+  }
+
+  Widget _buildNotLoggedInContent() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          "Vous devez vous connecter puis remplir votre profil pour voir les meilleurs surfcamps.",
+          style: TextStyle(
+            fontSize: 24,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            shadows: [
+              Shadow(
+                offset: Offset(0, 1),
+                blurRadius: 8.0,
+                color: Colors.black.withOpacity(0.2),
+              ),
+            ],
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNoCampsContent() {
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset(
+            'assets/desolé.jpg',
+            fit: BoxFit.cover,
+          ),
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              "Aucun camp ne correspond aux critères renseignés. Veuillez réessayer avec d'autres préférences.",
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                shadows: [
+                  Shadow(
+                    offset: Offset(0, 1),
+                    blurRadius: 8.0,
+                    color: Colors.black.withOpacity(0.9),
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCampsContent() {
+    return PageView.builder(
+      controller: _pageController,
+      itemCount: widget.recommendedCamps.length,
+      itemBuilder: (context, index) {
+        Map<String, dynamic> camp = widget.recommendedCamps[index];
+        bool isFavorite = favoriteCamps[camp['booking_link']] ?? false;
+        return GestureDetector(
+          onTapDown: (TapDownDetails details) {
+            _handleImagePageSwipe(details, camp['image_urls'].length);
+          },
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: PageView.builder(
+                  controller: _imagePageController,
+                  itemCount: camp['image_urls'].length,
+                  itemBuilder: (context, imageIndex) {
+                    return _buildCampImage(camp['image_urls'][imageIndex]);
+                  },
+                ),
+              ),
+              _buildImageOverlay(),
+              _buildCampDetails(camp, isFavorite),
+              _buildPageIndicator(),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCampImage(String imageUrl) {
+    return Image.network(
+      imageUrl,
+      fit: BoxFit.cover,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+      errorBuilder: (context, error, stackTrace) {
+        return Center(child: Icon(Icons.error, color: Colors.red, size: 50));
+      },
+    );
+  }
+
+  Widget _buildImageOverlay() {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          colors: [Colors.black.withOpacity(0.7), Colors.transparent],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCampDetails(Map<String, dynamic> camp, bool isFavorite) {
+    return Positioned(
+      bottom: 60,
+      left: 20,
+      right: 20,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(camp['name'],
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+          Text(camp['description'], style: TextStyle(fontSize: 16, color: Colors.white)),
+          Text('Activités: ${camp['activities'].join(', ')}',
+              style: TextStyle(fontSize: 16, color: Colors.white)),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              MaterialButton(
+                color: Colors.red,
+                textColor: Colors.white,
+                onPressed: () => _launchURL(camp['booking_link']),
+                child: Text('Visitez maintenant'),
+              ),
+              Spacer(),
+              IconButton(
+                icon: Icon(
+                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: isFavorite ? Colors.red : Colors.white,
+                  size: 36,
+                ),
+                onPressed: () => _toggleWishlist(camp),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPageIndicator() {
+    return Positioned(
+      bottom: 20,
+      left: 20,
+      right: 20,
+      child: Center(
+        child: SmoothPageIndicator(
+          controller: _pageController,
+          count: widget.recommendedCamps.length,
+          effect: ExpandingDotsEffect(
+            activeDotColor: Color(0xFF64C8C8),
+            dotColor: Colors.white,
+            dotHeight: 8.0,
+            dotWidth: 8.0,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _handleImagePageSwipe(TapDownDetails details, int imageCount) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    if (details.localPosition.dx < screenWidth / 2) {
+      if (_imagePageController.page!.toInt() > 0) {
+        _imagePageController.previousPage(
+            duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+      }
+    } else {
+      if (_imagePageController.page!.toInt() < imageCount - 1) {
+        _imagePageController.nextPage(
+            duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+      }
+    }
   }
 
   void _launchURL(String url) async {
@@ -351,22 +383,23 @@ class _HomeScreenState extends State<HomeScreen> {
       iconSize: 30,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home, color: Color(0xFF64C8C8)),
+          icon: Icon(Icons.home),
           label: 'Accueil',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite, color: Color(0xFF64C8C8)),
+          icon: Icon(Icons.favorite),
           label: 'Wishlist',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.school, color: Color(0xFF64C8C8)),
+          icon: Icon(Icons.school),
           label: 'Tutoriels',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.account_circle, color: Color(0xFF64C8C8)),
+          icon: Icon(Icons.account_circle),
           label: 'Profil',
         ),
       ],
+      currentIndex: 0, // Met à jour dynamiquement selon l'index sélectionné
       onTap: (index) {
         switch (index) {
           case 0:
@@ -393,41 +426,41 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
-}
 
-void _showLogoutDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text('Déconnexion'),
-        content: Text('Voulez-vous vraiment vous déconnecter?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(
-              'Annuler',
-              style: TextStyle(
-                color: Color(0xFF64C8C8),
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Déconnexion'),
+          content: Text('Voulez-vous vraiment vous déconnecter?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                'Annuler',
+                style: TextStyle(
+                  color: Color(0xFF64C8C8),
+                ),
               ),
             ),
-          ),
-          TextButton(
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => OceanAdventureHome()), // Redirige vers l'écran de connexion
-              );
-            },
-            child: Text(
-              'Déconnexion',
-              style: TextStyle(
-                color: Color(0xFF64C8C8),
+            TextButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => OceanAdventureHome()), // Redirige vers l'écran de connexion
+                );
+              },
+              child: Text(
+                'Déconnexion',
+                style: TextStyle(
+                  color: Color(0xFF64C8C8),
+                ),
               ),
             ),
-          ),
-        ],
-      );
-    },
-  );
+          ],
+        );
+      },
+    );
+  }
 }

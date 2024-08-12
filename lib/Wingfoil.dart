@@ -217,21 +217,22 @@ class WingfoilScreen extends StatelessWidget {
           selectedItemColor: Color(0xFF64C8C8),
           unselectedItemColor: Colors.grey,
           iconSize: 30,
+          currentIndex: 2, // Cet écran est sur l'onglet "Tutoriels", donc index 2
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Color(0xFF64C8C8)),
+              icon: Icon(Icons.home),
               label: 'Accueil',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite, color: Color(0xFF64C8C8)),
+              icon: Icon(Icons.favorite),
               label: 'Wishlist',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.school, color: Color(0xFF64C8C8)),
+              icon: Icon(Icons.school),
               label: 'Tutoriels',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle, color: Color(0xFF64C8C8)),
+              icon: Icon(Icons.account_circle),
               label: 'Profil',
             ),
           ],
@@ -253,10 +254,7 @@ class WingfoilScreen extends StatelessWidget {
                 );
                 break;
               case 2:
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => KitesurfScreen()),
-                );
+              // Do nothing since we are on the KitesurfScreen which is already under "Tutoriels"
                 break;
               case 3:
                 Navigator.push(
