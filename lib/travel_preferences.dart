@@ -162,12 +162,28 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
     }
   }
 
+  void _navigateToNextScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomeScreen(recommendedCamps: [])), // Remplacez NextScreen par l'écran suivant
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Vos Destinations'),
         backgroundColor: Color(0xFF8AB4F8),
+        actions: [
+          TextButton(
+            onPressed: _navigateToNextScreen,
+            child: Text(
+              'Continuer',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
       ),
       body: Stack(
         children: [
@@ -210,6 +226,18 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
                   onSuggestionSelected: _onSuggestionSelected,
                 ),
               ),
+            ),
+          ),
+          Positioned(
+            bottom: 16.0,
+            left: 16.0,
+            child: ElevatedButton(
+              onPressed: _navigateToNextScreen,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF64C8C8),
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              ),
+              child: Text('Continuer'),
             ),
           ),
         ],

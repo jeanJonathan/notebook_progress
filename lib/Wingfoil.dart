@@ -1,23 +1,3 @@
-/*
- ******************************************************************************
- * WingfoilScreen.dart
- *
- * Ce fichier implémente l'écran de présentation pour le Wingfoil.
- * Il offre des options de navigation vers les sections Surf et Kitesurf,
- * et permet de voir les étapes spécifiques au Wingfoil.
- *
- * Fonctionnalités :
- * - Navigation par glissement entre les écrans Surf et Kitesurf.
- * - Accès aux étapes spécifiques au Wingfoil.
- * - Navigation vers d'autres sections de l'application via la barre de navigation.
- * - Gestion de la déconnexion de l'utilisateur.
- *
- * Auteur : Jean Jonathan Koffi
- * Dernière mise à jour : 31/07/2024
- * Dépendances externes : firebase_auth, url_launcher
- ******************************************************************************
- */
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notebook_progress/etapes_screen.dart';
@@ -60,76 +40,83 @@ class WingfoilScreen extends StatelessWidget {
         _showSwipeIndicator = false;
       },
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => MenuScreen()),
-              );
-            },
-          ),
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () async {
-                  const url = 'https://oceanadventure.surf/';
-                  if (await canLaunch(url)) {
-                    await launch(url);
-                  } else {
-                    throw 'Could not launch $url';
-                  }
-                },
-                child: Image.asset(
-                  'assets/logoOcean.png',
-                  width: 200,
-                  height: 100,
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            StreamBuilder<User?>(
-              stream: FirebaseAuth.instance.authStateChanges(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.active && snapshot.data != null) {
-                  User user = snapshot.data!;
-                  String initials = '';
-                  if (user.email != null) {
-                    initials = user.email!.split('@').first[0].toUpperCase();
-                    if (user.email!.split('@').first.length > 1) {
-                      initials += user.email!.split('@').first[1].toUpperCase();
-                    }
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
-                    child: InkWell(
-                      onTap: () {
-                        _showLogoutDialog(context); // Affichage du dialogue de déconnexion
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(initials, style: TextStyle(fontSize: 16, color: Color(0xFF64C8C8), fontFamily: 'Open Sans')),
-                          SizedBox(width: 4),
-                          Icon(Icons.logout, color: Color(0xFF64C8C8)), // Icône de déconnexion
-                        ],
-                      ),
-                    ),
-                  );
-                } else {
-                  return IconButton(
-                    icon: const Icon(Icons.login),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(100.0), // Hauteur ajustée pour correspondre à l'autre écran
+          child: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            flexibleSpace: Padding(
+              padding: const EdgeInsets.only(top: 40.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.menu),
                     onPressed: () {
-                      // Rediriger vers l'écran de connexion
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => MenuScreen()),
+                      );
                     },
-                  );
-                }
-              },
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      const url = 'https://oceanadventure.surf/';
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    },
+                    child: Image.asset(
+                      'assets/logoOcean.png',
+                      width: 250,
+                      height: 100,
+                    ),
+                  ),
+                  StreamBuilder<User?>(
+                    stream: FirebaseAuth.instance.authStateChanges(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.active && snapshot.data != null) {
+                        User user = snapshot.data!;
+                        String initials = '';
+                        if (user.email != null) {
+                          initials = user.email!.split('@').first[0].toUpperCase();
+                          if (user.email!.split('@').first.length > 1) {
+                            initials += user.email!.split('@').first[1].toUpperCase();
+                          }
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 12.0),
+                          child: InkWell(
+                            onTap: () {
+                              _showLogoutDialog(context); // Affichage du dialogue de déconnexion
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(initials, style: TextStyle(fontSize: 16, color: Color(0xFF64C8C8), fontFamily: 'Open Sans')),
+                                SizedBox(width: 4),
+                                Icon(Icons.logout, color: Color(0xFF64C8C8)), // Icône de déconnexion
+                              ],
+                            ),
+                          ),
+                        );
+                      } else {
+                        return IconButton(
+                          icon: const Icon(Icons.login),
+                          onPressed: () {
+                            // Rediriger vers l'écran de connexion
+                          },
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
-          ],
+            title: const Text(''),
+          ),
         ),
         body: Stack(
           children: [
