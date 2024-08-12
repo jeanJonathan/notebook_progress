@@ -195,7 +195,7 @@ class _EtapeDetailScreenState extends State<EtapeDetailScreen> with WidgetsBindi
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SignInScreen(etapeId: widget.etape.etapeId),
+        builder: (context) => SignInScreen(etapeId: widget.etape.etapeId, sportRef: '',),
       ),
     );
   }

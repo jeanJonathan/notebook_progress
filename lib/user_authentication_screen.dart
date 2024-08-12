@@ -26,7 +26,7 @@ import 'package:notebook_progress/singUp_screen.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter/gestures.dart';
 import 'profile_creation_welcome_screen.dart';
-import 'startup_screen.dart';
+import 'ocean_adventure_home.dart';
 
 class AuthScreen extends StatefulWidget {
   @override

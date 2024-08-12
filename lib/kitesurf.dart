@@ -6,7 +6,7 @@ import 'package:notebook_progress/etapes_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/profile_screen.dart';
 import 'package:notebook_progress/recommandation_service.dart';
-import 'package:notebook_progress/startup_screen.dart';
+import 'package:notebook_progress/ocean_adventure_home.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
 import 'Wingfoil.dart';
 import 'Surf.dart';

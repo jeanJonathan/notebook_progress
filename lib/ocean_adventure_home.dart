@@ -1,6 +1,6 @@
 /*
  ******************************************************************************
- * startup_screen.dart
+ * start_up_screen.dart
  *
  * Ce fichier implémente l'écran de démarrage de l'application.
  * Cet écran sert d'introduction à l'application avec une vidéo de démarrage,
@@ -53,6 +53,7 @@ class _OceanAdventureHomeState extends State<OceanAdventureHome> {
         setState(() {});
       })
       ..setLooping(true) // La vidéo boucle continuellement
+      ..setVolume(1.0)
       ..play(); // Démarrage automatique de la vidéo
   }
 

@@ -4,59 +4,54 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:notebook_progress/basic_info_entry_screen.dart';
+import 'package:notebook_progress/kitesurf.dart';
 import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
-import 'package:notebook_progress/startup_screen.dart';
-import 'package:notebook_progress/home.dart';
-import 'Wingfoil.dart';
-import 'user_authentication_screen.dart';
-import 'etapes_screen.dart';
-import 'firebase_options.dart';
-import 'data_firestore.dart';
-import 'kitesurf.dart';
+import 'package:notebook_progress/Wingfoil.dart';
+import 'package:notebook_progress/user_authentication_screen.dart';
+import 'package:notebook_progress/etapes_screen.dart';
+import 'package:notebook_progress/firebase_options.dart';
+import 'package:notebook_progress/data_firestore.dart';
 
-Future<void> main() async {
-  initializeDateFormatting().then((_) => runApp(MyApp()));
+import 'ocean_adventure_home.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //Initialisation de firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  //sendEtapesWingfoil(); //envoies des donnees dans firestore
-  //sendEtapesKitesurf();
-  //sendEtapesSurf();
-  //sendCampsData();
+  await initializeDateFormatting();
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My App',
+      title: 'Ocean Adventure',
       theme: ThemeData(
-        primarySwatch: MaterialColor(
-          0xFFF5F5F5,
-          <int, Color>{
-            50: Color(0xFFF5F5F5),
-            100: Color(0xFFF5F5F5),
-            200: Color(0xFFF5F5F5),
-            300: Color(0xFFF5F5F5),
-            400: Color(0xFFF5F5F5),
-            500: Color(0xFFF5F5F5),
-            600: Color(0xFFF5F5F5),
-            700: Color(0xFFF5F5F5),
-            800: Color(0xFFF5F5F5),
-            900: Color(0xFFF5F5F5),
-          },
+        primaryColor: Color(0xFF64C8C8),
+        primarySwatch: Colors.blueGrey,
+        scaffoldBackgroundColor: Color(0xFFF5F5F5),
+        textTheme: TextTheme(
+          bodyText2: TextStyle(color: Colors.black87),
         ),
-    ),
-
-      //Pour enlever l'icone debug
+      ),
       debugShowCheckedModeBanner: false,
-      home: OceanAdventureApp(),//Ecran de demarrage de l'application
+      home: FutureBuilder(
+        future: _initializeFirebase(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Erreur de chargement: ${snapshot.error}'));
+          } else {
+            return KitesurfScreen();
+          }
+        },
+      ),
       routes: {
         '/authentification': (context) => AuthScreen(),
         '/wingfoil': (context) => WingfoilScreen(),
@@ -69,87 +64,73 @@ class MyApp extends StatelessWidget {
       },
     );
   }
-}
 
-//Methode disposee a envoyer les donnees des etapes dans firestore
-void sendEtapesWingfoil() async {
-  try {
-    List<Map<String, dynamic>> etapesData = simulateDataEtapesWingfoil();
-
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference etapesCollection = firestore.collection('etapes');
-
-    for (var data in etapesData) {
-      DocumentReference document = etapesCollection.doc(data['id'].toString());
-      await document.set(data);
-      print('Document créé: ${document.path}');
+  Future<void> _initializeFirebase() async {
+    try {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    } catch (e) {
+      throw Exception('Erreur lors de l\'initialisation de Firebase: $e');
     }
-  } catch (e) {
-    print('Erreur lors de la création des étapes : $e');
-  }
-}
-void sendEtapesKitesurf() async {
-  try {
-    List<Map<String, dynamic>> etapesData = simulateDataEtapesKitesurf();
-
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference etapesCollection = firestore.collection('etapes');
-
-    for (var data in etapesData) {
-      DocumentReference document = etapesCollection.doc(data['id'].toString());
-      await document.set(data);
-      print('Document créé: ${document.path}');
-    }
-  } catch (e) {
-    print('Erreur lors de la création des étapes : $e');
   }
 }
 
-void sendEtapesSurf() async {
-  try {
-    List<Map<String, dynamic>> etapesData = simulateDataEtapesSurf();
+// Services Firebase: vous pouvez déplacer les méthodes Firebase dans des services dédiés.
 
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference etapesCollection = firestore.collection('etapes');
+class FirebaseService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-    for (var data in etapesData) {
-      DocumentReference document = etapesCollection.doc(data['id'].toString());
-      await document.set(data);
-      print('Document créé: ${document.path}');
+  Future<UserCredential?> signInWithEmailAndPassword(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return userCredential;
+    } catch (e) {
+      print('Erreur lors de l\'authentification : $e');
+      return null;
     }
-  } catch (e) {
-    print('Erreur lors de la création des étapes : $e');
   }
-}
-// Création d'une instance de FirebaseAuth
-final FirebaseAuth _auth = FirebaseAuth.instance;
-// Méthode pour s'authentifier avec l'e-mail et le mot de passe
-Future<UserCredential?> signInWithEmailAndPassword(String email, String password) async {
-  try {
-    UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    return userCredential;
-  } catch (e) {
-    print('Erreur lors de l\'authentification : $e');
-    return null;
-  }
-}
 
-void sendCampsData() async {
-  try {
-    List<Map<String, dynamic>> campsData = dataTopCamps();
+  Future<void> sendEtapes(String type) async {
+    try {
+      List<Map<String, dynamic>> etapesData;
+      if (type == 'wingfoil') {
+        etapesData = simulateDataEtapesWingfoil();
+      } else if (type == 'kitesurf') {
+        etapesData = simulateDataEtapesKitesurf();
+      } else {
+        etapesData = simulateDataEtapesSurf();
+      }
 
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference campsCollection = firestore.collection('camps');
+      CollectionReference etapesCollection = _firestore.collection('etapes');
 
-    for (var data in campsData) {
-      DocumentReference document = campsCollection.doc();
-      await document.set(data);
-      print('Document créé: ${document.path}');
+      for (var data in etapesData) {
+        DocumentReference document = etapesCollection.doc(data['id'].toString());
+        await document.set(data);
+        print('Document créé: ${document.path}');
+      }
+    } catch (e) {
+      print('Erreur lors de la création des étapes : $e');
     }
-  } catch (e) {
-    print('Erreur lors de la création des camps : $e');
+  }
+
+  Future<void> sendCampsData() async {
+    try {
+      List<Map<String, dynamic>> campsData = dataTopCamps();
+
+      CollectionReference campsCollection = _firestore.collection('camps');
+
+      for (var data in campsData) {
+        DocumentReference document = campsCollection.doc();
+        await document.set(data);
+        print('Document créé: ${document.path}');
+      }
+    } catch (e) {
+      print('Erreur lors de la création des camps : $e');
+    }
   }
 }

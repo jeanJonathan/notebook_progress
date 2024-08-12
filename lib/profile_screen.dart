@@ -4,7 +4,7 @@
  *
  * Ce fichier implémente l'écran de profil de l'utilisateur.
  * Il permet la visualisation et la modification des informations de profil,
- * y compris la photo de profil, l'email, l'âge, le niveau d'expérience, 
+ * y compris la photo de profil, l'email, l'âge, le niveau d'expérience,
  * le type de séjour préféré, et la bio de l'utilisateur.
  *
  * Fonctionnalités :
@@ -25,44 +25,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:notebook_progress/user_authentication_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
 import 'package:notebook_progress/recommandation_service.dart';
 import 'package:notebook_progress/home.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-// Application principale
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Profile Screen',
-      theme: ThemeData(
-        primaryColor: Color(0xFF64C8C8),
-        hintColor: Color(0xFF074868),
-        textTheme: TextTheme(
-          headline1: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold, color: Color(0xFF074868)),
-          headline6: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Color(0xFF074868)),
-          bodyText2: TextStyle(fontSize: 14.0, color: Colors.black),
-        ),
-        appBarTheme: AppBarTheme(
-          color: Colors.white,
-          elevation: 0,
-          iconTheme: IconThemeData(color: Color(0xFF074868)),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white, backgroundColor: Color(0xFF64C8C8),
-            textStyle: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-      home: ProfileScreen(),
-    );
-  }
-}
 
 // Écran de profil utilisateur
 class ProfileScreen extends StatefulWidget {
@@ -99,15 +65,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Profil", style: Theme.of(context).textTheme.headline6),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => _navigateToWelcomeScreen(context),
+          onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          if (user == null)
+            IconButton(
+              icon: Icon(Icons.login, color: Color(0xFF64C8C8)),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AuthScreen()),
+                );
+              },
+            ),
+        ],
       ),
-      body: userData == null
+      body: user == null
+          ? Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            "Vous devez vous connecter pour accéder à votre profil.",
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      )
+          : userData == null
           ? Center(child: CircularProgressIndicator())
           : ListView(
         padding: EdgeInsets.all(20),
@@ -134,9 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Text(
             "${userData!['firstName'] ?? 'Prénom'}",
             style: Theme.of(context).textTheme.headline1!.copyWith(
-                fontSize: 24,
-                color: Color(0xFF64C8C8),
-                fontFamily: 'Open Sans'),
+                fontSize: 24, color: Color(0xFF64C8C8), fontFamily: 'Open Sans'),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 40),
@@ -383,7 +376,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  // Navigue vers l'écran de bienvenue et récupère les recommandations mises à jour
+  // Navigue vers l'écran d'accueil et récupère les recommandations mises à jour
   void _navigateToWelcomeScreen(BuildContext context) {
     Navigator.of(context).pop();
     _fetchUpdatedRecommendations(context);

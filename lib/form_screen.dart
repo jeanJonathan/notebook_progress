@@ -11,6 +11,9 @@ import 'kitesurf.dart';
 class FormScreen extends StatefulWidget {
   final String etapeRef; // pour stocker l'identifiant de l'étape
   final String sportRef;
+
+
+
   FormScreen({required this.etapeRef,required this.sportRef});
   @override
   _FormScreenState createState() => _FormScreenState();
@@ -24,6 +27,7 @@ class _FormScreenState extends State<FormScreen> {
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _weatherController = TextEditingController();
   final TextEditingController _commentController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   File? _videoFile;
 
   Future<void> _selectDate() async {
@@ -63,6 +67,9 @@ class _FormScreenState extends State<FormScreen> {
   }
 
   Future<void> _uploadData() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
     try {
       final User? user = _auth.currentUser;
       final String uid = user?.uid ?? '';
@@ -167,284 +174,299 @@ class _FormScreenState extends State<FormScreen> {
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'PROGRESSION',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        shadows: [
-                          Shadow(
-                            color: Colors.lightBlueAccent, // Couleur de l'ombre
-                            blurRadius: 2,
-                            offset: Offset(3, 4),
-                          ),
-                        ],
-                        fontFamily: 'Comic Sans MS', // Police amusante
-                      ),
-                    ),
-                    SizedBox(height: 60), // Espace entre le texte et les champs du formulaire
-                    InkWell(
-                      onTap: _selectDate,
-                      child: IgnorePointer(
-                        child: TextFormField(
-                          controller: _dateController,
-                          decoration: InputDecoration(
-                            labelText: 'Date',
-                            labelStyle: TextStyle(color: Colors.black),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(28),
-                              borderSide: BorderSide(color: Colors.black),
+                child: Form(
+                  key: _formKey, // Utilisation de la clé de formulaire
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:[
+                      Text(
+                        'PROGRESSION',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              color: Colors.lightBlueAccent, // Couleur de l'ombre
+                              blurRadius: 2,
+                              offset: Offset(3, 4),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                          ),
-                          style: TextStyle(color: Colors.black), // Couleur du texte
+                          ],
+                          fontFamily: 'Comic Sans MS', // Police amusante
                         ),
                       ),
-                    ),
-                    SizedBox(height: 12),
-                    Container(
-                      width: 400,
-                      height: 50,
-                      child: TypeAheadFormField(
-                        textFieldConfiguration: TextFieldConfiguration(
-                          controller: _locationController,
-                          decoration: InputDecoration(
-                            labelText: 'Lieu',
-                            labelStyle: TextStyle(color: Colors.black), //label
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.white), // bordure
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.blueAccent), // bordure en sélection
-                            ),
-                          ),
-                          style: TextStyle(color: Colors.white), //texte
-                        ),
-                        suggestionsCallback: (pattern) {
-                          List<String> lieux = [
-                            'Ahangama',
-                            'Açores',
-                            'Arugam Bay',
-                            'Bali',
-                            'Biarritz',
-                            'Bilbao',
-                            'Boa Vista',
-                            'Cabarete',
-                            'Caparica',
-                            'Capbreton',
-                            'Conil',
-                            'Dakhla',
-                            'El Gouna',
-                            'Ericeira',
-                            'Essaouira',
-                            'Fuerteventura',
-                            'Galice',
-                            'Hendaye',
-                            'Herekitya',
-                            'Hossegor',
-                            'Imsouane',
-                            'Jaco',
-                            'Lacanau',
-                            'Las Palmas',
-                            'Lanzarote',
-                            'Lisbonne',
-                            'Madère',
-                            'Madiha',
-                            'Mentawai',
-                            'Mirissa',
-                            'Montezuma',
-                            'Nazare',
-                            'Nosara',
-                            'Pavones',
-                            'Peniche',
-                            'Polhena',
-                            'Porto',
-                            'Quepos',
-                            'Santa Teresa',
-                            'Sicile',
-                            'Sumbawa',
-                            'Tamarindo',
-                            'Taghazout',
-                            'Tarifa',
-                            'Toncones',
-                            'Uvita',
-                            'Vieux Boucau',
-                            'Weligama',
-                            'Zanzibar',
-                          ];
-                          //Pour ce faire on remplace contains par starsWith
-                          return lieux.where((lieu) => lieu.toLowerCase().startsWith(pattern.toLowerCase())).toList();
-                        },
-                        itemBuilder: (context, lieu) {
-                          return ListTile(
-                            title: Text(
-                              lieu,
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.lightBlue,
+                      SizedBox(height: 60), // Espace entre le texte et les champs du formulaire
+                      InkWell(
+                        onTap: _selectDate,
+                        child: IgnorePointer(
+                          child: TextFormField(
+                            controller: _dateController,
+                            decoration: InputDecoration(
+                              labelText: 'Date',
+                              labelStyle: TextStyle(color: Colors.black),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(28),
+                                borderSide: BorderSide(color: Colors.black),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Colors.black),
                               ),
                             ),
-                          );
-                        },
-                        onSuggestionSelected: (lieu) {
-                          setState(() {
-                            _locationController.text = lieu;
-                          });
-                        },
-                        suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 12),
-                    Container(
-                      width: 400,
-                      height: 50,
-                      child: TypeAheadFormField(
-                        textFieldConfiguration: TextFieldConfiguration(
-                          controller: _weatherController,
-                          decoration: InputDecoration(
-                            labelText: 'Météo',
-                            labelStyle: TextStyle(color: Colors.black),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.green),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.blueAccent),
-                            ),
-                          ),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        suggestionsCallback: (pattern) {
-                          List<String> meteos = [
-                            'vent de terre off shore léger',
-                            'ciel bleu',
-                            '1m de houle, personne à l\'eau',
-                            'vent de nord est 15 noeuds',
-                            'ciel brumeux',
-                            'peu de monde sur la plage',
-                            'vent de sud-est 10 noeuds',
-                            'ciel couvert avec risque d\'averse',
-                            'houle de 2m, conditions difficiles',
-                            'vent d\'ouest 20 noeuds',
-                            'ciel variable avec éclaircies',
-                            'vagues de 1m à 1m50, conditions moyennes',
-                            'vent de nord 5 noeuds',
-                            'ciel dégagé',
-                            'plage calme et tranquille',
-                            'vent de sud-ouest 25 noeuds',
-                            'ciel orageux',
-                            'mer agitée avec des vagues de plus de 2m'
-                          ];
-                          return meteos.where((meteo) => meteo.toLowerCase().startsWith(pattern.toLowerCase())).toList();
-                        },
-                        itemBuilder: (context, meteo) {
-                        return ListTile(
-                          title: Text(
-                            meteo,
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.lightBlue,
-                            ),
-                          ),
-                        );
-                      },
-                        onSuggestionSelected: (meteo) {
-                          setState(() {
-                            _weatherController.text = meteo;
-                          });
-                        },
-                        suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 12),
-                    TextFormField(
-                      controller: _commentController,
-                      maxLines: 5,
-                      decoration: InputDecoration(
-                        labelText: 'Commentaire',
-                        labelStyle: TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.blueAccent),
-                        ),
-                      ),
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: _pickVideo,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Sélectionner une vidéo ',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            '🎬', // Ajout d'un emoji pour la sélection de vidéo
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        minimumSize: Size(400, 40),
-                      ),
-                    ),
-                    SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: _uploadData,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Enregistrer ',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            '📁', // Ajout d'un emoji pour l'enregistrement
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ), backgroundColor: Color(0xFF64C8C8),
-                        minimumSize: Size(200, 50),
-                      ),
-                    ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Veuillez sélectionner une date';
+                              }
+                              return null;
+                            },
+                            style: TextStyle(color: Colors.black), // Couleur du texte
 
-                  ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      Container(
+                        width: 400,
+                        height: 50,
+                        child: TypeAheadFormField(
+                          textFieldConfiguration: TextFieldConfiguration(
+                            controller: _locationController,
+                            decoration: InputDecoration(
+                              labelText: 'Lieu',
+                              labelStyle: TextStyle(color: Colors.black), //label
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Colors.white), // bordure
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Colors.blueAccent), // bordure en sélection
+                              ),
+                            ),
+                            style: TextStyle(color: Colors.white), //texte
+                          ),
+                          suggestionsCallback: (pattern) {
+                            List<String> lieux = [
+                              'Ahangama',
+                              'Açores',
+                              'Arugam Bay',
+                              'Bali',
+                              'Biarritz',
+                              'Bilbao',
+                              'Boa Vista',
+                              'Cabarete',
+                              'Caparica',
+                              'Capbreton',
+                              'Conil',
+                              'Dakhla',
+                              'El Gouna',
+                              'Ericeira',
+                              'Essaouira',
+                              'Fuerteventura',
+                              'Galice',
+                              'Hendaye',
+                              'Herekitya',
+                              'Hossegor',
+                              'Imsouane',
+                              'Jaco',
+                              'Lacanau',
+                              'Las Palmas',
+                              'Lanzarote',
+                              'Lisbonne',
+                              'Madère',
+                              'Madiha',
+                              'Mentawai',
+                              'Mirissa',
+                              'Montezuma',
+                              'Nazare',
+                              'Nosara',
+                              'Pavones',
+                              'Peniche',
+                              'Polhena',
+                              'Porto',
+                              'Quepos',
+                              'Santa Teresa',
+                              'Sicile',
+                              'Sumbawa',
+                              'Tamarindo',
+                              'Taghazout',
+                              'Tarifa',
+                              'Toncones',
+                              'Uvita',
+                              'Vieux Boucau',
+                              'Weligama',
+                              'Zanzibar',
+                            ];
+                            //Pour ce faire on remplace contains par starsWith
+                            return lieux.where((lieu) => lieu.toLowerCase().startsWith(pattern.toLowerCase())).toList();
+                          },
+                          itemBuilder: (context, lieu) {
+                            return ListTile(
+                              title: Text(
+                                lieu,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.lightBlue,
+                                ),
+                              ),
+                            );
+                          },
+                          onSuggestionSelected: (lieu) {
+                            setState(() {
+                              _locationController.text = lieu;
+                            });
+                          },
+                          suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      Container(
+                        width: 400,
+                        height: 50,
+                        child: TypeAheadFormField(
+                          textFieldConfiguration: TextFieldConfiguration(
+                            controller: _weatherController,
+                            decoration: InputDecoration(
+                              labelText: 'Météo',
+                              labelStyle: TextStyle(color: Colors.black),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Colors.green),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Colors.blueAccent),
+                              ),
+                            ),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          suggestionsCallback: (pattern) {
+                            List<String> meteos = [
+                              'vent de terre off shore léger',
+                              'ciel bleu',
+                              '1m de houle, personne à l\'eau',
+                              'vent de nord est 15 noeuds',
+                              'ciel brumeux',
+                              'peu de monde sur la plage',
+                              'vent de sud-est 10 noeuds',
+                              'ciel couvert avec risque d\'averse',
+                              'houle de 2m, conditions difficiles',
+                              'vent d\'ouest 20 noeuds',
+                              'ciel variable avec éclaircies',
+                              'vagues de 1m à 1m50, conditions moyennes',
+                              'vent de nord 5 noeuds',
+                              'ciel dégagé',
+                              'plage calme et tranquille',
+                              'vent de sud-ouest 25 noeuds',
+                              'ciel orageux',
+                              'mer agitée avec des vagues de plus de 2m'
+                            ];
+                            return meteos.where((meteo) => meteo.toLowerCase().startsWith(pattern.toLowerCase())).toList();
+                          },
+                          itemBuilder: (context, meteo) {
+                            return ListTile(
+                              title: Text(
+                                meteo,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.lightBlue,
+                                ),
+                              ),
+                            );
+                          },
+                          onSuggestionSelected: (meteo) {
+                            setState(() {
+                              _weatherController.text = meteo;
+                            });
+                          },
+                          suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      TextFormField(
+                        controller: _commentController,
+                        maxLines: 5,
+                        decoration: InputDecoration(
+                          labelText: 'Commentaire',
+                          labelStyle: TextStyle(color: Colors.black),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.blueAccent),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Veuillez entrer un petit commentaire :)';
+                          }
+                          return null;
+                        },
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: _pickVideo,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Sélectionner une vidéo ',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            Text(
+                              '🎬', // Ajout d'un emoji pour la sélection de vidéo
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ],
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          minimumSize: Size(400, 40),
+                        ),
+                      ),
+                      SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: _uploadData,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Enregistrer ',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            Text(
+                              '📁', // Ajout d'un emoji pour l'enregistrement
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ],
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ), backgroundColor: Color(0xFF64C8C8),
+                          minimumSize: Size(200, 50),
+                        ),
+                      ),
+
+                    ],
+                  ),
                 ),
               ),
             ),

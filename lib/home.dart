@@ -1,32 +1,13 @@
-/*
- ******************************************************************************
- * HomeScreen.dart
- *
- * Ce fichier implémente l'écran d'accueil de l'application,
- * affichant des camps recommandés à l'utilisateur.
- * Il permet de naviguer vers différents écrans et de gérer les favoris.
- *
- * Fonctionnalités :
- * - Affichage des camps recommandés avec des images et descriptions.
- * - Navigation vers des détails de camp spécifiques.
- * - Ajout et suppression de camps favoris.
- * - Navigation vers les écrans de wishlist, tutoriels, et profil.
- *
- * Auteur : Jean Jonathan Koffi
- * Dernière mise à jour : 31/07/2024
- * Dépendances externes : cloud_firestore, firebase_auth, smooth_page_indicator, url_launcher
- ******************************************************************************
- */
-
 import 'package:flutter/material.dart';
-import 'package:notebook_progress/startup_screen.dart';
+import 'package:notebook_progress/ocean_adventure_home.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:notebook_progress/profile_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
-import 'kitesurf.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'user_authentication_screen.dart';
+import 'kitesurf.dart';
 
 class HomeScreen extends StatefulWidget {
   final List<Map<String, dynamic>> recommendedCamps;
@@ -74,6 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(100.0),
@@ -95,45 +78,65 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 250,
                   height: 100,
                 ),
-                StreamBuilder<User?>(
-                  stream: FirebaseAuth.instance.authStateChanges(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.active && snapshot.data != null) {
-                      User user = snapshot.data!;
-                      String initials = '';
-                      if (user.email != null) {
-                        initials = user.email!.split('@').first[0].toUpperCase();
-                        if (user.email!.split('@').first.length > 1) {
-                          initials += user.email!.split('@').first[1].toUpperCase();
-                        }
-                      }
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 12.0),
-                        child: InkWell(
-                          onTap: () {
-                            _showLogoutDialog(context); // Affichage du dialogue de déconnexion
-                          },
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(initials, style: TextStyle(fontSize: 16, color: Color(0xFF64C8C8), fontFamily: 'Open Sans')),
-                              SizedBox(width: 4),
-                              Icon(Icons.logout, color: Color(0xFF64C8C8)), // Icône de déconnexion
-                            ],
-                          ),
-                        ),
-                      );
-                    } else {
-                      return SizedBox(width: 48); // Placeholder pour garder la mise en page
-                    }
-                  },
-                ),
+                if (user != null)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 12.0),
+                    child: InkWell(
+                      onTap: () {
+                        _showLogoutDialog(context); // Affichage du dialogue de déconnexion
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(user.email?.substring(0, 2).toUpperCase() ?? '',
+                              style: TextStyle(fontSize: 16, color: Color(0xFF64C8C8), fontFamily: 'Open Sans')),
+                          SizedBox(width: 4),
+                          Icon(Icons.logout, color: Color(0xFF64C8C8)), // Icône de déconnexion
+                        ],
+                      ),
+                    ),
+                  )
+                else
+                  Padding(
+                    padding: const EdgeInsets.only(right: 12.0),
+                    child: IconButton(
+                      icon: const Icon(Icons.login, color: Color(0xFF64C8C8)),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AuthScreen()),
+                        );
+                      },
+                    ),
+                  ),
               ],
             ),
           ),
         ),
       ),
-      body: widget.recommendedCamps.isEmpty
+      body: user == null
+          ? Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            "Vous devez vous connecter puis remplir votre profil pour voir les meilleurs surfcamps.",
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              shadows: [
+                Shadow(
+                  offset: Offset(0, 1),
+                  blurRadius: 8.0,
+                  color: Colors.black.withOpacity(0.2),
+                ),
+              ],
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      )
+          : widget.recommendedCamps.isEmpty
           ? Stack(
         children: [
           Positioned.fill(
@@ -334,6 +337,9 @@ class _HomeScreenState extends State<HomeScreen> {
         });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Camp ajouté à votre wishlist')));
       }
+    } else {
+      // Si l'utilisateur n'est pas connecté, afficher un message demandant la connexion
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Veuillez vous connecter pour ajouter des favoris.')));
     }
   }
 
