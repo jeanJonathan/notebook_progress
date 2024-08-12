@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:notebook_progress/home.dart';
+import 'package:notebook_progress/recommandation_service.dart';
 
 class TravelPreferencesScreen extends StatefulWidget {
   @override
@@ -162,10 +163,13 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
   }
 
   void _navigateToNextScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => HomeScreen(recommendedCamps: [])), // Remplacez NextScreen par l'écran suivant
-    );
+    RecommendationService recommendationService = RecommendationService();
+    recommendationService.getRecommendedCamps().then((recommendedCamps) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen(recommendedCamps: recommendedCamps)),
+      );
+    });
   }
 
   @override
@@ -174,8 +178,7 @@ class _TravelPreferencesScreenState extends State<TravelPreferencesScreen> {
       appBar: AppBar(
         title: Text('Vos Destinations'),
         backgroundColor: Color(0xFF8AB4F8),
-        actions: [
-        ],
+        actions: [],
       ),
       body: Stack(
         children: [

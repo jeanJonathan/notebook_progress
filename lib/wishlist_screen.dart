@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:notebook_progress/recommandation_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:notebook_progress/ocean_adventure_home.dart';
 import 'package:notebook_progress/profile_screen.dart';
@@ -91,6 +92,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
   }
 
   // Barre de navigation en bas de l'écran
+  // Barre de navigation en bas de l'écran
   BottomNavigationBar buildBottomNavigationBar(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
@@ -119,13 +121,17 @@ class _WishlistScreenState extends State<WishlistScreen> {
       onTap: (index) {
         switch (index) {
           case 0:
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomeScreen(recommendedCamps: [])), // Ajoutez les camps recommandés appropriés
-            );
+            RecommendationService recommendationService = RecommendationService();
+            recommendationService.getRecommendedCamps().then((recommendedCamps) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeScreen(recommendedCamps: recommendedCamps)),
+              );
+            });
             break;
           case 1:
-            break; // Déjà sur l'écran Wishlist
+          // Do nothing since we are on the WishlistScreen which is already under "Wishlist"
+            break;
           case 2:
             Navigator.push(
               context,
@@ -143,7 +149,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
     );
   }
 
-  // Lance une URL dans le navigateur par défaut
+
+  // On lance une URL dans le navigateur par défaut
   void _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
