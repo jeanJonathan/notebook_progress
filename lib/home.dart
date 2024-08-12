@@ -19,6 +19,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:notebook_progress/startup_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:notebook_progress/profile_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
@@ -94,7 +95,39 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 250,
                   height: 100,
                 ),
-                SizedBox(width: 48),
+                StreamBuilder<User?>(
+                  stream: FirebaseAuth.instance.authStateChanges(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.active && snapshot.data != null) {
+                      User user = snapshot.data!;
+                      String initials = '';
+                      if (user.email != null) {
+                        initials = user.email!.split('@').first[0].toUpperCase();
+                        if (user.email!.split('@').first.length > 1) {
+                          initials += user.email!.split('@').first[1].toUpperCase();
+                        }
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 12.0),
+                        child: InkWell(
+                          onTap: () {
+                            _showLogoutDialog(context); // Affichage du dialogue de déconnexion
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(initials, style: TextStyle(fontSize: 16, color: Color(0xFF64C8C8), fontFamily: 'Open Sans')),
+                              SizedBox(width: 4),
+                              Icon(Icons.logout, color: Color(0xFF64C8C8)), // Icône de déconnexion
+                            ],
+                          ),
+                        ),
+                      );
+                    } else {
+                      return SizedBox(width: 48); // Placeholder pour garder la mise en page
+                    }
+                  },
+                ),
               ],
             ),
           ),
@@ -143,11 +176,13 @@ class _HomeScreenState extends State<HomeScreen> {
               double screenWidth = MediaQuery.of(context).size.width;
               if (details.localPosition.dx < screenWidth / 2) {
                 if (_imagePageController.page!.toInt() > 0) {
-                  _imagePageController.previousPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                  _imagePageController.previousPage(
+                      duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
                 }
               } else {
                 if (_imagePageController.page!.toInt() < camp['image_urls'].length - 1) {
-                  _imagePageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                  _imagePageController.nextPage(
+                      duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
                 }
               }
             },
@@ -190,9 +225,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(camp['name'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                      Text(camp['name'],
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
                       Text(camp['description'], style: TextStyle(fontSize: 16, color: Colors.white)),
-                      Text('Activités: ${camp['activities'].join(', ')}', style: TextStyle(fontSize: 16, color: Colors.white)),
+                      Text('Activités: ${camp['activities'].join(', ')}',
+                          style: TextStyle(fontSize: 16, color: Colors.white)),
                       SizedBox(height: 10),
                       Row(
                         children: [
@@ -253,7 +290,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void _toggleWishlist(Map<String, dynamic> camp) async {
     User? user = FirebaseAuth.instance.currentUser; // Récupère l'utilisateur actuel
     if (user != null) {
-      DocumentReference userDoc = FirebaseFirestore.instance.collection('users').doc(user.uid); // Référence au document de l'utilisateur
+      DocumentReference userDoc =
+      FirebaseFirestore.instance.collection('users').doc(user.uid); // Référence au document de l'utilisateur
       DocumentSnapshot docSnapshot = await userDoc.get(); // Récupère le document de l'utilisateur
 
       // Crée un objet avec les données essentielles du camp
@@ -349,4 +387,41 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+}
+
+void _showLogoutDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text('Déconnexion'),
+        content: Text('Voulez-vous vraiment vous déconnecter?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              'Annuler',
+              style: TextStyle(
+                color: Color(0xFF64C8C8),
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => OceanAdventureHome()), // Redirige vers l'écran de connexion
+              );
+            },
+            child: Text(
+              'Déconnexion',
+              style: TextStyle(
+                color: Color(0xFF64C8C8),
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }

@@ -118,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onTap: _pickImage,
               child: CircleAvatar(
                 radius: 60,
-                backgroundColor: Colors.grey.shade800,
+                backgroundColor: Color(0xFF64C8C8),
                 backgroundImage: _imageFile != null
                     ? FileImage(File(_imageFile!.path))
                     : (userData!['photoUrl'] != null
