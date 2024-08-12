@@ -21,7 +21,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notebook_progress/singIn_screen.dart';
+import 'package:notebook_progress/auth/singIn_screen.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'etape.dart';
 import 'form_screen.dart';

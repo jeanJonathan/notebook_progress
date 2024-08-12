@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:notebook_progress/user_authentication_screen.dart';
+import 'package:notebook_progress/auth/user_authentication_screen.dart';
 import 'package:notebook_progress/wishlist_screen.dart';
 import 'package:notebook_progress/recommandation_service.dart';
 import 'package:notebook_progress/home.dart';

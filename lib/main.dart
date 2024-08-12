@@ -8,7 +8,7 @@ import 'package:notebook_progress/kitesurf.dart';
 import 'package:notebook_progress/parametre_screen.dart';
 import 'package:notebook_progress/menu_screen.dart';
 import 'package:notebook_progress/Wingfoil.dart';
-import 'package:notebook_progress/user_authentication_screen.dart';
+import 'package:notebook_progress/auth/user_authentication_screen.dart';
 import 'package:notebook_progress/etapes_screen.dart';
 import 'package:notebook_progress/firebase_options.dart';
 import 'package:notebook_progress/data_firestore.dart';
