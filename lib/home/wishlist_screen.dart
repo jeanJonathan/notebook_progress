@@ -123,9 +123,13 @@ class _WishlistScreenState extends State<WishlistScreen> {
           case 0:
             RecommendationService recommendationService = RecommendationService();
             recommendationService.getRecommendedCamps().then((recommendedCamps) {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => HomeScreen(recommendedCamps: recommendedCamps)),
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) => HomeScreen(recommendedCamps: recommendedCamps),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ),
               );
             });
             break;
@@ -133,15 +137,23 @@ class _WishlistScreenState extends State<WishlistScreen> {
           // Do nothing since we are on the WishlistScreen which is already under "Wishlist"
             break;
           case 2:
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => KitesurfScreen()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) => KitesurfScreen(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+              ),
             );
             break;
           case 3:
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => ProfileScreen()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) => ProfileScreen(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+              ),
             );
             break;
         }

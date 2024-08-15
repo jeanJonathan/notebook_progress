@@ -7,6 +7,7 @@ import 'package:notebook_progress/home/profile_screen.dart';
 import 'package:notebook_progress/services/recommandation_service.dart';
 import 'package:notebook_progress/home/ocean_adventure_home.dart';
 import 'package:notebook_progress/home/wishlist_screen.dart';
+import '../auth/user_authentication_screen.dart';
 import 'Wingfoil.dart';
 import 'Surf.dart';
 import '../home/home.dart';
@@ -30,11 +31,11 @@ class KitesurfScreen extends StatelessWidget {
 
           // Si le mouvement est vers la gauche
           if (difference < -10) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => WingfoilScreen()));
+            Navigator.of(context).pushReplacement(_createPageTurnTransition(WingfoilScreen()));
           }
           // Si le mouvement est vers la droite
           if (difference > 10) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SurfScreen()));
+            Navigator.of(context).pushReplacement(_createPageTurnTransition(SurfScreen(), isRightTurn: false));
           }
         }
       },
@@ -52,8 +53,10 @@ class KitesurfScreen extends StatelessWidget {
             flexibleSpace: Padding(
               padding: const EdgeInsets.only(top: 40.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Expanded(
+                    child: SizedBox(), // Espace vide pour pousser le logo au centre
+                  ),
                   GestureDetector(
                     onTap: () async {
                       const url = 'https://oceanadventure.surf/';
@@ -69,47 +72,51 @@ class KitesurfScreen extends StatelessWidget {
                       height: 100,
                     ),
                   ),
-                  StreamBuilder<User?>(
-                    stream: FirebaseAuth.instance.authStateChanges(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.active && snapshot.data != null) {
-                        User user = snapshot.data!;
-                        String initials = '';
-                        if (user.email != null) {
-                          initials = user.email!.split('@').first[0].toUpperCase();
-                          if (user.email!.split('@').first.length > 1) {
-                            initials += user.email!.split('@').first[1].toUpperCase();
-                          }
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 12.0),
-                          child: InkWell(
-                            onTap: () {
-                              _showLogoutDialog(context); // Affichage du dialogue de déconnexion
-                            },
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(initials, style: TextStyle(fontSize: 16, color: Color(0xFF64C8C8), fontFamily: 'Open Sans')),
-                                SizedBox(width: 4),
-                                Icon(Icons.logout, color: Color(0xFF64C8C8)), // Icône de déconnexion
-                              ],
-                            ),
-                          ),
-                        );
-                      } else {
-                        return IconButton(
-                          icon: const Icon(Icons.login),
-                          onPressed: () {
-                            // Rediriger vers l'écran de connexion
-                            Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => OceanAdventureHome()),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerRight, // Alignement à droite du bouton
+                      child: StreamBuilder<User?>(
+                        stream: FirebaseAuth.instance.authStateChanges(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.active && snapshot.data != null) {
+                            User user = snapshot.data!;
+                            String initials = '';
+                            if (user.email != null) {
+                              initials = user.email!.split('@').first[0].toUpperCase();
+                              if (user.email!.split('@').first.length > 1) {
+                                initials += user.email!.split('@').first[1].toUpperCase();
+                              }
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 12.0),
+                              child: InkWell(
+                                onTap: () {
+                                  _showLogoutDialog(context, isUserLoggedIn: true); // Affichage du dialogue de déconnexion
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(initials, style: TextStyle(fontSize: 16, color: Color(0xFF64C8C8), fontFamily: 'Open Sans')),
+                                    SizedBox(width: 4),
+                                    Icon(Icons.logout, color: Color(0xFF64C8C8)), // Icône de déconnexion
+                                  ],
+                                ),
+                              ),
                             );
-                          },
-                          color: Color(0xFF64C8C8),
-                        );
-                      }
-                    },
+                          } else {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 12.0),
+                              child: InkWell(
+                                onTap: () {
+                                  _showLogoutDialog(context, isUserLoggedIn: false); // Affichage du dialogue de connexion
+                                },
+                                child: Icon(Icons.login, color: Color(0xFF64C8C8)),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -236,25 +243,37 @@ class KitesurfScreen extends StatelessWidget {
               case 0:
                 RecommendationService recommendationService = RecommendationService();
                 recommendationService.getRecommendedCamps().then((recommendedCamps) {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => HomeScreen(recommendedCamps: recommendedCamps)),
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) => HomeScreen(recommendedCamps: recommendedCamps),
+                      transitionDuration: Duration.zero,
+                      reverseTransitionDuration: Duration.zero,
+                    ),
                   );
                 });
                 break;
               case 1:
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => WishlistScreen()),
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => WishlistScreen(),
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero,
+                  ),
                 );
                 break;
               case 2:
               // Do nothing since we are on the KitesurfScreen which is already under "Tutoriels"
                 break;
               case 3:
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => ProfileScreen(),
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero,
+                  ),
                 );
                 break;
             }
@@ -264,17 +283,39 @@ class KitesurfScreen extends StatelessWidget {
     );
   }
 
-  void _showLogoutDialog(BuildContext context) {
+  Route _createPageTurnTransition(Widget screen, {bool isRightTurn = true}) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => screen,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.easeInOut;
+
+        final tween = Tween(begin: isRightTurn ? const Offset(1.0, 0.0) : const Offset(-1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: curve));
+        final offsetAnimation = animation.drive(tween);
+
+        return SlideTransition(
+          position: offsetAnimation,
+          child: child,
+        );
+      },
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context, {required bool isUserLoggedIn}) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Déconnexion'),
-          content: Text('Voulez-vous vraiment vous déconnecter?'),
+          title: Text(isUserLoggedIn ? 'Déconnexion' : 'Connexion'),
+          content: Text(isUserLoggedIn
+              ? 'Voulez-vous vraiment vous déconnecter?'
+              : 'Voulez-vous vraiment vous connecter?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('Annuler',
+              child: Text(
+                'Annuler',
                 style: TextStyle(
                   color: Color(0xFF64C8C8),
                 ),
@@ -282,12 +323,20 @@ class KitesurfScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => OceanAdventureHome()), // Redirige vers l'écran de connexion
-                );
+                Navigator.of(context).pop();
+                if (isUserLoggedIn) {
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => OceanAdventureHome()), // Redirige vers l'écran de connexion
+                  );
+                } else {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => AuthScreen()), // Redirige vers l'écran de connexion
+                  );
+                }
               },
-              child: Text('Déconnexion',
+              child: Text(
+                isUserLoggedIn ? 'Déconnexion' : 'Connexion',
                 style: TextStyle(
                   color: Color(0xFF64C8C8),
                 ),

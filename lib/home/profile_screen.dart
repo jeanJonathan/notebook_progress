@@ -8,10 +8,9 @@ import 'package:notebook_progress/auth/user_authentication_screen.dart';
 import 'package:notebook_progress/home/wishlist_screen.dart';
 import 'package:notebook_progress/services/recommandation_service.dart';
 import 'package:notebook_progress/home/home.dart';
-
 import '../tutoriels/kitesurf.dart';
+import '../home/ocean_adventure_home.dart';
 
-// Écran de profil utilisateur
 class ProfileScreen extends StatefulWidget {
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -31,7 +30,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     fetchUserData();
   }
 
-  // Récupère les données de l'utilisateur à partir de Firestore
   Future<void> fetchUserData() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -49,25 +47,70 @@ class _ProfileScreenState extends State<ProfileScreen> {
     User? user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Profil", style: TextStyle(color: Color(0xFF64C8C8))),
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Color(0xFF64C8C8)),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        actions: [
-          if (user == null)
-            IconButton(
-              icon: Icon(Icons.login, color: Color(0xFF64C8C8)),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AuthScreen()),
-                );
-              },
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100.0), // Hauteur ajustée pour correspondre aux autres écrans
+        child: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          flexibleSpace: Padding(
+            padding: const EdgeInsets.only(top: 40.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.black),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                Image.asset(
+                  'assets/logoOcean.png',
+                  width: 250,
+                  height: 100,
+                ),
+                StreamBuilder<User?>(
+                  stream: FirebaseAuth.instance.authStateChanges(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.active && snapshot.data != null) {
+                      User user = snapshot.data!;
+                      String initials = '';
+                      if (user.email != null) {
+                        initials = user.email!.split('@').first[0].toUpperCase();
+                        if (user.email!.split('@').first.length > 1) {
+                          initials += user.email!.split('@').first[1].toUpperCase();
+                        }
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 12.0),
+                        child: InkWell(
+                          onTap: () {
+                            _showLogoutDialog(context); // Affichage du dialogue de déconnexion
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(initials, style: TextStyle(fontSize: 16, color: Color(0xFF64C8C8), fontFamily: 'Open Sans')),
+                              SizedBox(width: 4),
+                              Icon(Icons.logout, color: Color(0xFF64C8C8)), // Icône de déconnexion
+                            ],
+                          ),
+                        ),
+                      );
+                    } else {
+                      return IconButton(
+                        icon: const Icon(Icons.login),
+                        onPressed: () {
+                          _showLoginDialog(context); // Affichage du dialogue de connexion
+                        },
+                        color: Color(0xFF64C8C8),
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
-        ],
+          ),
+          title: const Text(''),
+        ),
       ),
       body: user == null
           ? Center(
@@ -150,18 +193,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             field: 'about',
           ),
           SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => WishlistScreen()),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: Color(0xFF64C8C8),
-            ),
-            child: Text('Ma Wishlist'),
-          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -169,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         selectedItemColor: Color(0xFF64C8C8),
         unselectedItemColor: Colors.grey,
         iconSize: 30,
-        currentIndex: 3, // Cet écran est sur l'onglet "Profil", donc index 3
+        currentIndex: 3, // Met l'onglet Wishlist en surbrillance
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -193,26 +224,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
             case 0:
               RecommendationService recommendationService = RecommendationService();
               recommendationService.getRecommendedCamps().then((recommendedCamps) {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen(recommendedCamps: recommendedCamps)),
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => HomeScreen(recommendedCamps: recommendedCamps),
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero,
+                  ),
                 );
               });
               break;
             case 1:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => WishlistScreen()),
-              );
+            // Reste sur l'écran de profil, aucun besoin de faire quoi que ce soit
               break;
             case 2:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => KitesurfScreen()),
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) => KitesurfScreen(),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ),
               );
               break;
             case 3:
-            // Do nothing since we are on the ProfileScreen which is already under "Profil"
               break;
           }
         },
@@ -314,7 +349,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  // Calcule l'âge de l'utilisateur à partir de sa date de naissance
   int calculateAge(DateTime birthdate) {
     DateTime currentDate = DateTime.now();
     int age = currentDate.year - birthdate.year;
@@ -325,7 +359,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return age;
   }
 
-  // Met à jour les données de l'utilisateur dans Firestore
   Future<void> updateUserData(String field, String newValue) async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -353,7 +386,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  // Permet de choisir une image depuis la galerie
   Future<void> _pickImage() async {
     try {
       final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -368,7 +400,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  // Télécharge l'image sélectionnée sur Firebase Storage et met à jour l'URL de la photo de profil dans Firestore
   Future<void> _uploadImageToFirebase() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null && _imageFile != null) {
@@ -399,22 +430,96 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  // Récupère les recommandations mises à jour et navigue vers l'écran d'accueil
   Future<void> _fetchUpdatedRecommendations(BuildContext context) async {
     RecommendationService recommendationService = RecommendationService();
     List<Map<String, dynamic>> recommendedCamps = await recommendationService.getRecommendedCamps();
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
-        builder: (context) => HomeScreen(recommendedCamps: recommendedCamps),
+      PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => HomeScreen(recommendedCamps: recommendedCamps),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
       ),
     );
   }
 
-  // Navigue vers l'écran d'accueil et récupère les recommandations mises à jour
-  void _navigateToWelcomeScreen(BuildContext context) {
-    Navigator.of(context).pop();
-    _fetchUpdatedRecommendations(context);
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Déconnexion'),
+          content: Text('Voulez-vous vraiment vous déconnecter?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Annuler',
+                style: TextStyle(
+                  color: Color(0xFF64C8C8),
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => OceanAdventureHome(),
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero,
+                  ),
+                );
+              },
+              child: Text('Déconnexion',
+                style: TextStyle(
+                  color: Color(0xFF64C8C8),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showLoginDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Connexion'),
+          content: Text('Voulez-vous vous connecter?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Annuler',
+                style: TextStyle(
+                  color: Color(0xFF64C8C8),
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => AuthScreen(),
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero,
+                  ),
+                );
+              },
+              child: Text('Connexion',
+                style: TextStyle(
+                  color: Color(0xFF64C8C8),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

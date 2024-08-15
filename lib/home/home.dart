@@ -308,28 +308,28 @@ class _HomeScreenState extends State<HomeScreen> {
       if (docSnapshot.exists) {
         // Si le document existe
         Map<String, dynamic> userData = docSnapshot.data() as Map<String, dynamic>;
-        List<dynamic> camps = userData['camps'] ?? []; // Récupère la liste des camps ou crée une nouvelle liste vide
+        List<dynamic> camps = userData['camps'] ?? []; // On récupère la liste des camps ou crée une nouvelle liste vide
 
         int index = camps.indexWhere((item) => item['camp_link'] == camp['booking_link']);
         if (index >= 0) {
-          camps.removeAt(index); // Supprime le camp de la liste
+          camps.removeAt(index); // On supprime le camp de la liste
           setState(() {
             favoriteCamps.remove(camp['booking_link']);
           });
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Camp retiré de votre wishlist')));
         } else {
-          camps.insert(0, campData); // Ajoute le camp au début de la liste
+          camps.insert(0, campData); // On ajoute le camp au début de la liste
           setState(() {
             favoriteCamps[camp['booking_link']] = true;
           });
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Camp ajouté à votre wishlist')));
         }
 
-        await userDoc.update({'camps': camps}); // Met à jour la liste des camps dans Firestore
+        await userDoc.update({'camps': camps}); // On met à jour la liste des camps dans Firestore
       } else {
         // Si le document n'existe pas
         Map<String, dynamic> newUserDoc = {
-          'camps': [campData], // Crée un nouveau document avec une liste contenant le camp
+          'camps': [campData], // On crée un nouveau document avec une liste contenant le camp
         };
         await userDoc.set(newUserDoc);
 
@@ -375,27 +375,40 @@ class _HomeScreenState extends State<HomeScreen> {
           // Reste sur l'écran d'accueil, aucun besoin de faire quoi que ce soit
             break;
           case 1:
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => WishlistScreen()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) => WishlistScreen(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+              ),
             );
             break;
           case 2:
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => KitesurfScreen()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) => KitesurfScreen(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+              ),
             );
             break;
           case 3:
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => ProfileScreen()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) => ProfileScreen(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+              ),
             );
             break;
         }
       },
     );
   }
+
 }
 
 
